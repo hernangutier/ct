@@ -13,7 +13,7 @@ class CaseAuditory(models.Model):
     motivo=fields.Text('Descripcion del Caso', default='S/I')
     note=fields.Text('Notas')
     product_id = fields.Many2one(
-        'product.template',
+        'product.product',
         string='Producto',
         ondelete='restrict',
         required=True,
@@ -56,7 +56,7 @@ class CaseAuditory(models.Model):
         case_auditory = super(CaseAuditory, self).create(vals)
         return case_auditory
 
-    visibility=fields.Boolean(default=False, computed="get_visibility")
+    visibility=fields.Boolean(default=False, compute="get_visibility")
 
 
     def get_visibility(self):
