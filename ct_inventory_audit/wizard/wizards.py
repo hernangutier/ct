@@ -1,8 +1,8 @@
 from odoo import fields, models, api
 
 
-class ModelName(models.Model):
-    _name = 'ProjectName.TableName'
+class CreateInvAdjustAuditDialog(models.TransientModel):
+    _name = 'create.inv.adjust.audit.dialog'
     _description = 'Description'
 
     name = fields.Char()
