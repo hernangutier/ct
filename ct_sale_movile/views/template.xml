@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+        <!-- Page para Reporte de Auditoria de Pedidos Moviles -->
+        <template id="sale_order_movile_list_page">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <center class="title-text">
+                        <h2>
+                            <t t-esc="title"/>
+                        </h2>
+                    </center>
+                    <div class="row title-text">
+                        <p>
+                            Fecha de Corte:
+                            <t t-esc="date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>
+                        </p>
+                    </div>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr class="border-black o_total title-text">
+
+                                    <th>Ref.</th>
+                                    <th>Fecha/Recepcion</th>
+                                    <th>Cliente</th>
+                                    <th>Asesor/Ventas</th>
+                                    <th>Items</th>
+                                    <th>Estado</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="title-text">
+                                <t t-set="count" t-value="0"/>
+
+                                <t t-foreach="lines" t-as="doc">
+                                    <t t-set="count" t-value="count + 1"/>
+                                    <tr>
+                                        <td>
+                                            <h6 t-esc="doc['name']"/>
+                                        </td>
+                                        <td>
+                                            <h6 t-esc="doc['create_date']"/>
+                                        </td>
+                                        <td>
+                                            <h6 t-esc="doc['partner_id'][1]"/>
+                                        </td>
+                                        <td>
+                                          <t t-if="doc['user_id']">
+                                            <h6 t-esc="doc['user_id'][1]"/>
+                                          </t>
+                                        </td>
+                                        <td>
+                                            <h6 t-esc="doc['order_line_count']"/>
+                                        </td>
+
+                                        <td>
+                                            <h6 t-esc="doc['state']"/>
+                                        </td>
+
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <!-- Totales -->
+                        <div class="clearfix">
+                            <div id="total" class="row title-text">
+                                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr class="border-black o_subtotal" style="">
+                                            <td>
+                                                <strong>Total Pedidos</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="count"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                </div>
+
+            </xpath>
+        </template>
+        <!-- Template para Reporte de Pedidos MOviles Auditoria -->
+        <template id="sale_order_movile_list_report_view">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <t t-call="ct_sale_movile.sale_order_movile_list_page"/>
+                    <t t-call="ct_commons_report.footer-custom"/>
+
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>

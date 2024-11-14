@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <!-- Object Report -->
+        <report id="report_sale_order_movile"
+            model="ct.sale.order.movile.wz.sale.order.movile.list"
+            string="Listado/Pedidos Moviles"
+            report_type="qweb-pdf"
+            name="ct_sale_movile.sale_order_movile_list_report_view"
+            menu="False"/>
+    </data>
+</odoo>

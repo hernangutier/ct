@@ -1,0 +1,57 @@
+<odoo>
+    <data>
+        <!-- Vaciamos Header-Body-Detail en las Medidas de su Contenedor -->
+        <template id="seccion">
+         <t t-foreach="docs" t-as="o">
+                <div style="width:180mm;height:33mm; top:1mm position:absolute;">
+                     <t t-call="ct_note_account_report.header_note"/>
+                </div>
+                <div style="width:180mm; top:34mm height:70mm; position:absolute;">
+                    <t t-call="ct_note_account_report.body_note"/>
+                </div>
+                <div style="width:180mm;height:10mm; top:98mm; position:absolute;">
+                    <t t-call="ct_note_account_report.footer_note"/>
+                </div>
+            </t>
+        </template>
+        <!-- Seccion Picking Despacho -->
+        <template id="seccion_picking">
+         <t t-foreach="docs" t-as="o">
+             <div style="width:100%;height:120mm; top:1mm position:absolute; border-width: 1px; border-style: solid; border-color: black;">
+                <div style="width:100%;  height:20mm;  top:1mm; position:absolute; ">
+                     <t t-call="ct_note_account_report.header_picking"/>
+                </div>
+
+                <div style="width:98%; top:25mm; height:70mm; position:absolute;">
+                    <t t-call="ct_note_account_report.body_picking"/>
+                </div>
+
+
+                <div style="width:98%;height:15mm; top:110mm; position:absolute;">
+                    <t t-call="ct_note_account_report.footer_picking"/>
+                </div>
+
+             </div>
+
+             <!--
+             <div style="width:100%;height:20mm; top:115mm; position:absolute; border-width: 1px; border-style: solid; border-color: black;"></div>
+                -->
+
+             <div style="width:100%;height:120mm; top:130mm; position:absolute; border-width: 1px; border-style: solid; border-color: black;">
+                <div style="width:100%;  height:20mm;  top:1mm; position:absolute; ">
+                     <t t-call="ct_note_account_report.header_picking"/>
+                </div>
+
+                <div style="width:98%; top:25mm; height:80mm; position:absolute;">
+                    <t t-call="ct_note_account_report.body_picking"/>
+                </div>
+
+
+                <div style="width:98%;height:15mm; top:110mm; position:absolute;">
+                    <t t-call="ct_note_account_report.footer_picking"/>
+                </div>
+             </div>
+            </t>
+        </template>
+    </data>
+</odoo>

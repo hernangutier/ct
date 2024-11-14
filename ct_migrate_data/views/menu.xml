@@ -1,0 +1,61 @@
+<odoo>
+    <data>
+
+        <!--      Ultima Revision 10-02-2024               -->
+
+         <!-- *********************************************** -->
+
+         <!--      Menu y Acciones de el Modulo               -->
+
+         <!-- *********************************************** -->
+
+         <!-- Acciones de Menu para Productos a Migrar -->
+         <record id="action_ct_migrate_data_product_view" model="ir.actions.act_window">
+            <field name="name">Productos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.migrate.data.product.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Productos a Migrar (Importar)
+                </p>
+                <p>
+                    Click aqui para crear Producto
+                </p>
+            </field>
+
+        </record>
+         <record id="action_ct_migrate_data_partner_view" model="ir.actions.act_window">
+            <field name="name">Clientes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.migrate.data.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Clientes a Migrar (Importar)
+                </p>
+                <p>
+                    Click aqui para crear Producto
+                </p>
+            </field>
+
+        </record>
+
+         <!-- Elementos de Menu -->
+         <menuitem id="menu_ct_migrate_data" name="Migracion" sequence="10" />
+         <menuitem id="menu_ct_migrate_data_model" name="Data" parent="menu_ct_migrate_data" sequence="20" />
+
+
+
+
+        <!-- Submenu Datos Basicos -->
+         <menuitem id="menu_ct_migrate_data_product" name="Productos" parent="menu_ct_migrate_data_model" sequence="1" action="action_ct_migrate_data_product_view"/>
+         <menuitem id="menu_ct_migrate_data_partner" name="Clientes" parent="menu_ct_migrate_data_model" sequence="2" action="action_ct_migrate_data_partner_view"/>
+
+
+
+
+
+
+    </data>
+</odoo>

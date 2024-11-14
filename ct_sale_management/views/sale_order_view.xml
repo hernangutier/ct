@@ -1,0 +1,130 @@
+<odoo>
+    <data>
+        <!-- Vista Formulario Pedidos Modificado para la Funcion de el Modulo -->
+        <record id="view_ct_sale_management_sale_order_partner_raiting" model="ir.ui.view">
+            <field name="name">view.ct.sale.management.sale.order.partner.raiting</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_quotation_send']" position="after">
+                    <field name="state_preparations" invisible="1"/>
+                    <button name="%(action_ct_sale_management_wz_confirm)d"
+                            context="{'default_sale_order_id': active_id}" string="Procesar" type="action"
+                            class="btn-info" attrs="{'invisible': [('state', 'not in', ('draft','sent'))]}"/>
+                    <button name="%(action_ct_sale_management_wz_add_discount)d"
+                            context="{'default_sale_order_id': active_id}" string="Asignar Descuento" type="action"
+                            class="btn-success" attrs="{'invisible': [('state', 'in', ('cancel','done'))]}"/>
+                    <button name="justified_qty_units"
+                            string="Ajustar Cantidades" type="object" confirm="Desea ajustar Cantidades Pedidas?"
+                            class="btn-info" attrs="{'invisible': [('state', 'in', ('sale','done'))]}"/>
+                    <button name="set_invoiced"
+                            string="Cerrar/Facturacion" type="object" confirm="Esta seguro de cerrar el pedido por facturacion?"
+                            class="btn-info" attrs="{'invisible': [('invoice_status', 'in', ('invoiced'))]}"/>
+
+                </xpath>
+
+                <xpath expr="//header/button[@name='action_quotation_send']" position="after">
+                    <button name="action_send_to_storage" context="{'default_sale_order_id': active_id}"
+                            string="enviar a Embalaje" type="object" class="btn-warning"
+                            attrs="{'invisible': [('state_preparations', '!=', 'reserved')]}" confirm="Esta seguro de enviar a Almacen para Embalar?"/>
+                </xpath>
+                <xpath expr="//header/button[@name='action_quotation_send']" position="after">
+                    <button name="action_create_invoice"
+                            string="Crear Factura" type="object"
+                            class="btn-primary"  attrs="{'invisible': [('state_preparations', 'not in', ('packing'))]}" confirm="Esta seguro de Facturar?" />
+                </xpath>
+
+
+
+                <field name="partner_id" position="after">
+                    <button name="%(action_ct_sale_management_partner_raiting)d" icon="fa-history"
+                            context="{'default_partner_id': partner_id}" string="Raiting Cliente" type="action"
+                            class="btn-info oe_inline"/>
+                </field>
+                <field name="payment_term_id" position="replace">
+                    <field name="payment_term_id"
+                          options="{'no_open':True,'no_create': True}"  attrs="{'readonly' : [('invoice_status', 'in' , ('invoiced','to invoice'))] }"/>
+                </field>
+
+
+                <field name="payment_term_id" position="after">
+                    <field name="departament_id"  options="{'no_open':True,'no_create': True}" attrs="{'readonly' : [('order_line_count', '>' , 0)] }"/>
+                </field>
+
+                <field name="departament_id" position="after">
+                    <field name="order_line_count" />
+                </field>
+                <field name="order_line_count" position="after">
+                    <field name="packing_register" readonly="1" />
+                </field>
+
+            </field>
+        </record>
+        <!-- Vista Arbol Pedidos Modificado para la Funcion de el Modulo -->
+        <record id="view_ct_sale_management_sale_order_tree" model="ir.ui.view">
+            <field name="name">view.ct.sale.management.sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"></field>
+            <field name="arch" type="xml">
+                <field name="invoice_status" position="replace">
+                    <field name="invoice_status" widget="label_selection"
+                           options="{'classes': {'invoiced': 'success','to invoice': 'danger','no': 'info'}}"/>
+                </field>
+                <field name="user_id" position="replace">
+                    <field name="user_id" string="Asesor/Ventas"/>
+                </field>
+                <field name="user_id" position="after">
+                    <field name="team_id" string="Zona/Ventas"/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="departament_id"/>
+                </field>
+                <field name="departament_id" position="after">
+                    <field name="state_preparations" widget="label_selection"
+                           options="{'classes': {'packing': 'success','no': 'danger','draft': 'info','reserved': 'warning'}}"/>
+                </field>
+
+
+            </field>
+        </record>
+        <!-- Vista de BUsqueda Heredada para Agregar Filtros -->
+        <!-- Vista Arbol Presupuestos Modificado para la Funcion de el Modulo -->
+        <record id="view_ct_sale_management_sale_order_onboard_tree" model="ir.ui.view"   >
+            <field name="name">view.hgl.sale.management.sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"></field>
+            <field name="arch" type="xml">
+
+               <field name="state" position="replace">
+                   <field name="state" widget="label_selection" options="{'classes': {'draft': 'info','send': 'success','sale': 'success'}}" />
+               </field>
+               <field name="user_id" position="replace">
+                   <field name="user_id" string="Asesor/Ventas" />
+               </field>
+               <field name="user_id" position="after">
+                   <field name="team_id" string="Zona/Ventas" />
+               </field>
+               <field name="partner_id" position="after">
+                   <field name="departament_id"  />
+               </field>
+            </field>
+        </record>
+        <!--- Vista de filtros  -->
+        <record id="view_ct_sale_management_view_sales_order_filter" model="ir.ui.view"   >
+            <field name="name">view.ct.sale.management.sale.view.sales.order.filter</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+                    <separator/>
+                    <filter string="en Almacen" name="in_storage" domain="[('state_preparations','=','storage')]"/>
+                    <filter string="Reservados" name="in_reserved" domain="[('state_preparations','=','reserved')]"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

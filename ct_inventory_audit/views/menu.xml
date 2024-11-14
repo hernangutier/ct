@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Nuevas Acciones de Menu para Agregar al Modulo de Stock.Inventory -->
+        <!--  Actions de Menu -->
+        <record id="action_ct_inventory_audit_case_audit_tree" model="ir.actions.act_window">
+            <field name="name">Casos en Auditorias</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.inventory.audit.case.audit</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_ct_inventoru_audit_case_audit" parent="stock.menu_stock_warehouse_mgmt" action="action_ct_inventory_audit_case_audit_tree" name="Casos de Auditorias" sequence="20"  groups="ct_inventory_audit.ct_audit_manager_groups"/>
+
+    </data>
+</odoo>

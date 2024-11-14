@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="ct_logistic_update_containers_views" model="ir.ui.view">
+            <field name="name">Actualizar/Containers</field>
+            <field name="model">ct.logistic.planifiquer</field>
+            <field name="arch" type="xml">
+                 <form>
+                     <sheet>
+                         <group>
+                             <h1>Cargar Pedidos al Container</h1>
+                         </group>
+                         <group>
+
+                             <field name="container_id"  readonly="1"/>
+                             <field name="user_id"  />
+                             <field name="count_sale_order"  readonly="1"/>
+                         </group>
+
+                     </sheet>
+
+                 <footer>
+                      <button  name="action_post" type="object" string="Ejecutar Planificador" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+               </form>
+             </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <!--  Vista Tree Pedidos Listos para Despachar  -->
+        <record id="view_ct_logistic_account_move_check_list_tree" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.account.move.check.list.tree</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree  decoration-bf="state_delivered==False" decoration-success="state_delivered==True" decoration-danger="state_delivered==False" string="Marcar Facturas"  delete="false" edit="true" editable="bottom">
+                    <field name="name" readonly="1"/>
+                    <field name="invoice_origin" readonly="1"/>
+                    <field name="partner_id" readonly="1"/>
+                    <field name="invoice_payment_term_id" readonly="0" force_save="1"/>
+                    <field name="user_id" string="Asesor/Ventas" readonly="1"/>
+                    <field name="invoice_date" readonly="1"/>
+                    <field name="date_delivered" />
+                    <field name="date_due_delivered" readonly="1" force_save="1"/>
+                    <field name="state_delivered" readonly="1" force_save="1"/>
+                    <field name="amount_total_signed" string="Monto$" readonly="1"/>
+                    <field name="company_id" invisible="1" readonly="1"/>
+                    <field name="state" invisible="1" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

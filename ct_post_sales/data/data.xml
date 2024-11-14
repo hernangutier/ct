@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+         <record model="ir.sequence" id="container_code">
+            <field name="name">Numero de Control Orden Servicios</field>
+            <field name="code">os</field>
+            <field name="padding">5</field>
+            <field name="prefix">OS</field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+          <record model="ir.sequence" id="tabulator_code">
+            <field name="name">Ref. Tabulador</field>
+            <field name="code">tb</field>
+            <field name="padding">5</field>
+            <field name="prefix">TB</field>
+            <field name="implementation">no_gap</field>
+         </record>
+
+         <record model="ir.sequence" id="commi_os_code">
+            <field name="name">Ref. Relacion Comisiones Centro de Servicio</field>
+            <field name="code">cos</field>
+            <field name="padding">5</field>
+            <field name="prefix">COS</field>
+            <field name="implementation">no_gap</field>
+         </record>
+    </data>
+</odoo>

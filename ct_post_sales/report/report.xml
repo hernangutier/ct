@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+
+
+
+            <!-- Orden de Servicio Documento Resumen -->
+            <record id="action_ct_post_sales_order_service_report" model="ir.actions.report">
+                <field name="name">Resumen Orden de Servicio</field>
+                <field name="model">ct.p.s.order.service</field>
+                <field name="report_type">qweb-pdf</field>
+                <field name="report_name">ct_post_sales.ct_report_3100</field>
+                <field name="print_report_name">'Orden de Servicio - %s' % (object.name)</field>
+                <field name="binding_model_id" ref="ct_post_sales.model_ct_p_s_order_service"></field>
+            </record>
+
+
+    </data>
+</odoo>

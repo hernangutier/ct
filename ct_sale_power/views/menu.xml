@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <!-- ********************************************
+               Acciones de Ventanas para los Menus
+        *********************************************** -->
+
+        <!-- ********************************************
+               Maestro de Comisiones
+        *********************************************** -->
+        <record id="action_ct_sale_power_commissions_tree" model="ir.actions.act_window">
+            <field name="name">Calculos de Comisiones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.power.commissions</field>
+            <field name="view_mode">tree,form</field>
+            <!--<field name="view_id" ref="view_hgl_logistic_supplier_service_tree" /> -->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear nuevo Calculo de Comisiones
+                </p>
+            </field>
+        </record>
+
+        <record id="action_ct_sale_power_rules_tree" model="ir.actions.act_window">
+            <field name="name">Reglas de Penalizacion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.power.rules.police</field>
+            <field name="view_mode">tree</field>
+            <!--<field name="view_id" ref="view_hgl_logistic_supplier_service_tree" /> -->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crer Regla de Penalizacion (Las Reglas de penalizacion generar calculos para
+                    penalizar % el monto de una comision por incumplimiento de tiempo...)
+                </p>
+            </field>
+        </record>
+
+        <!-- ********************************************
+               Maestro de Productos Percent Commisions
+        *********************************************** -->
+        <record id="action_ct_sale_power_product_template_tree" model="ir.actions.act_window">
+            <field name="name">Calculos de Comisiones</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_ct_sale_power_product_template_tree" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Agregar Porcentajes de Calculos para Productos ....
+                </p>
+            </field>
+        </record>
+
+
+
+        <!--- Menu Root de el Modulo -->
+        <menuitem id="menu_ct_sale_power_root" groups="ct_sale_power.ct_sale_power_group_user" name="Fuerza de Ventas" sequence="10" />
+        <!-- Sub-Menus             -->
+        <menuitem id="menu_ct_sale_power_operations"  groups="ct_sale_power.ct_sale_power_group_user" name="Operaciones" parent="menu_ct_sale_power_root" sequence="20" />
+        <menuitem id="menu_ct_sale_power_report"  groups="ct_sale_power.ct_sale_power_group_user" name="Consultas y Reportes" parent="menu_ct_sale_power_root" sequence="30" />
+        <menuitem id="menu_ct_sale_power_config"  groups="ct_sale_power.ct_sale_power_group_user" name="Configuracion" parent="menu_ct_sale_power_root" sequence="40" />
+
+        <!-- Items Menu de Acciones Consultas y Reportes -->
+         <menuitem id="menu_ct_sale_power_commissions_for_date" groups="ct_sale_power.ct_sale_power_group_user"  name="Consultar Commiones entre Periodos" parent="menu_ct_sale_power_report" action="action_ct_sale_power_commissions_for_date_form" sequence="10" />
+        <!-- Items Menu de Acciones Operaciones-->
+         <menuitem id="menu_ct_sale_power_commissions" groups="ct_sale_power.ct_sale_power_group_user" name="Calculos" parent="menu_ct_sale_power_operations" action="action_ct_sale_power_commissions_tree" sequence="10" />
+        <!-- Items Menu de Acciones Datos Basicos -->
+         <menuitem id="menu_ct_sale_power_product_template" groups="ct_sale_power.ct_sale_power_group_user" name="% Comisiones en Productos" parent="menu_ct_sale_power_config" action="action_ct_sale_power_product_template_tree" sequence="10" />
+         <menuitem id="menu_ct_sale_power_rules" groups="ct_sale_power.ct_sale_power_group_user" name="Reglas (Penalizacion)" parent="menu_ct_sale_power_config" action="action_ct_sale_power_rules_tree" sequence="11" />
+
+    </data>
+</odoo>

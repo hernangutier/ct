@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record id="action_account_move_note_report_carta_pdf" model="ir.actions.report">
+            <field name="name">Nota/Entrega (CARTA-PDF)</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_print_format_report.ct_report_2300</field>
+            <field name="print_report_name">'Factura_NE - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="account.model_account_move"></field>
+        </record>
+
+        <record id="action_invoice_imagen_fiscal_report_carta_pdf" model="ir.actions.report">
+            <field name="name">Factura Fiscal (CARTA-PDF)</field>
+            <field name="model">ct.invoice.fiscal.imagen</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_print_format_report.ct_report_2400</field>
+            <field name="print_report_name">'Factura_Fiscal - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="ct_invoice_fiscal_imagen.model_ct_invoice_fiscal_imagen"></field>
+        </record>
+
+
+        <report
+            string="Resumen de Conteo"
+            id="action_report_inventory"
+            model="stock.inventory"
+            report_type="qweb-pdf"
+            name="ct_print_format_report.ct_report_2500"
+            file="ct_print_format_report.ct_report_2500"
+            print_report_name="'Resumen Conteo - %s' % (object.name)"
+        />
+        <!--
+        <record id="action_inventory_adjustment_report_media_carta_pdf" model="ir.actions.report">
+            <field name="name">Ajuste de Inventario (MEDIA-CARTA-PDF)</field>
+            <field name="model">stock.inventary</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_print_format_report.ct_report_2500</field>
+            <field name="print_report_name">'Ajuste-Inventario - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_stock_inventary"></field>
+        </record>
+        -->
+
+    </data>
+</odoo>

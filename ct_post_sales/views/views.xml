@@ -1,0 +1,803 @@
+<odoo>
+    <data>
+        <!--  Vista Tree Centros de Servicios -->
+        <record model="ir.ui.view" id="view_ct_customer_services_tree">
+            <field name="name">ct.customer.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="vat"/>
+                    <field name="city"/>
+                </tree>
+            </field>
+        </record>
+        <!--  Vista Form Centros de Servicios -->
+        <record model="ir.ui.view" id="view_ct_customer_services_form">
+            <field name="name">ct.customer.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="ct_res_partner.view_ct_partner_form"></field>
+            <field name="arch" type="xml">
+                <field name="is_sucursal" position="after">
+                    <field name="supplier_rank" invisible="1"/>
+                    <field name="is_centre_service" attrs="{'invisible': [('supplier_rank','=',False)]}"/>
+                    <field name="is_mechanical" attrs="{'invisible': [('supplier_rank','=',False)]}"/>
+                </field>
+            </field>
+        </record>
+        <!--  Vista Form Registro de Incidencias -->
+        <record model="ir.ui.view" id="view_ct_post_sales_order_service_form">
+            <field name="name">view.ct.post.sales.order.service.form</field>
+            <field name="model">ct.p.s.order.service</field>
+            <field name="arch" type="xml">
+                <form name="">
+                    <header>
+                        <button name="action_send_to_rev" type="object" confirm="Esta Seguro de enviar a Revision?"
+                                string="Enviar a Revision"
+                                attrs="{'invisible': [('state', 'in', ('rev','dev','wait'))]}" class="btn-primary"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+                        <button name="action_send_to_repair" type="object"
+                                confirm="Esta Seguro de colocar en Reparacion?"
+                                string="Colocar en Reparacion"
+                                attrs="{'invisible': [('state', 'in', ('serv','dev','wait'))]}" class="btn-success"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+                        <button name="action_send_wait_client" type="object"
+                                confirm="Esta Seguro de enviar a Espera de Entrega?"
+                                string="Enviar a Espera de Entrega"
+                                attrs="{'invisible': [('state', 'in', ('done','rev','serv','wait','done'))]}"
+                                class="btn-primary"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+                        <button name="action_send_close" type="object"
+                                confirm="Esta Seguro de cerrar la Orden de Servicio?"
+                                string="Cerrar O.S."
+                                attrs="{'invisible': [('state', 'in', ('serv','rev','dev','done'))]}"
+                                class="btn-success"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+                        <button name="action_create_recidivism" type="object"
+                                confirm="Esta Seguro de crear un Servicio por Reincidencia?"
+                                string="Crear O.S. (Reincidencia)"
+                                attrs="{'invisible': [('state', 'not in', ('done'))]}" class="btn-info"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="serv,rev,dev,wait,done"/>
+                    </header>
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button string="Trans. Partes" type="object" name="action_view_transfers"
+                                    class="oe_stat_button" icon="fa-exchange"
+                                    attrs="{'invisible': [('state', 'in', ('serv','cancel'))]}"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                            <button string="Partes Utilizadas" type="object" name="action_view_picking_out"
+                                    class="oe_stat_button" icon="fa-wrench"
+                                    attrs="{'invisible': [('state', 'in', ('serv','cancel'))]}"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                            <button string="Costos Mano/Obra" type="object" name="action_view_cost_tabulator"
+                                    class="oe_stat_button" icon="fa-dollar"
+                                    attrs="{'invisible': [('state', 'not in', ('done','wait'))]}"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                            <button string="Reincidencias" type="object" name="action_view_order_child"
+                                    class="oe_stat_button" icon="fa-file-text-o"
+                                    attrs="{'invisible': [('state', 'not in', ('done'))]}"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+
+
+                        </div>
+                        <widget name="web_ribbon" title="Finalizado" attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <notebook>
+                            <page string="Registro Inicial">
+                                <group>
+                                    <group string="Datos del Servicio">
+                                        <field name="type" readonly="1"/>
+                                        <field name="category_order"
+                                               attrs="{'readonly': [('state','in',('wait','done','rev'))]}"/>
+                                        <field name="date_report"
+                                               attrs="{'readonly': [('state','in',('wait','done','rev'))]}"/>
+                                        <field name="partner_id"
+                                               attrs="{'readonly': [('state','in',('wait','done','rev'))]}"
+                                               options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
+                                    </group>
+                                    <group string="Datos del Centro de Servicio">
+                                        <field name="service_id"
+                                               attrs="{'readonly': [('state','in',('wait','done','rev'))]}"
+                                               options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
+                                        <field name="os_reinv_id" readonly="1"
+                                               attrs="{'invisible': [('type','=','new')]}"
+                                               options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True}"/>
+                                    </group>
+                                    <group string="Datos de Contacto"
+                                           attrs="{'invisible': [('category_order','in',('alia'))]}">
+                                        <field name="contact_id"
+                                               attrs="{'invisible': [('category_order','in',('alia'))], 'readonly': [('state','in',('wait','done','rev'))], 'required': [('category_order','==','client')]}"/>
+
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Informe del Servicio">
+                                <group string="Fallas y Diagnostico">
+                                    <field name="mechanical_id"
+                                           attrs="{'readonly': [('state','in',('wait','done','rev'))]}"
+                                           options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
+                                    <field name="product_id"
+                                           attrs="{'readonly': [('state','in',('wait','done','rev'))]}"
+                                           options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
+                                    <field name="is_fail_origin"
+                                           attrs="{'readonly': [('state','in',('wait','done','rev'))]}"/>
+                                    <field name="equipment_conditions_ids"
+                                           attrs="{'readonly': [('state','in',('wait','done','rev'))]}"
+                                           widget="many2many_tags"
+                                           options="{'no_create': True}"/>
+                                    <field name="information_fail" widget="html"
+                                           attrs="{'readonly': [('state','in',('wait','done','rev'))]}"/>
+
+                                </group>
+                            </page>
+                            <page string="Diagnostico">
+                                <group>
+                                    <field name="date_report_close"
+                                           attrs="{'readonly': [('state','in',('done','rev'))]}"/>
+                                    <field name="diagnostic_note" attrs="{'readonly': [('state','in',('wait','done'))]}"
+                                           widget="html"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--  Vista Tree Registro de Incidencias -->
+        <record model="ir.ui.view" id="view_ct_post_sales_order_service_tree">
+            <field name="name">view.ct.post.sales.order.service.tree</field>
+            <field name="model">ct.p.s.order.service</field>
+            <field name="arch" type="xml">
+                <tree decoration-warning="state == 'dev'" decoration-success="state == 'done'"
+                      decoration-danger="state == 'wait'" decoration-info="state == 'serv'"
+                      decoration-primary="state == 'rev'">
+                    <field name="name"/>
+                    <field name="os_reinv_id" string="O.S. Padre"/>
+                    <field name="date_report"/>
+                    <field name="partner_id"/>
+                    <field name="service_id"/>
+                    <field name="product_id"/>
+                    <field name="type" widget="label_selection"
+                           options="{'classes': {'new': 'info','rein': 'warning'}}"/>
+                    <field name="date_report_close"/>
+                    <field name="state" widget="label_selection"
+                           options="{'classes': {'serv': 'info','rev': 'primary','done': 'success','dev': 'warning','wait': 'danger'}}"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vista Tree para Condiciones del Equipo -->
+        <record id="view_ct_post_sales_equipment_conditions_tree" model="ir.ui.view">
+            <field name="name">Condiciones del Equipo</field>
+            <field name="model">ct.p.s.equipment.conditions</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vista Tree para el Tabulador -->
+        <record id="view_ct_post_sales_tabulator_tree" model="ir.ui.view">
+            <field name="name">Tabulador de Servicios</field>
+            <field name="model">ct.post.sales.tabulator</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" readonly="1"/>
+                    <field name="denominacion"/>
+                    <field name="tabulator_clas_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vista Tree para la Clasificacion Tabulador -->
+        <record id="view_ct_post_sales_tabulator_clas_tree" model="ir.ui.view">
+            <field name="name">Tabulador de Servicios</field>
+            <field name="model">ct.post.sales.tabulator.clas</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vista Tree Costos Tabulacion Registrados en O.S. -->
+        <record id="view_ct_post_sales_tabulator_order_tree" model="ir.ui.view">
+            <field name="name">Costos Mano de Obra Tabulador</field>
+            <field name="model">ct.p.s.cost.tabulator.order.service</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="tabulator_clas_id" invisible="1"/>
+                    <field name="tabulator_id"
+                           options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"
+                           domain="[(('tabulator_clas_id','=', tabulator_clas_id ))]"/>
+                    <field name="descripcion"/>
+                    <field name="value" sum="Total/Mano/Obra"/>
+
+                </tree>
+            </field>
+        </record>
+        <!-- Vista Form para ProductTemplate Modificado -->
+        <record id="view_ct_post_sales_product_template_onlyform" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.product.template.only.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"></field>
+            <field name="arch" type="xml">
+                <field name="is_consolidable" position="after">
+                    <field name="apply_type"/>
+                </field>
+                <field name="apply_type" position="after">
+                    <field name="tabulator_clas_id" options="{'no_create': True}"
+                           attrs="{'invisible': [('apply_type','not in',('eq'))],'required': [('apply_type','in','eq')]}"/>
+                </field>
+                <field name="tabulator_clas_id" position="after">
+                    <field name="equip_compatibility_ids" widget="many2many_tags"
+                           options="{'no_create': True}"
+                           attrs="{'invisible': [('apply_type','not in',('rep'))],'required': [('apply_type','in','rep')]}"/>
+                </field>
+
+
+            </field>
+        </record>
+        <!-- Vista Tree para ProductTemplate Modificado -->
+        <record id="view_ct_post_sales_product_template_tree" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.product.template.tree</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="default_code" string="SKU"/>
+                    <field name="name" string="Descripcion"/>
+                    <field name="categ_id" string="Categoria"/>
+                </tree>
+
+            </field>
+        </record>
+        <!-- Vista Tree para ProductTemplate Modificado -->
+        <record id="view_ct_post_sales_product_template_form" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.product.template.form</field>
+            <field name="priority" eval="15"/>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button string="Partes" type="object" name="action_view_spare_part"
+                                    class="oe_stat_button" icon="fa-wrench"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                            <button string="Facturacion" type="object" name="action_view_last_invoices"
+                                    class="oe_stat_button" icon="fa-file-text"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="default_code" string="SKU" readonly="1"/>
+                                <field name="name" string="Descripcion" readonly="1"/>
+                                <field name="categ_id" string="Categoria" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="image_1920" widget="image"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <!-- Vista de Kanban  Para ver Repuestos -->
+        <record id="view_ct_post_sales_product_template_kanban" model="ir.ui.view">
+            <field name="name">Repuestos Compatibles</field>
+            <field name="priority" eval="15"/>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="id"/>
+                    <field name="product_variant_count"/>
+                    <field name="currency_id"/>
+                    <field name="activity_state"/>
+                    <progressbar field="activity_state"
+                                 colors="{&quot;planned&quot;: &quot;success&quot;, &quot;today&quot;: &quot;warning&quot;, &quot;overdue&quot;: &quot;danger&quot;}"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('product.template', 'image_128', record.id.raw_value)"
+                                         alt="Product" class="o_image_64_contain"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                        <small t-if="record.default_code.value">[<field name="default_code"/>]
+                                        </small>
+                                    </strong>
+                                    <div t-if="record.product_variant_count.value &gt; 1"
+                                         groups="product.group_product_variant">
+                                        <strong>
+                                            <t t-esc="record.product_variant_count.value"/>
+                                            Variants
+                                        </strong>
+                                    </div>
+                                    <div name="tags"/>
+                                    <ul>
+                                        <li>Costo:
+                                            <field name="standard_price" widget="monetary"
+                                                   options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                                        </li>
+                                    </ul>
+                                    <div name="tags"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Vista Picking para Transferencias Internas desde Almacen Repuestos a Almacen de Garantias -->
+        <record id="view_ct_post_sales_stock_picking_transfer_tree" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.stock.picking.trasnfer.tree</field>
+            <field name="priority" eval="16"/>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <tree decoration-muted="state == 'cancel'" decoration-success="state == 'done'">
+                    <field name="name" string="Ref."/>
+                    <field name="origin" string="Doc. Origen"/>
+                    <field name="partner_id" string="Contacto"/>
+                    <field name="location_id" string="Almacen Origen"/>
+                    <field name="location_dest_id" string="Almacen Destino"/>
+                    <field name="state" string="Estado"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <!-- Vista Form Personalizada para stock.picking  -->
+        <record id="view_ct_post_sales_stock_picking_form" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.stock.picking.form</field>
+            <field name="priority" eval="17"/>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_post" type="object"
+                                confirm="Esta seguro de Procesar la Orden de Servicio..."
+                                string="Procesar"
+                                attrs="{'invisible': [('state', 'in', ('done','draft','confirmed','cancel'))]}"
+                                class="btn-success"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+
+                        <button name="action_reserved" type="object" confirm="Esta seguro de Reservar..."
+                                string="Reservar"
+                                attrs="{'invisible': [('state', 'in', ('done','confirmed','cancel'))]}"
+                                class="btn-info"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+
+                        <button name="action_free_reserved" type="object" confirm="Esta seguro de Anular la Reserva..."
+                                string="Liberar Reserva"
+                                attrs="{'invisible': [('state', 'in', ('done','draft','assigned','cancel'))]}"
+                                class="btn-info"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+
+                        <button name="action_cancel" type="object" confirm="Esta seguro de Cancelar..."
+                                string="Cancelar"
+                                class="btn-danger"
+                                attrs="{'invisible': [('state', 'in', ('done','cancel'))]}"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+
+                        <button name="334" type="action" confirm="Esta seguro de Cancelar..."
+                                string="Reversar"
+                                class="btn-warning"
+                                attrs="{'invisible': [('state', '!=', 'done')]}"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+
+
+                        <field name="show_operations" invisible="1" readonly="1"/>
+                        <field name="show_reserved" invisible="1" readonly="1"/>
+                        <field name="move_line_exist" invisible="1"/>
+                        <field name="has_packages" invisible="1"/>
+                        <field name="is_locked" invisible="1"/>
+                        <field name="state" invisible="1"/>
+                        <field name="picking_type_code" invisible="1"/>
+                        <field name="immediate_transfer" invisible="1"/>
+                        <field name="picking_type_entire_packs" invisible="1"/>
+                        <field name="location_id" invisible="1"/>
+                        <field name="picking_type_id" invisible="1"/>
+                        <field name="location_dest_id" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirmed,partially_available,assigned,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                            <!-- Use the following button to avoid onchange on one2many -->
+                            <button name="action_picking_move_tree" class="oe_stat_button" icon="fa-arrows-v"
+                                    type="object" help="List view of operations" groups="base.group_no_one"
+                                    attrs="{'invisible': ['|', '&amp;', ('show_operations', '=', True), '|', ('is_locked', '=', True), ('state', '=', 'done'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
+                                    context="{'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_text">Operations</span>
+                                </div>
+                            </button>
+                        </div>
+                        <h1>
+                            <field name="name" attrs="{'invisible': [('name','=','/')]}"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <div class="o_td_label">
+                                    <label for="partner_id" string="Solicitante" style="font-weight:bold;"
+                                           attrs="{'invisible': [('picking_type_code', '!=', 'outgoing')]}"/>
+                                    <label for="partner_id" string="Solicitante" style="font-weight:bold;"
+                                           attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
+                                    <label for="partner_id" string="Solicitante" style="font-weight:bold;"
+                                           attrs="{'invisible': [('picking_type_code', 'in', ['incoming', 'outgoing'])]}"/>
+                                </div>
+                                <field name="partner_id" nolabel="1"/>
+                                <field name="picking_type_id" readonly="1"/>
+                                <field name="location_id" options="{'no_create': True}" readonly="1"
+                                       groups="stock.group_stock_multi_locations"
+                                       attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
+                                <field name="location_dest_id" options="{'no_create': True}" readonly="1"
+                                       groups="stock.group_stock_multi_locations"
+                                       attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
+                                <field name="backorder_id" attrs="{'invisible': [('backorder_id','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="scheduled_date" attrs="{'required': [('id', '!=', False)]}"/>
+                                <field name="date_done" string="Effective Date"
+                                       attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                                <field name="origin" readonly="1" placeholder="e.g. PO0032"/>
+                                <field name="owner_id" groups="stock.group_tracking_owner"
+                                       attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <!-- Reservation hidden -->
+                            <page string="Detailed Operations"
+                                  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}">
+                                <field name="move_line_nosuggest_ids"
+                                       attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
+                                       context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
+                                <field name="package_level_ids_details"
+                                       context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"
+                                       attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}"/>
+                                <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack"
+                                        attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}"
+                                        groups="stock.group_tracking_lot"/>
+                            </page>
+
+                            <!-- Reservation displayed -->
+                            <page string="Detailed Operations"
+                                  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}">
+                                <field name="move_line_ids_without_package"
+                                       attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
+                                       context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
+                                <field name="package_level_ids_details"
+                                       context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"
+                                       attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}"/>
+                                <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack"
+                                        attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}"
+                                        groups="stock.group_tracking_lot"/>
+                            </page>
+
+                            <page string="Operations">
+                                <field name="move_ids_without_package" mode="tree,kanban"
+                                       attrs="{'readonly': ['&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
+                                       context="{'default_company_id': company_id, 'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
+                                    <tree decoration-danger="not parent.immediate_transfer and state != 'done' and quantity_done &gt; reserved_availability and show_reserved_availability"
+                                          decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)"
+                                          string="Stock Moves" editable="bottom">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="state" invisible="1" readonly="0"/>
+                                        <field name="picking_type_id" invisible="1"/>
+                                        <field name="location_id" invisible="1"/>
+                                        <field name="location_dest_id" invisible="1"/>
+                                        <field name="scrapped" invisible="1"/>
+                                        <field name="picking_code" invisible="1"/>
+                                        <field name="product_type" invisible="1"/>
+                                        <field name="show_details_visible" invisible="1"/>
+                                        <field name="show_reserved_availability" invisible="1"/>
+                                        <field name="show_operations" invisible="1" readonly="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="has_move_lines" invisible="1"/>
+                                        <field name="is_locked" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="has_tracking" invisible="1"/>
+                                        <field name="display_assign_serial" invisible="1"/>
+                                        <field name="product_id" required="1"
+                                               attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}"/>
+                                        <field name="description_picking" string="Description" optional="hide"/>
+                                        <field name="date_expected" optional="hide"
+                                               domain="{'readonly': [('show_operations', '=', True), ('is_locked', '=', True)]}"/>
+                                        <field name="is_initial_demand_editable" invisible="1"/>
+                                        <field name="is_quantity_done_editable" invisible="1"/>
+                                        <field name="product_uom_qty" string="Demanda"
+                                               attrs="{'column_invisible': [('parent.immediate_transfer', '=', True)], 'readonly': ['|', ('is_initial_demand_editable', '=', False), '&amp;', '&amp;', ('show_operations', '=', True), ('is_locked', '=', True), ('is_initial_demand_editable', '=', False)]}"/>
+                                        <field name="reserved_availability" string="Reservado"
+                                               attrs="{'column_invisible': (['|','|', ('parent.state','=', 'done'), ('parent.picking_type_code', '=', 'incoming'), ('parent.immediate_transfer', '=', True)])}"/>
+                                        <field name="quantity_done" string="Done"
+                                               attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>
+                                        <field name="quantity_available" string="Disp."/>
+                                        <field name="product_uom"
+                                               attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}"
+                                               options="{'no_open': True, 'no_create': True}" string="Unit of Measure"
+                                               groups="uom.group_uom"/>
+                                        <button name="action_show_details" string="Register lots, packs, location"
+                                                type="object" icon="fa-list" width="0.1"
+                                                attrs="{'invisible': [('show_details_visible', '=', False)]}"
+                                                options="{&quot;warn&quot;: true}"/>
+                                        <button name="action_assign_serial" type="object" icon="fa-plus-square"
+                                                width="0.1" role="img" title="Assign Serial Numbers"
+                                                attrs="{'invisible': ['|', ('display_assign_serial', '=', False), ('show_operations', '=', False)]}"/>
+                                    </tree>
+                                    <form string="Stock Moves">
+                                        <header>
+                                            <field name="state" widget="statusbar"/>
+                                        </header>
+                                        <group>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                            <field name="additional" invisible="1"/>
+                                            <field name="has_move_lines" invisible="1"/>
+                                            <field name="company_id" invisible="1"/>
+                                            <field name="product_id" required="1"
+                                                   attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}"/>
+                                            <field name="is_initial_demand_editable" invisible="1"/>
+                                            <field name="is_quantity_done_editable" invisible="1"/>
+                                            <field name="product_uom_qty" string="Initial Demand"
+                                                   attrs="{'invisible': [('parent.immediate_transfer', '=', True)], 'readonly': [('is_initial_demand_editable', '=', False)]}"/>
+                                            <field name="reserved_availability" string="Reserved"
+                                                   attrs="{'invisible': (['|','|', ('parent.state','=', 'done'), ('parent.picking_type_code', '=', 'incoming'), ('parent.immediate_transfer', '=', True)])}"/>
+                                            <field name="quantity_done" string="Done"
+                                                   attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>
+                                            <field name="product_uom"
+                                                   attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}"
+                                                   options="{'no_open': True, 'no_create': True}"
+                                                   string="Unit of Measure" groups="uom.group_uom"/>
+                                            <field name="description_picking" string="Description"/>
+                                        </group>
+                                    </form>
+                                </field>
+                                <field name="id" invisible="1"/>
+                                <field name="package_level_ids"
+                                       context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"
+                                       attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', True)]}"/>
+                                <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack"
+                                        attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}"
+                                        groups="stock.group_tracking_lot"/>
+                            </page>
+                            <page string="Additional Info" name="extra">
+                                <group>
+                                    <group string="Other Information" name="other_infos">
+                                        <field name="picking_type_code" invisible="1"/>
+                                        <field name="move_type"
+                                               attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
+                                        <field name="priority" widget="priority"/>
+                                        <field name="user_id"/>
+                                        <field name="group_id" groups="base.group_no_one"/>
+                                        <field name="company_id" groups="base.group_multi_company"
+                                               options="{'no_create': True}" force_save="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Note" name="note">
+                                <field name="note" string="Note"
+                                       placeholder="Add an internal note that will be printed on the Picking Operations sheet"/>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista para Centros de Servicio tree -->
+        <record id="view_ct_post_sales_center_service_tree" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.center.service.tree</field>
+            <field name="priority" eval="16"/>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="vat" string="Ref."/>
+                    <field name="name" string="Nombre"/>
+                    <field name="city" string="Ciudad"/>
+                    <field name="phone" string="Telefono"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <!-- Vista para Centros de Servicio tree -->
+        <record id="view_ct_post_sales_center_service_form_view" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.center.service.form_view</field>
+            <field name="priority" eval="17"/>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button string="Ordenes Abiertas" type="object" name="action_view_order_service_open"
+                                    class="oe_stat_button" icon="fa-file-text-o"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="vat" string="Ref." readonly="1"/>
+                                <field name="name" string="Nombre" readonly="1"/>
+                                <field name="city" string="Ciudad" readonly="1"/>
+                                <field name="phone" string="Telefono" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="image_1920" string="logo" widget="image"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+
+                </form>
+
+            </field>
+        </record>
+
+
+        <!--  Comisiones Tree sobre la Mano de Obra -->
+        <record id="view_ct_post_sales_commission_tree" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.commision.tree</field>
+            <field name="model">ct.post.sales.commisions</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Ref."/>
+                    <field name="date_close" string="Fecha de Corte"/>
+                    <field name="amount"/>
+                    <field name="state" string="Estado" widget="label_selection"
+                           options="{'classes': {'new': 'info','calc': 'warning', 'rev': 'primary', 'account': 'success' }}"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <!--  Comisiones Form sobre la Mano de Obra -->
+        <record id="view_ct_post_sales_commission_form" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.commision.form</field>
+            <field name="model">ct.post.sales.commisions</field>
+            <field name="arch" type="xml">
+                <form name="commisiones">
+                    <header>
+
+                        <button string="Imprimir" type="object" name="action_print"
+                                confirm="Esta Seguro de Calcular?"
+                                class="btn-info" icon="fa-file-pdf-o"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+
+                        <button name="action_calc" type="object" confirm="Esta Seguro de Calcular?"
+                                string="Calcular Comisiones"
+                                attrs="{'invisible': [('state', 'in', ('rev','account'))]}"
+                                class="btn-primary"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+                        <button name="action_to_rev" type="object" confirm="Esta Seguro de enviar a Revision?"
+                                string="enviar a Revision"
+                                attrs="{'invisible': [('state', 'in', ('rev','account'))]}"
+                                class="btn-info"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+                        <button name="action_to_account" type="object" confirm="Esta Seguro de Contabilizar el Calculo?"
+                                string="Contabilizar"
+                                attrs="{'invisible': [('state', 'in', ('calc','new','account'))]}"
+                                class="btn-success"
+                                groups="ct_post_sales.ct_post_sales_group_user"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="new,calc,rev,account"/>
+                    </header>
+                    <sheet>
+
+
+                        <div class="oe_button_box" name="button_box">
+                            <button string="O.S." type="object" name="action_view_os"
+                                    class="oe_stat_button" icon="fa-wrench"
+                                    help="Ordenes de Servicios Calculadas..."
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                            <button string="CxP" type="object" name="action_view_invoice"
+                                    class="oe_stat_button" icon="fa-file-text"
+                                    help="Facturas a Proveedores Generadas..."
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+
+
+                        </div>
+                        <widget name="web_ribbon" title="Contabilizado" attrs="{'invisible': [('state', '!=', 'account')]}"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="date_close" string="Fecha de Corte"/>
+                            </group>
+                            <group>
+                                <field name="amount" string="Total $"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <!--  Comisiones Tree sobre la Mano de Obra -->
+        <record id="view_ct_post_sales_commissions_line_tree" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.commissions.line.tree</field>
+            <field name="model">ct.post.sales.commissions.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="os_id" string="Ref."/>
+                    <field name="partner_name"/>
+                    <field name="service_name"/>
+                    <field name="os_date_close"/>
+                    <field name="exclude" widget="boolean_toggle"/>
+                    <field name="sub_amount" sum="Total/Costo"/>
+                </tree>
+
+            </field>
+        </record>
+
+        <!--  Comisiones Form sobre la Mano de Obra -->
+        <record id="view_ct_post_sales_commissions_line_form" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.commissions.line.form</field>
+            <field name="model">ct.post.sales.commissions.line</field>
+            <field name="arch" type="xml">
+                <form name="">
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button string="Detalles" type="object" name="action_view_cost_tabulator"
+                                    class="oe_stat_button" icon="fa-exchange"
+                                    groups="ct_post_sales.ct_post_sales_group_user"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="os_id" string="Ref." readonly="1"/>
+                                <field name="partner_name" readonly="1"/>
+                                <field name="service_name" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="os_date_close" readonly="1"/>
+                                <field name="exclude" widget="boolean_toggle" readonly="1"/>
+                                <field name="sub_amount" sum="Total/Costo" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+
+                </form>
+
+            </field>
+        </record>
+
+
+        <!--             Vistas de Filtros       -->
+        <!-- Vista de Busqueda Heredada para Agregar Filtros -->
+        <record id="view_ct_post_sales_order_service_filter" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.order.service.filter</field>
+            <field name="model">ct.p.s.order.service</field>
+            <field name="arch" type="xml">
+                <search string="Filtros">
+                    <separator/>
+                    <filter string="en Centro de Servicio" name="f_serv" domain="[('state','=','serv')]"/>
+                    <filter string="en Revision" name="f_rev" domain="[('state','=','rev')]"/>
+                    <filter string="en Reparacion" name="f_dev" domain="[('state','=','dev')]"/>
+                    <filter string="en Espera de Entrega al Cliente" name="f_wait" domain="[('state','=','wait')]"/>
+                    <filter string="Finalizados" name="f_wait" domain="[('state','=','done')]"/>
+                    <separator/>
+                </search>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

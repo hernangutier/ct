@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+         <!-- *********************************************** -->
+
+         <!--      Menu y Acciones de el Modulo               -->
+
+         <!-- *********************************************** -->
+         <!-- Acciones de Menu por Facturacion Vencida C/Despacho -->
+        <record id="action_ct_cobranza_account_move_due_view" model="ir.actions.act_window">
+            <field name="name">Facturacion (Vencida c/Despacho)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_ct_cobranza_account_move_due_delivered_tree" />
+            <field name="domain">['&amp;', ('date_due_delivered', '&lt;', time.strftime('%%Y%%m%%d')), ('state', '=', 'posted'), ('invoice_payment_state', '=', 'not_paid')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Facturas vencidas contra Despacho...
+                </p>
+
+            </field>
+
+         </record>
+        <record id="action_ct_cobranza_account_move_due_proyect_view" model="ir.actions.act_window">
+            <field name="name">Cuentas x Cobrar Proyeccion</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.cobranza.saldos.proyectados.dialog</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+
+         </record>
+        <record id="action_ct_cobranza_account_move_due_pdf_view" model="ir.actions.act_window">
+            <field name="name">Cobranza Proyectada (Pdf) </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.due.by.asesor.form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+
+        <!-- Cambio de Plazo de Pago con RFecalculo de Deduas Retrospeccion -->
+        <record id="action_ct_cobranza_account_move_due_payment_term_dialog" model="ir.actions.act_window">
+            <field name="name">Recalcular Deudas por Cambios de Plazos de Pago</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.cobranza.recalculate.due.payment.term.dialog</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+        <!-- Action para llamar al Control de Efectivo -->
+        <record id="action_ct_cobranza_payment_efective_control_tree" model="ir.actions.act_window">
+            <field name="name">Enterar Efectivo $</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.cobranza.payment.efective.control</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_ct_cobranza_payment_efective_control_tree" />
+        </record>
+        <!-- Elementos de Menu Facturacion Vencida C/Despacho... -->
+        <menuitem id="menu_finance_entries_cobranza" name="Cobranza" parent="account.menu_finance" sequence="5" groups="account.group_account_user"/>
+        <menuitem id="menu_ct_cobranza_account_move_delivered" name="Reportes" parent="menu_finance_entries_cobranza" sequence="6"  groups="account.group_account_user"/>
+        <menuitem id="menu_ct_cobranza_account_move_due_delivered" name="Saldos Vencidos (Consulta)" parent="menu_ct_cobranza_account_move_delivered" sequence="1" action="action_ct_cobranza_account_move_due_proyect_view" groups="account.group_account_user"/>
+        <menuitem id="menu_ct_cobranza_account_move_due_delivered_300" name="Cobranza Proyectada (Pdf)" parent="menu_ct_cobranza_account_move_delivered" sequence="2" action="action_ct_cobranza_account_move_due_pdf_view" groups="account.group_account_user"/>
+        <!-- Submenu para Operacioones de Pagos -->
+        <menuitem id="menu_ct_cobranza_payments" name="Pagos" parent="menu_finance_entries_cobranza" sequence="6" action="action_ct_cobranza_account_move_due_pdf_view" groups="account.group_account_user"/>
+        <menuitem id="menu_ct_cobranza_paymet_term_change_dialog" name="Recalculo de Deudas por Cambios de Plazos de Pago" parent="menu_ct_cobranza_payments" sequence="10" action="action_ct_cobranza_account_move_due_payment_term_dialog" groups="account.group_account_user"/>
+        <menuitem id="menu_ct_cobranza_payments_efective_control" name="Enterar Efectivo" parent="menu_ct_cobranza_payments" sequence="20" action="action_ct_cobranza_payment_efective_control_tree" groups="account.group_account_user"/>
+
+    </data>
+</odoo>

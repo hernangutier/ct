@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <!-- Modificacion al Picking para Procesarlo -->
+        <record id="view_ct_salemanagement_stock_picking_tree" model="ir.ui.view">
+            <field name="name">view_ct_salemanagement_stock_picking_tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"></field>
+            <field name="arch" type="xml">
+
+
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" string="Cliente"/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="asesor_id" />
+                </field>
+                <field name="asesor_id" position="after">
+                    <field name="city" />
+                </field>
+                <field name="city" position="after">
+                    <field name="state_id" />
+                </field>
+                <field name="state" position="after">
+                    <field name="state_preparations" widget="label_selection"
+                       options="{'classes': {'draft': 'info','reserved': 'warning','no': 'danger', 'packing': 'success'}}"/>
+                    </field>
+                </field>
+
+        </record>
+
+        <!-- Vista Formulario Picking Modificada  -->
+        <record id="view_ct_sale_management_sale_picking_form" model="ir.ui.view">
+            <field name="name">view.ct.sale.management.sale.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='do_print_picking']" position="after">
+                    <field name="state_preparations" invisible="1"/>
+                    <button name="%(action_ct_sale_management_stock_picking_post)d"
+                            context="{'default_picking_id': id, 'default_type': 1}" string="Procesar" type="action"
+                            class="btn-info" attrs="{'invisible': [('state_preparations', '!=', 'draft')]}"/>
+                    <button name="%(action_ct_sale_management_stock_picking_update_packing)d"
+                            context="{'default_picking_id': id, 'default_type': 0}" string="Update/Packing" type="action"
+                            class="btn-success" attrs="{'invisible': [('state_preparations', '!=', 'packing')]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

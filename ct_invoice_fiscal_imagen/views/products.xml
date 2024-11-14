@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="view_ct_invoice_fiscal_imagen_product_template_form" model="ir.ui.view">
+            <field name="name">view.ct.invoice.fiscal.imagen.product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"></field>
+            <field name="arch" type="xml">
+                <field name="is_consolidable" position="after">
+                    <field name="is_exent"/>
+                </field>
+
+            </field>
+        </record>
+    </data>
+</odoo>

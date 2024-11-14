@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+         <!-- Vista Dialogo para Pdf Registro de efectivo -->
+         <record id="view_ct_due_by_user_wz" model="ir.ui.view">
+            <field name="name">Saldos Vencidos Clientes(Pdf)</field>
+            <field name="model">ct.due.by.asesor.form</field>
+            <field name="arch" type="xml">
+                <form>
+                        <group>
+                            <field name="date" />
+                        </group>
+                        <group>
+                            <field name="type" string="Tipo de Reporte"/>
+                        </group>
+
+                        <group>
+                            <field name="user_id" string="Asesor/Ventas" attrs="{'invisible': [('type','not in','by_user')] , 'required': [('type','=','by_user')]}" options="{'no_open':True,'no_create': True}" />
+                        </group>
+                        <group>
+                            <field name="partner_id" string="Cliente" attrs="{'invisible': [('type','not in',('by_client'))] , 'required': [('type','=','by_client')]}" options="{'no_open':True,'no_create': True}" />
+                        </group>
+
+                    <footer>
+                        <button name="get_report" string="Generer (Pdf)" icon="fa-file-pdf-o" type="object"
+                                class="btn-success"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+         <!-- Vista Dialogo Recalcular Vencimientos segun Terminos de Pago y Clientes -->
+          <record id="view_ct_cobranza_payment_term_id_dialog" model="ir.ui.view">
+            <field name="name">Recalcular Deudas (Cambio de Terminos de Pago)</field>
+            <field name="model">ct.cobranza.recalculate.due.payment.term.dialog</field>
+            <field name="arch" type="xml">
+                <form>
+                        <p>
+                            <strong>
+                            Este Procedimiento Recalcula las fechas de vencimiento por cambio de
+                            Plazos de Pago
+                            </strong>
+                        </p>
+
+                        <group>
+                            <field name="partner_id" options="{'no_open':True,'no_create': True}" string="Cliente"/>
+                        </group>
+                        <group>
+                            <field name="payment_term_id" options="{'no_open':True,'no_create': True}" string="Plazo de Pago"/>
+                        </group>
+
+
+                    <footer>
+                        <button name="post" string="Recalcular" icon="fa-file-pdf-o" type="object"
+                                class="btn-success"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- Vista Dialogo Cobranza Proyectada Consulta -->
+          <record id="view_ct_cobranza_proyectada_dialog" model="ir.ui.view">
+            <field name="name">Saldos Proyectados</field>
+            <field name="model">ct.cobranza.saldos.proyectados.dialog</field>
+            <field name="arch" type="xml">
+                <form>
+                        <p>
+                            <strong>
+                            Este Procedimiento Permite Consultar la Cobranza Proyectada y Genera una Vista
+                            </strong>
+                        </p>
+
+                        <group>
+                            <field name="date_end"  string="Indique Fecha de Proyeccion"/>
+                        </group>
+
+
+
+                    <footer>
+                        <button name="get_view" string="Consultar" icon="fa-file-pdf-o" type="object"
+                                class="btn-success"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

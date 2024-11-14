@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="view_ct_sale_management_wz_picking_post" model="ir.ui.view" >
+            <field name="name">view.ct.sale.management.wz.picking.post</field>
+            <field name="model">ct.sale.management.picking.action.form.post</field>
+            <field name="arch" type="xml">
+              <form string="Procesar Picking">
+                  <sheet>
+                      <group>
+                          <group string="Datos de el Picking">
+                            <field name="picking_id" readonly="1" />
+                            <field name="packing_register" />
+                          </group>
+
+                      </group>
+
+
+                  </sheet>
+                  <footer>
+                      <button  name="action_post" type="object" string="Procesar" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+              </form>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

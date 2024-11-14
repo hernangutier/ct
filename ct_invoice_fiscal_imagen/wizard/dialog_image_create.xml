@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+
+        <!-- Acciones   -->
+        <record id="action_ct_invoice_image_form_view" model="ir.actions.act_window">
+            <field name="name">Crear Factura Fiscal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.invoice.fisca.image.form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+        <!-- Dialogo para Crear la Factura Fiscal -->
+        <record id="ct_invoice_fiscal_image_form_view" model="ir.ui.view">
+            <field name="name">ct.invoice.fiscal.image.form.view</field>
+            <field name="model">ct.invoice.fisca.image.form</field>
+            <field name="arch" type="xml">
+                 <form>
+                     <sheet>
+                         <group>
+                             <h1>Crear Imagen Fiscal</h1>
+                         </group>
+                         <group>
+                             <field name="account_move_id"  readonly="1"/>
+                             <field name="number"/>
+                             <field name="tax_bcv"/>
+                             <field name="account_tax_id"  />
+                         </group>
+
+                     </sheet>
+
+                 <footer>
+                      <button  name="action_post" type="object" string="Procesar" confirm="Esta seguro de crear la Imagen Fiscal?" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+               </form>
+             </field>
+        </record>
+    </data>
+</odoo>

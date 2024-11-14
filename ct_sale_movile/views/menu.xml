@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <!--
+             Acciones de ventanas para los Pedidos Moviles
+        -->
+        <record id="action_sale_order_movile_tree" model="ir.actions.act_window">
+            <field name="name">Imagenes de Pedidos Moviles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.order.movile</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Pedidos Moviles
+                </p><p>
+                    Esta Interfaz muestra los pedidos enviados desde la App de Ventas
+                </p>
+            </field>
+        </record>
+        <!-- Reportes de Auditoria de pedidos Moviles -->
+        <record id="action_sale_order_movile_list_report" model="ir.actions.act_window">
+            <field name="name">Imagenes de Pedidos Moviles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.order.movile.wz.sale.order.movile.list</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+
+        </record>
+
+        <!--- Action para llamar al los Productos que estan en el departamento -->
+        <record id="action_product_departament_product_template_tree" model="ir.actions.act_window">
+            <field name="name">Productos Asignados</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+
+            <field name="domain">[('departament_id','=',active_id)]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear un Nuevo Producto
+                </p><p>
+                    Registre Productos a este Departamento
+                </p>
+            </field>
+        </record>
+
+        <!--
+            MenuItens para Tree de las Imagenes de Pedidos Moviles
+        -->
+        <menuitem id="menu_sale_order_movile_tree" groups="sale.group_proforma_sales" name="Pedidos/Moviles" parent="sale.sale_order_menu" action="action_sale_order_movile_tree"  sequence="20" active="True"/>
+        <!-- MenuItems para llamar Dialogo de Reportes de Pedidos Moviles -->
+        <menuitem id="menu_sale_order_movile_list_report" groups="sale.group_proforma_sales" name="Pedidos/Moviles (PDF)" parent="sale.menu_sale_report" action="action_sale_order_movile_list_report"  sequence="20" active="True"/>
+    </data>
+</odoo>

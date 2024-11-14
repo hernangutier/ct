@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <record id="action_ct_logistic_product_loads_report" model="ir.actions.report">
+            <field name="name">Guia de Consolidados</field>
+            <field name="model">ct.logistic.container</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_logistic.ct_logistic_load_pdf_800</field>
+            <field name="print_report_name">'Consolidado - %s' % (object.number)</field>
+            <field name="binding_model_id" ref="ct_logistic.model_ct_logistic_container"></field>
+        </record>
+
+        <record id="action_ct_logistic_ddt_report" model="ir.actions.report">
+            <field name="name">Documento de Transporte</field>
+            <field name="model">ct.logistic.container</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_logistic.ct_logistic_ddt_document_pdf_801</field>
+            <field name="print_report_name">'DDT - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="ct_logistic.model_ct_logistic_container"></field>
+        </record>
+
+        <record id="action_ct_logistic_dist_consolidados_report" model="ir.actions.report">
+            <field name="name">Distribucion Consolidados</field>
+            <field name="model">ct.logistic.container</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_logistic.ct_logistic_dist_consolidados_pdf_802</field>
+            <field name="print_report_name">'Consolidado - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="ct_logistic.model_ct_logistic_container"></field>
+        </record>
+
+        <!-- Reporte de Guia Fiscal -->
+        <record id="action_ct_logistic_invoice_fiscal_report" model="ir.actions.report">
+            <field name="name">Guia Despacho Fiscal</field>
+            <field name="model">ct.logistic.container</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_logistic.ct_logistic_ddt_fiscal_803</field>
+            <field name="print_report_name">'Guia DDT - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="ct_logistic.model_ct_logistic_container"></field>
+        </record>
+
+        <!-- Guia de Despacho por Asesor de Ventas -->
+        <report id="ct_logistic_report_805"
+            model="ct.logistic.dialog.guia.for.comercial"
+            string="Guia/Asesor"
+            report_type="qweb-pdf"
+            name="ct_logistic.ct_pdf_report_805"
+            menu="False"/>
+    </data>
+</odoo>

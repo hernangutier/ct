@@ -1,0 +1,336 @@
+<odoo>
+    <data>
+        <!-- Header para las Notas de Entregas y Notas de Credito -->
+        <template id="header_note_delivery">
+            <div class="row">
+                <div class="col-2">
+                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                         style="max-height: 80px;" alt="Logo"/>
+                </div>
+                <div class="col-10">
+                    <div class="row" style=" max-height: 18px; padding-right: 10px;">
+                        <div class="col-9">
+                            <h4 class="text-center" t-field="o.company_id.name"/>
+                        </div>
+                        <div class="col-3">
+                            <h5 class="text-right">
+                                <span t-field="o.company_id.vat"/>
+                            </h5>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-6 text-left" style="display: block;">
+                    <ul class="list-unstyled">
+
+                        <li>Cliente:
+                            <ul>
+                                <li style="font-size: 6px;">
+                                    <span t-field="o.partner_id.name"/>
+                                </li>
+                                <li style="font-size: 6px;">
+                                    <span t-field="o.partner_id.vat"/>
+                                    <span t-field="o.partner_id.phone"/>
+                                </li>
+                                <li style="font-size: 6px;">
+                                    <span t-field="o.partner_id.street"/>
+                                </li>
+                                <li>
+                                    <span style="font-size: 8px;">Localidad (Despacho):</span>
+                                    <span style="font-size: 8px;">
+                                        <strong t-field="o.partner_id.state_id.name"/>
+                                    </span>
+                                    -
+                                    <span style="font-size: 8px;">
+                                        <strong t-field="o.partner_id.city"/>
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-3 text-left">
+
+                    <ul style="line-height: 1;" class="list-unstyled">
+                        <li>
+                            <span style="font-size: 8px;">Asesor:</span>
+                            <span style="font-size: 8px; ">
+                                <strong t-field="o.invoice_user_id.name"></strong>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Telefono:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.invoice_user_id.phone"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Zona:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.team_id.name"/>
+                            </span>
+                        </li>
+
+
+                    </ul>
+                    <div>
+
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+                <div class="col-3 text-left">
+
+                    <ul style="line-height: 1;" class="list-unstyled">
+                        <li>
+                            <t t-if="o.type=='out_invoice'">
+                                <span style="font-size: 10px; ">
+                                    <strong>Nota#</strong>
+                                </span>
+                            </t>
+                            <t t-if="o.type=='out_refund'">
+                                <span style="font-size: 10px; ">
+                                    <strong>N. Credito#</strong>
+                                </span>
+                            </t>
+                            <span style="font-size: 10px; ">
+                                <strong t-field="o.name"></strong>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Departamento:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.departament_id.name"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Pedido:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.invoice_origin"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Emision:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.invoice_date"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Condicion:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.invoice_payment_term_id.name"/>
+                            </span>
+                        </li>
+
+                    </ul>
+                    <div>
+
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- Header para Facturas Fiscales -->
+        <template id="header_invoice_imagen_fiscal">
+            <div class="row">
+                <div class="col-6 text-left" style="display: block;">
+                    <ul class="list-unstyled">
+
+                        <li>Cliente:
+                            <ul>
+                                <li style="font-size: 11px;">
+                                    <span t-field="o.partner_id.name"/>
+                                </li>
+                                <li style="font-size: 11px;">
+                                    <span t-field="o.partner_id.vat"/>
+                                    <span t-field="o.partner_id.phone"/>
+                                </li>
+                                <li style="font-size: 11px;">
+                                    <span t-field="o.partner_id.street"/>
+                                </li>
+                                <li>
+                                    <span style="font-size: 11px;">Localidad (Despacho):</span>
+                                    <span style="font-size: 11px;">
+                                        <strong t-field="o.partner_id.state_id.name"/>
+                                    </span>
+                                    -
+                                    <span style="font-size: 11px;">
+                                        <strong t-field="o.partner_id.city"/>
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-3 text-left">
+
+                    <ul style="line-height: 1;" class="list-unstyled">
+                        <li>
+                            <span style="font-size: 8px;">Asesor:</span>
+                            <span style="font-size: 8px; ">
+                                <strong t-field="o.account_move_id.invoice_user_id.name"></strong>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Telefono:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.account_move_id.invoice_user_id.phone"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 8px;">Zona:</span>
+                            <span style="font-size: 8px;">
+                                <strong t-field="o.account_move_id.team_id.name"/>
+                            </span>
+                        </li>
+
+
+                    </ul>
+                    <div>
+
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+                <div class="col-3 text-left">
+
+                    <ul style="line-height: 1;" class="list-unstyled">
+                        <li>
+                            <t t-if="o.account_move_id.type=='out_invoice'">
+                                <span style="font-size: 11px; ">
+                                    <strong>Factura#</strong>
+                                </span>
+                            </t>
+                            <t t-if="o.account_move_id.type=='out_refund'">
+                                <span style="font-size: 11px; ">
+                                    <strong>N. Credito#</strong>
+                                </span>
+                            </t>
+                            <span style="font-size: 11px; ">
+                                <strong t-field="o.name"></strong>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 11px;">Departamento:</span>
+                            <span style="font-size: 11px;">
+                                <strong t-field="o.account_move_id.departament_id.name"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 11px;">Pedido:</span>
+                            <span style="font-size: 11px;">
+                                <strong t-field="o.account_move_id.invoice_origin"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 11px;">Emision:</span>
+                            <span style="font-size: 11px;">
+                                <strong t-field="o.date_imagen"/>
+                            </span>
+                        </li>
+                        <li>
+                            <span style="font-size: 11px;">Condicion:</span>
+                            <span style="font-size: 11px;">
+                                <strong t-field="o.account_move_id.invoice_payment_term_id.name"/>
+                            </span>
+                        </li>
+
+                    </ul>
+                    <div>
+
+
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- Header para las Notas de Entregas y Notas de Credito -->
+        <template id="header_inventory_adjustment">
+            <div class="row">
+                <div class="col-2">
+                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                         style="max-height: 50px;" alt="Logo"/>
+                </div>
+                <div class="col-10">
+                    <div class="row" style=" max-height: 18px; padding-right: 10px;">
+                        <div class="col-9">
+                            <h5 class="text-center" t-field="o.company_id.name"/>
+                        </div>
+                        <div class="col-3">
+                            <h6 class="text-right">
+                                <span t-field="o.company_id.vat"/>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8 text-left" style="display: block;">
+                            <ul class="list-unstyled">
+
+                                <li>Usuario:
+                                    <ul>
+                                        <li style="font-size: 6px;">
+                                            <span t-field="o.create_uid.partner_id.name"/>
+                                        </li>
+                                        <li style="font-size: 6px;">
+                                            <span t-field="o.create_uid.partner_id.vat"/>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-4 text-left">
+
+                            <ul style="line-height: 1;" class="list-unstyled">
+                                <li>
+                                    <span style="font-size: 10px; ">
+                                        <strong t-field="o.name"></strong>
+                                    </span>
+                                </li>
+                                <li >
+                                    <span style="font-size: 8px;">Estado:</span>
+                                    <span style="font-size: 8px;">
+                                       <strong t-field="o.state"/>
+                                    </span>
+                                </li>
+                                <li >
+                                    <span style="font-size: 8px;">Fecha:</span>
+                                    <span style="font-size: 8px;">
+                                        <strong t-field="o.date"/>
+                                    </span>
+                                </li>
+
+                            </ul>
+                            <div>
+
+
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </template>
+    </data>
+</odoo>

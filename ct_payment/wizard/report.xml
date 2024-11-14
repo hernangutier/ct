@@ -1,0 +1,11 @@
+<odoo>
+    <!-- Xml para Reportes Objecto Report -->
+    <data>
+        <report id="payment_efective_report_400"
+            model="ct.payment.wz.efective.report.form"
+            string="Registro de Efectivo"
+            report_type="qweb-pdf"
+            name="ct_payment.ct_pdf_report_400"
+            menu="False"/>
+    </data>
+</odoo>

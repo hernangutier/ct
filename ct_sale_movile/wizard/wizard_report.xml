@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <!-- Vista Wizard para Reportes PDF -->
+        <record id="view_ct_sale_order_movile_wz_report" model="ir.ui.view" >
+            <field name="name">view.ct.sale.order.movile.wz_report</field>
+            <field name="model">ct.sale.order.movile.wz.sale.order.movile.list</field>
+            <field name="arch" type="xml">
+              <form string="Confirmar Pedido">
+                  <sheet>
+                      <group>
+                          <group>
+                             <field name="date_init" required="1"/>
+
+                          </group>
+                          <group>
+                              <field name="date_end" required="1"/>
+                          </group>
+                      </group>
+                  </sheet>
+                  <footer>
+                      <button  name="get_report"  type="object" string="Generar (PDF)" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+              </form>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

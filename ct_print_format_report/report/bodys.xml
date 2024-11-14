@@ -1,0 +1,149 @@
+<odoo>
+    <data>
+        <template id="body_note_delivery">
+            <table class="table table-sm table-borderless" style="line-height: 1;">
+
+                <thead style="line-height: 1;">
+                    <tr>
+                        <th scope="col" style="font-size: 9px;" class="text-center">Items</th>
+                        <th scope="col" style="font-size: 9px;">SKU</th>
+                        <th scope="col" style="font-size: 9px;">Descripcion</th>
+                        <th scope="col" class="text-center" style="font-size: 9px;">Cantidad</th>
+                        <th scope="col" class="text-right" style="font-size: 9px;">P/U.</th>
+                        <th scope="col" class="text-right" style="font-size: 9px;">Sub-Total</th>
+
+                    </tr>
+                </thead>
+
+                <tbody style="line-height: 1;">
+                    <t t-set="items" t-value="0"></t>
+                    <t t-foreach="o.invoice_line_ids" t-as="line">
+                        <t t-set="items" t-value="items + 1"></t>
+                        <tr style="line-height: 0.3;">
+                            <th scope="row" class="text-center">
+                                <span style="font-size: 6px; line-height: 0.3;" t-esc="items"/>
+                            </th>
+                            <th scope="row">
+                                <span style="font-size: 6px; line-height: 0.3;" t-field="line.product_id.default_code"/>
+                            </th>
+                            <td>
+                                <span style="font-size: 6px; line-height: 0.3;" t-field="line.product_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span style="font-size: 6px; line-height: 0.3;" t-esc="int(line.quantity)"/>
+                            </td>
+                            <td class="text-right">
+                                <span style="font-size: 6px; line-height: 0.3;" t-field="line.price_unit"/>
+                            </td>
+                            <td class="text-right">
+                                <span style="font-size: 6px; line-height: 0.3;" t-field="line.price_subtotal"/>
+                            </td>
+                        </tr>
+                    </t>
+
+
+                </tbody>
+            </table>
+        </template>
+        <template id="body_invoice_imagen_fiscal">
+            <table class="table table-sm table-borderless" style="line-height: 1;">
+
+                <thead style="line-height: 1.4;">
+                    <tr>
+                        <th scope="col" style="font-size: 11px;" class="text-center">Items</th>
+                        <th scope="col" style="font-size: 11px;">SKU</th>
+                        <th scope="col" style="font-size: 11px;">Descripcion</th>
+                        <th scope="col" class="text-center" style="font-size: 10px;">Almacen</th>
+                        <th scope="col" class="text-center" style="font-size: 10px;">Cantidad</th>
+                        <th scope="col" class="text-right" style="font-size: 10px;">P/U.</th>
+                        <th scope="col" class="text-right" style="font-size: 10px;">Sub-Total</th>
+
+                    </tr>
+                </thead>
+
+                <tbody style="line-height: 1.4;">
+                    <t t-set="items" t-value="0"></t>
+                    <t t-foreach="o.line_ids" t-as="line">
+                        <t t-set="items" t-value="items + 1"></t>
+                        <tr style="line-height: 0.5;">
+                            <th scope="row" class="text-center">
+                                <span style="font-size: 10px; line-height: 0.5;" t-esc="items"/>
+                            </th>
+                            <th scope="row">
+                                <span style="font-size: 10px; line-height: 0.5;" t-field="line.product_id.default_code"/>
+                            </th>
+                            <td>
+                                <span style="font-size: 10px; line-height: 0.5;" t-field="line.product_id.name"/>
+                            </td>
+
+                            <td class="text-center">
+                                <span style="font-size: 10px; line-height: 0.5;" t-esc="int(line.qty)"/>
+                            </td>
+                            <td class="text-right">
+                                <span style="font-size: 10px; line-height: 0.5;" t-esc="'{:,.2f}'.format(line.price)"/>
+                            </td>
+                            <td class="text-right">
+                                <span style="font-size: 10px; line-height: 0.5;" t-esc="'{:,.2f}'.format(line.price_sub_total)"/>
+                            </td>
+                        </tr>
+                    </t>
+
+
+                </tbody>
+            </table>
+        </template>
+        <template id="body_inventory_adjustment">
+            <table class="table table-sm table-borderless" style="line-height: 1;">
+
+                <thead style="line-height: 1;">
+                    <tr>
+                        <th scope="col" style="font-size: 9px;" class="text-center">Items</th>
+                        <th scope="col" style="font-size: 9px;">SKU</th>
+                        <th scope="col" style="font-size: 9px;">Descripcion</th>
+                        <th scope="col" style="font-size: 9px;">Almacen</th>
+                        <th scope="col" class="text-center" style="font-size: 9px;">Cnt. Teorica</th>
+                        <th scope="col" class="text-right" style="font-size: 9px;">Cnt. Contada</th>
+                        <th scope="col" class="text-right" style="font-size: 9px;">Dif.</th>
+                        <th scope="col" class="text-right" style="font-size: 9px;">Ajust.</th>
+
+                    </tr>
+                </thead>
+
+                <tbody style="line-height: 1;">
+                    <t t-set="items" t-value="0"></t>
+                    <t t-foreach="o.line_ids" t-as="line">
+                        <t t-set="items" t-value="items + 1"></t>
+                        <tr style="line-height: 0.3;">
+                            <th scope="row" class="text-center">
+                                <span style="font-size: 9px; line-height: 0.3;" t-esc="items"/>
+                            </th>
+                            <th scope="row">
+                                <span style="font-size: 9px; line-height: 0.3;" t-field="line.product_id.default_code"/>
+                            </th>
+                            <td>
+                                <span style="font-size: 9px; line-height: 0.3;" t-field="line.product_id.name"/>
+                            </td>
+                            <td>
+                                <span style="font-size: 9px; line-height: 0.5;" t-field="line.location_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span style="font-size: 9px; line-height: 0.3;" t-esc="int(line.theoretical_qty)"/>
+                            </td>
+                            <td class="text-right">
+                                <span style="font-size: 9px; line-height: 0.3;" t-esc="int(line.product_qty)"/>
+                            </td>
+                            <td class="text-right">
+                                <span style="font-size: 9px; line-height: 0.3;" t-esc="int(line.difference_qty)"/>
+                            </td>
+                            <td class="text-right">
+                                <span style="font-size: 9px; line-height: 0.3;" t-esc="int(line.product_qty)"/>
+                            </td>
+                        </tr>
+                    </t>
+
+
+                </tbody>
+            </table>
+        </template>
+    </data>
+</odoo>

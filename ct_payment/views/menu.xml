@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="action_ct_payment_efective_report" model="ir.actions.act_window">
+            <field name="name">Registro de Efectivo (Pdf)</field>
+            <field name="res_model">ct.payment.wz.efective.report.form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_ct_payment_efective_report_wz"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_ct_payment_report" name="Registro de Efetivo (Pdf)" parent="account.menu_finance_reports" sequence="5"
+                  action="action_ct_payment_efective_report" />
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <!-- Acciones de Ventana Wizard -->
+        <record id="action_ct_res_partner_list_pdf_wz" model="ir.actions.act_window">
+            <field name="name">Listado de Clientes (PDF)</field>
+            <field name="res_model">ct.res.partner.list.pdf.wz</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="ct_res_partner_list_pdf_wz"/>
+            <field name="target">new</field>
+        </record>
+        <!-- MenuItems New  -->
+        <menuitem id="menu_ct_res_partner_list_report" name="Listados de Clientes (PDF)" parent="sale.menu_sale_report"
+                  action="action_ct_res_partner_list_pdf_wz"/>
+
+    </data>
+</odoo>

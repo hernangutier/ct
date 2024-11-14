@@ -1,0 +1,63 @@
+ <odoo>
+     <data>
+         <!--- Vistas de Efective Control -->
+        <!--- Vistas Tree -->
+        <record id="view_ct_cobranza_payment_efective_control_tree" model="ir.ui.view">
+            <field name="name">view.ct.cobranza.payment.efective.control.tree</field>
+            <field name="model">ct.cobranza.payment.efective.control</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="note" />
+                    <field name="amount" />
+                    <field name="payment_count" />
+                    <!-- Aqui colocar el Count -->
+                    <field name="state" widget="label_selection" options="{'classes': {'draft': 'info','done': 'success'}}"/>
+
+                </tree>
+            </field>
+        </record>
+        <!--- Vistas Form -->
+        <record id="view_ct_cobranza_payment_efective_control_form" model="ir.ui.view">
+            <field name="name">view.ct.cobranza.payment.efective.control.form</field>
+            <field name="model">ct.cobranza.payment.efective.control</field>
+            <field name="arch" type="xml">
+                <form string="Control de Efectivo">
+                     <header>
+                            <button name="action_calculate" type="object"  confirm="Esta Seguro de Calcular?"  attrs="{'invisible': [('state', 'in', ('done'))]}" string="Calcular"  class="btn-primary"  groups="account.group_account_user" />
+                            <button name="action_post" type="object"  confirm="Esta Seguro de Procesar? Tenga en Cuenta que luego de este Procedimiento no podra reabrir los Calculos..."  attrs="{'invisible': [('state', 'in', ('done'))]}" string="Procesar"  class="btn-success"  groups="account.group_account_user" />
+                            <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                     </header>
+
+                     <sheet>
+                         <div class="oe_button_box" name="button_box">
+                            <button string="Pagos" type="object" name="action_view_payments" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('state', '=', 'new')]}" groups="account.group_account_user" />
+                         </div>
+
+                     <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+
+                         <group>
+                             <group>
+
+                                <field name="date"  />
+                                <field name="note" />
+                             </group>
+                              <group class="oe_subtotal_footer">
+                                    <field name="amount" readonly="1"/>
+                              </group>
+
+                         </group>
+
+                     </sheet>
+                 </form>
+            </field>
+        </record>
+
+
+     </data>
+ </odoo>

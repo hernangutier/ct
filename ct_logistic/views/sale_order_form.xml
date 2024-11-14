@@ -1,0 +1,141 @@
+<odoo>
+    <data>
+        <!-- Vista Formulario Pedidos con control logistico -->
+        <record id="view_ct_logistic_sale_order_form" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"></field>
+            <field name="arch" type="xml">
+               <xpath expr="//notebook/page[@name='other_information']" position="after">
+                   <page string="Datos de Envio" class="delivery_por" >
+                        <group>
+                            <group>
+                                <field name="delivery_proposal" />
+                                <field name="recovery_expenses"  />
+
+                            </group>
+                            <group>
+                               <field name="load" />
+                               <field name="info_delivered"  />
+                            </group>
+                        </group>
+                   </page>
+               </xpath>
+               <xpath expr="//header/button[@name='action_create_invoice']" position="replace">
+
+               </xpath>
+               <xpath expr="//header/button[@name='action_quotation_send']" position="after">
+                    <button name="%(action_ct_logistic_sale_order_action_invoice)d" context="{'default_sale_order_id': active_id}"
+                           string="Crear Factura" type="action" class="btn-success" attrs="{'invisible': [('state_preparations', 'not in', ('packing'))]}" confirm="Esta seguro de Facturar?"/>
+               </xpath>
+
+
+
+            </field>
+        </record>
+        <!--  Vista Tree Ajustada al Despacho                -->
+        <record id="view_ct_logistic_sale_order_tree" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"></field>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="delivery_proposal" />
+                </field>
+            </field>
+        </record>
+        <!--  Vista Tree Peidos Ajustada al Despacho                -->
+        <record id="view_ct_logistic_sale_order_pedidos_tree" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.sale.order.pedidos.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"></field>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="state_delivered" string="Despachado(S/N)"/>
+                    <field name="delivery_proposal" />
+
+                </field>
+            </field>
+        </record>
+
+        <!--  Vista Search Pedidos Despachados -->
+        <record id="view_ct_logistic_sale_order_search" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.sale.order.search</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"></field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//filter[@name='upselling']" position="after">
+                    <filter string="Despachados" name="delivered" domain="[('state_delivered','=',True)]"/>
+                    <filter string="No Despachados" name="no_delivered" domain="[('state_delivered','=',False)]"/>
+                </xpath>
+
+            </field>
+        </record>
+        <!--  Wizard para Procesar Facturacion -->
+        <record id="view_ct_logistic_sale_order_action_invoice"  model="ir.ui.view">
+            <field name="name">view.ct.logistic.sale.order.action.invoice</field>
+            <field name="model">ct.logistic.wz.invoice.form</field>
+            <field name="arch" type="xml">
+             <form string="Facturar Pedido">
+                <group>
+                    <group>
+                        <field name="sale_order_id" readonly="1" />
+                        <field name="items_to_invoice" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="invoice_amount" readonly="1" />
+                        <field name="delivery_expenses_amount" readonly="1" />
+
+                    </group>
+                </group>
+                 <footer>
+                     <button name="action_invoice_commit"  string="Procesar" type="object" class="btn-success"/>
+                     <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+            </form>
+            </field>
+
+        </record>
+        <!-- Vista Tree Lines Pedido en la Guia para ver Productos Agrupados -->
+        <record id="view_ct_logistic_sale_order_form" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"></field>
+            <field name="arch" type="xml">
+               <xpath expr="//notebook/page[@name='other_information']" position="after">
+                   <page string="Datos de Envio" class="delivery_por" >
+                        <group>
+                            <group>
+                                <field name="delivery_proposal" />
+                                <field name="recovery_expenses"  />
+
+                            </group>
+                            <group>
+                                    <group>
+                               <field name="load" readonly="1"/>
+                               <field name="info_delivered" readonly="1"/>
+                            </group>
+                            </group>
+                        </group>
+                   </page>
+               </xpath>
+               <xpath expr="//header/button[@name='action_create_invoice']" position="replace">
+
+               </xpath>
+               <xpath expr="//header/button[@name='action_quotation_send']" position="after">
+                    <button name="%(action_ct_logistic_sale_order_action_invoice)d" context="{'default_sale_order_id': active_id}"
+                           string="Crear Factura" type="action" class="btn-success" attrs="{'invisible': [('state_preparations', 'not in', ('packing'))]}" confirm="Esta seguro de Facturar?"/>
+
+               </xpath>
+
+
+
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

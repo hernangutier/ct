@@ -1,0 +1,96 @@
+<odoo>
+    <data>
+        <template id="ct_stock_picking_pdf_report_page_220">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <div>
+                        <h4 class="text-center">Picking/Procesamiento</h4>
+
+                        <p>
+                           <h5 t-esc="" ></h5>
+                        </p>
+                        <p> Desde: <t t-esc="date_init" t-options='{"widget": "date", "format": "dd/MM/Y"}'/> Hasta: <t t-esc="date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>  </p>
+                    </div>
+
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="title-text">
+                                <th class="text-left">sku</th>
+                                <th class="text-center">Barcode</th>
+                                <th class="text-center">Producto</th>
+                                <th class="text-center">Demanda</th>
+                                <th class="text-center">Verificado</th>
+                                <th class="text-center">Medida</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <t t-set="count" t-value="0"/>
+                            <t t-foreach="docs" t-as="doc">
+                                <t t-set="count" t-value="count+1"/>
+                                <tr class="title-text">
+                                    <td>
+                                        <h6 class="text-left " t-esc="doc['date']" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-left " t-esc="doc['origin']"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="doc['owner_id']">
+                                            <h6 class="text-left " t-esc="doc['owner_id'][1]"/>
+                                        </t>
+
+                                    </td>
+                                    <td>
+                                        <t t-if="doc['product_uom_id']">
+                                            <h6 class="text-left " t-esc="doc['product_uom_id'][1]"/>
+                                        </t>
+                                    </td>
+
+                                    <td>
+                                        <h6 class="text-center text-success" t-esc="doc['qty_in']"/>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-center text-danger" t-esc="doc['qty_out']"/>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-center text-info" t-esc="doc['balance']"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+
+                        </tbody>
+
+
+                    </table>
+                    <!-- Totales -->
+                        <div class="clearfix">
+                            <div id="total" class="row title-text">
+                                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr class="border-black o_subtotal" style="">
+                                            <td>
+                                                <strong>Total Movimientos</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="count"/>
+                                            </td>
+                                        </tr>
+
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

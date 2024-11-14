@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+         <record model="ir.sequence" id="container_code">
+            <field name="name">Referencia Comisiones</field>
+            <field name="code">cv</field>
+            <field name="padding">5</field>
+            <field name="prefix">CV</field>
+            <field name="implementation">no_gap</field>
+         </record>
+         <record model="ir.sequence" id="add_code">
+            <field name="name">Ref. Asignaciones</field>
+            <field name="code">add</field>
+            <field name="padding">5</field>
+            <field name="prefix">ADD</field>
+            <field name="implementation">no_gap</field>
+         </record>
+         <record model="ir.sequence" id="deduc_code">
+            <field name="name">Ref. Deducciones</field>
+            <field name="code">deduc</field>
+            <field name="padding">5</field>
+            <field name="prefix">DEDUC</field>
+            <field name="implementation">no_gap</field>
+         </record>
+    </data>
+</odoo>

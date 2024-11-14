@@ -1,0 +1,748 @@
+<odoo>
+    <data>
+        <template id="ct_pdf_report_page_1005">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <h4 class="text-center">
+                        Cuentas por Cobrar (Asesor de Ventas)
+                    </h4>
+                    <div class="title-text">
+                        <span>Asesor de Ventas:</span>
+                        <strong t-esc="asesor"/>
+                    </div>
+                    <div class="title-text">
+                        <span>Fecha de Proyeccion:</span>
+                        <strong t-esc="date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>
+                    </div>
+                    <t t-set="total" t-value="0"/>
+                    <t t-foreach="header" t-as="doc">
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="10%%">#Cliente</th>
+                                    <th class="text-left title-text" WIDTH="70%">
+                                        <span t-esc="doc['name']">
+
+                                        </span>
+                                    </th>
+                                    <th class="text-left title-text" WIDTH="20%"># Facturas</th>
+                                    <th class="text-left title-text" WIDTH="10%">
+                                        <span t-esc="doc['count']">
+
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="10%"># Factura</th>
+                                    <th class="text-left title-text" WIDTH="10%">Emision</th>
+                                    <th class="text-left title-text" WIDTH="10%">Despacho</th>
+                                    <th class="text-left title-text" WIDTH="10%">Vencimiento</th>
+                                    <th class="text-left title-text" WIDTH="10%">Plazo/Pago</th>
+                                    <th class="text-left title-text" WIDTH="10%">Mora (Dias)</th>
+                                    <th class="text-left title-text" WIDTH="10%">Monto</th>
+                                    <th class="text-left title-text" WIDTH="10%">Saldo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <t t-set="subTotal" t-value="0"/>
+                        <t t-foreach="lines.filtered(lambda x: x.partner_id.id==doc['id'])" t-as="l">
+                            <t t-set="subTotal" t-value="subTotal+l.amount_residual_signed"/>
+                            <table class="blueTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.invoice_date"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.date_delivered"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.date_due_delivered"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.invoice_payment_term_id.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.day_due"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.amount_total_signed"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.amount_residual_signed"></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </t>
+                        <!-- Colocamos el SubTotal -->
+                        <t t-set="total" t-value="total+subTotal"/>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <b>Total a Cobrar:</b>
+                                    </th>
+                                    <th class="text-left " WIDTH="30%">
+                                        <b t-esc="round(subTotal,2)"></b>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+
+                    </t>
+                    <!-- Total Cobranza -->
+                     <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <strong> Total Cobranza: </strong> </th>
+                                    <th class="text-left " WIDTH="30%">
+                                        <strong t-esc="round(total,2)">
+
+                                        </strong>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                        </table>
+
+                </div>
+
+            </xpath>
+        </template>
+        <template id="ct_pdf_report_1005">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <!--- Agregamos el Body -->
+                    <t t-call="ct_cobranza.ct_pdf_report_page_1005"/>
+                    <!--- Agregamos el Footer -->
+                    <t t-call="ct_commons_report.footer-custom"/>
+                </t>
+            </t>
+
+        </template>
+        <!-- Template Cuentas X Cobrar X Cliente -->
+        <template id="ct_pdf_report_page_1006">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <h4 class="text-center">
+                        Cuentas por Cobrar (Cliente)
+                    </h4>
+                    <div class="title-text">
+                        <span>Cliente:</span>
+                        <strong t-esc="partner_name"/>
+                    </div>
+                    <div class="title-text">
+                        <span>Fecha de Proyeccion:</span>
+                        <strong t-esc="date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>
+                    </div>
+
+
+
+                        <div class="hr">
+                            <hr/>
+                        </div>
+
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="10%"># Factura</th>
+                                    <th class="text-left title-text" WIDTH="10%">Emision</th>
+                                    <th class="text-left title-text" WIDTH="10%">Despacho</th>
+                                    <th class="text-left title-text" WIDTH="10%">Vencimiento</th>
+                                    <th class="text-left title-text" WIDTH="10%">Plazo/Pago</th>
+                                    <th class="text-left title-text" WIDTH="10%">Mora (Dias)</th>
+                                    <th class="text-left title-text" WIDTH="10%">Monto</th>
+                                    <th class="text-left title-text" WIDTH="10%">Saldo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <t t-set="subTotal" t-value="0"/>
+                        <t t-foreach="lines" t-as="l">
+                            <t t-set="subTotal" t-value="subTotal+l.amount_residual_signed"/>
+                            <table class="blueTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.invoice_date"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.date_delivered"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.date_due_delivered"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.invoice_payment_term_id.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.day_due"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.amount_total_signed"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.amount_residual_signed"></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </t>
+                        <!-- Colocamos el SubTotal -->
+
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <b>Total a Cobrar:</b>
+                                    </th>
+                                    <th class="text-left " WIDTH="30%">
+                                        <b t-esc="round(subTotal,2)"></b>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+
+
+
+
+                </div>
+
+            </xpath>
+        </template>
+        <template id="ct_pdf_report_1006">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <!--- Agregamos el Body -->
+                    <t t-call="ct_cobranza.ct_pdf_report_page_1006"/>
+                    <!--- Agregamos el Footer -->
+                    <t t-call="ct_commons_report.footer-custom"/>
+                </t>
+            </t>
+
+        </template>
+        <!-- Template Cuentas por Cobrar General por Cliente -->
+        <template id="ct_pdf_report_page_1007">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <h4 class="text-center">
+                        Cuentas por Cobrar (General)
+                    </h4>
+
+                    <div class="title-text">
+                        <span>Fecha de Proyeccion:</span>
+                        <strong t-esc="date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>
+                    </div>
+                    <t t-set="total" t-value="0"/>
+                    <t t-foreach="header" t-as="doc">
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="10%%">#Cliente</th>
+                                    <th class="text-left title-text" WIDTH="70%">
+                                        <span t-esc="doc['name']">
+
+                                        </span>
+                                    </th>
+                                    <th class="text-left title-text" WIDTH="20%"># Facturas</th>
+                                    <th class="text-left title-text" WIDTH="10%">
+                                        <span t-esc="doc['count']">
+
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="10%"># Factura</th>
+                                    <th class="text-left title-text" WIDTH="10%">Emision</th>
+                                    <th class="text-left title-text" WIDTH="10%">Despacho</th>
+                                    <th class="text-left title-text" WIDTH="10%">Vencimiento</th>
+                                    <th class="text-left title-text" WIDTH="10%">Plazo/Pago</th>
+                                    <th class="text-left title-text" WIDTH="10%">Mora (Dias)</th>
+                                    <th class="text-left title-text" WIDTH="10%">Monto</th>
+                                    <th class="text-left title-text" WIDTH="10%">Saldo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <t t-set="subTotal" t-value="0"/>
+                        <t t-foreach="lines.filtered(lambda x: x.partner_id.id==doc['id'])" t-as="l">
+                            <t t-set="subTotal" t-value="subTotal+l.amount_residual_signed"/>
+                            <table class="blueTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.invoice_date"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.date_delivered"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.date_due_delivered"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.invoice_payment_term_id.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.day_due"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.amount_total_signed"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.amount_residual_signed"></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </t>
+                        <!-- Colocamos el SubTotal -->
+                        <t t-set="total" t-value="total+subTotal"/>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <b>Total a Cobrar:</b>
+                                    </th>
+                                    <th class="text-left " WIDTH="30%">
+                                        <b t-esc="round(subTotal,2)"></b>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+
+                    </t>
+                    <!-- Total Cobranza -->
+                     <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <strong> Total Cobranza: </strong> </th>
+                                    <th class="text-left " WIDTH="30%">
+                                        <strong t-esc="round(total,2)">
+
+                                        </strong>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                        </table>
+
+                </div>
+
+            </xpath>
+        </template>
+        <template id="ct_pdf_report_1007">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <!--- Agregamos el Body -->
+                    <t t-call="ct_cobranza.ct_pdf_report_page_1007"/>
+                    <!--- Agregamos el Footer -->
+                    <t t-call="ct_commons_report.footer-custom"/>
+                </t>
+            </t>
+
+        </template>
+        <!-- Template Planilla de Declaracion de Efectivo -->
+        <template id="ct_pdf_report_page_1008">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <h4 class="text-center">
+                        Declaracion de Efectivo
+                    </h4>
+                     <t t-foreach="docs" t-as="o" >
+
+                    <div class="title-text">
+                        <span>Fecha:</span>
+                        <strong t-esc="o.date" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>
+                    </div>
+
+
+                        <div class="hr">
+                            <hr/>
+                        </div>
+
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="5%"># </th>
+                                    <th class="text-left title-text" WIDTH="10%">Referencia</th>
+                                    <th class="text-left title-text" WIDTH="5%">Fecha</th>
+                                    <th class="text-left title-text" WIDTH="20%">Cliente</th>
+                                    <th class="text-left title-text" WIDTH="20%">Cobrador</th>
+                                    <th class="text-left title-text" WIDTH="10%">Monto $</th>
+                                    <th class="text-left title-text" WIDTH="20%">Observaciones</th>
+                                    <th class="text-left title-text" WIDTH="20%">Firma</th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                        <t t-set="total" t-value="0"/>
+                        <t t-foreach="o.payment_ids.sorted(key=lambda r: r.partner_id)" t-as="l">
+                            <t t-set="total" t-value="total+l.amount"/>
+                            <table class="blueTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left title-text" WIDTH="5%">
+                                            <span t-field="l.number"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="5%">
+                                            <span t-field="l.payment_date"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="20%">
+                                            <span t-field="l.partner_id.name"></span>
+                                        </th>
+
+                                        <th class="text-left title-text" WIDTH="20%">
+                                            <span t-field="l.asesor_id.name"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="10%">
+                                            <span t-field="l.amount"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="20%">
+                                            <span t-field="l.note"></span>
+                                        </th>
+                                        <th class="text-left title-text" WIDTH="20%">
+                                            <span>___________</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </t>
+                        <!-- Colocamos el SubTotal -->
+
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <b>Total Efectivo:</b>
+                                    </th>
+                                    <th class="text-left " WIDTH="30%">
+                                        <b t-esc="round(total,2)"></b>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                  </t>
+                </div>
+
+            </xpath>
+        </template>
+        <template id="ct_pdf_report_1008">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <!--- Agregamos el Body -->
+                    <t t-call="ct_cobranza.ct_pdf_report_page_1008"/>
+                    <!--- Agregamos el Footer -->
+                    <t t-call="ct_commons_report.footer-custom"/>
+                </t>
+            </t>
+
+        </template>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+         <template id="header_order_service">
+               <div class="row">
+                <div class="col-4">
+                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                         style="max-height: 80px;" alt="Logo"/>
+                </div>
+                <div class="col-8">
+                    <div class="row" style=" max-height: 18px; padding-right: 10px;">
+                        <div class="col-9">
+                            <h4 class="text-center" t-field="o.company_id.name"/>
+                        </div>
+                        <div class="col-3">
+                            <h5 class="text-right">
+                                <span t-field="o.company_id.vat"/>
+                            </h5>
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+
+              <h2 class="text-center"> Resumen de Orden de Servicio</h2>
+         </template>
+
+    </data>
+</odoo>

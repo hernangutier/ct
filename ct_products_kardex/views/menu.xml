@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="action_ct_kardex_report" model="ir.actions.act_window">
+            <field name="name">Kardex de Inventario</field>
+            <field name="res_model">ct.kardex.report.wz</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_ct_kardex_report_wz"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_ct_kardex_report" name="Kardex de Inventario" parent="stock.menu_warehouse_report"
+                  action="action_ct_kardex_report"/>
+    </data>
+</odoo>

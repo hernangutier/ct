@@ -1,0 +1,108 @@
+<odoo>
+    <data>
+        <!-- Formulario de Vista de Factura Fiscal -->
+        <record id="view_ct_invoice_fiscal_imagen_form" model="ir.ui.view">
+            <field name="name">view.ct.invoice.fiscal.imagen.form</field>
+            <field name="model">ct.invoice.fiscal.imagen</field>
+             <field name="arch" type="xml">
+                 <form string="Factura Fiscal">
+                     <header>
+                            <button name="action_post" type="object" confirm="Esta Seguro de Habilitar la Factura!" context="{'default_container_id': active_id}" string="Activar Factura"  attrs="{'invisible': [('state', 'in', ('done'))]}" class="btn-success" />
+                            <button name="action_make" type="object" confirm="Esta Seguro de Reconstruir la Factura!" context="{'default_container_id': active_id}" string="Reconstruir Factura"  attrs="{'invisible': [('state', 'in', ('cancel'))]}" class="btn-info" />
+                            <button name="action_cancel" type="object" confirm="Esta Seguro de Anular la Factura!" context="{'default_container_id': active_id}" string="Anular Factura"  attrs="{'invisible': [('state', 'in', ('cancel'))]}" class="btn-danger" />
+                            <button name="action_create_note_credit" type="object" confirm="Esta seguro de crear un Nota de Credito" context="{'default_container_id': active_id}" string="Aplicar Nota/Credito"  attrs="{'invisible': [('type', 'in', ('note_credit'))]}" class="btn-info" />
+                            <button name="%(action_ct_invoice_image_dialog_print_view)d"
+                            context="{'default_image_id': id}" string="Imprimir Imagen Fiscal" type="action"
+                            class="btn-info"/>
+                            <field name="state" widget="statusbar" statusbar_visible="done,cancel"/>
+                     </header>
+
+
+                     <sheet>
+                        <!-- Payment status for invoices / receipts -->
+                        <widget name="web_ribbon" title="Activa" attrs="{'invisible': [('state', '==', 'cancel')]}"/>
+                        <widget name="web_ribbon" title="Anulada" bg_color="bg-danger" attrs="{'invisible': [('state', '==', 'done')]}"/>
+
+                     <div class="oe_title">
+                        <h1>
+                            <field name="type" invisible="1" />
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                         <group>
+                             <group>
+                                <field name="account_move_id" readonly="1" />
+                                <field name="partner_id"  options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" readonly="1"/>
+                                <field name="number" readonly="1" />
+                                <field name="tax_bcv"/>
+                             </group>
+                             <group>
+                                <field name="payment_term_id" readonly="1"/>
+                                <field name="date_imagen" readonly="1" />
+                                <field name="date_due" readonly="1"/>
+                             </group>
+
+
+                         </group>
+                         <notebook string="Detalle">
+                                    <page string="Lineas de Factura">
+                                                <field name="line_ids"  options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"  >
+                                                    <tree >
+                                                        <field name="product_id" />
+                                                        <field name="qty" string="Fecha Confirmación" />
+                                                        <field name="ref_unit" String="Ref." readonly="1" />
+                                                        <field name="price" />
+                                                        <field name="price_sub_total" />
+                                                    </tree>
+                                                </field>
+                                    </page>
+
+                            </notebook>
+                         <group class="oe_subtotal_footer" >
+                                    <field name="amount_base"/>
+                                    <field name="amount_exento" string="Exento (IVA): "/>
+                                    <field name="amount_tax" />
+                                    <field name="amount_total" class="oe_subtotal_footer_separator"/>
+
+                         </group>
+                     </sheet>
+                 </form>
+             </field>
+
+
+        </record>
+
+        <record id="view_ct_invoice_fiscal_imagen_tree" model="ir.ui.view">
+            <field name="name">Facturacion Fiscal</field>
+            <field name="model">ct.invoice.fiscal.imagen</field>
+             <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="number"/>
+                    <field name="account_move_id" readonly="1" />
+                    <field name="partner_id" />
+                    <field name="account_tax_id" readonly="1"/>
+                    <field name="amount_base" />
+                    <field name="amount_tax" />
+                    <field name="amount_total" />
+                    <field name="state"  widget="label_selection" options="{'classes': {'done': 'success', 'cancel': 'danger'}}"/>
+                </tree>
+             </field>
+        </record>
+        <!-- Formulario de Vista de Factura Fiscal -->
+        <record id="view_ct_invoice_fiscal_tasa_tree" model="ir.ui.view">
+            <field name="name">Tasa de Cambio</field>
+            <field name="model">ct.invoice.imagen.tasa</field>
+             <field name="arch" type="xml">
+
+                    <tree editable="bottom">
+                        <field name="date"/>
+                        <field name="value" />
+
+                    </tree>
+
+             </field>
+        </record>
+    </data>
+</odoo>

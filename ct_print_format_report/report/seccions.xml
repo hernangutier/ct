@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+        <!-- Formato Nota de Entrega y Nota de Credito -->
+        <template id="seccion_note_delivery_letter">
+            <t t-foreach="docs" t-as="o">
+
+                <!-- Header Letter -->
+                <div style="width:100%;  height:35mm;  top:1mm; position:absolute; ">
+                    <t t-call="ct_print_format_report.header_note_delivery"/>
+                </div>
+                <!-- Body -->
+                <div style="width:100%;  height:100mm;  top:45mm; position:absolute; ">
+                    <t t-call="ct_print_format_report.body_note_delivery"/>
+                </div>
+                <!-- Footer -->
+                <div style="width:100%;  height:30mm;  top:210mm; position:absolute; border-width: 1px; border-style: solid; border-color: black; ">
+                    <t t-call="ct_print_format_report.footer_note_delivery"/>
+                </div>
+
+            </t>
+        </template>
+        <!-- Formato Imagen Fiscal y Nota de Credito -->
+        <template id="seccion_invoice_imagen_fiscal_letter">
+            <t t-foreach="docs" t-as="o">
+                <!-- Header Letter -->
+                <div style="width:100%;  height:35mm;  top:1mm; position:absolute;">
+                    <t t-call="ct_print_format_report.header_invoice_imagen_fiscal"/>
+                </div>
+                <div style="width:100%;  height:142mm;  top:35mm; position:absolute; border-width: 1px; border-style: solid; border-color: black; ">
+                    <t t-call="ct_print_format_report.body_invoice_imagen_fiscal"/>
+                </div>
+                <div style="width:100%;  height:18mm;  top:177mm; position:absolute; border-width: 1px; border-style: solid; border-color: black; ">
+                    <t t-call="ct_print_format_report.footer_invoice_imagen_fiscal"/>
+                </div>
+
+
+            </t>
+        </template>
+        <!-- Formato Imagen Fiscal y Nota de Credito -->
+        <template id="seccion_inventory_adjustment_media_letter">
+            <t t-foreach="docs" t-as="o">
+                <div style="width:100%;height:110mm; top:1mm position:absolute; border-width: 1px; border-style: solid; border-color: black;">
+                    <!-- Header Letter -->
+                    <div style="width:100%;  height:15mm;  top:1mm; position:absolute;">
+                        <t t-call="ct_print_format_report.header_inventory_adjustment"/>
+                    </div>
+                    <div style="width:100%;  height:70mm;  top:25mm; position:absolute; border-width: 1px; border-style: solid; border-color: black; ">
+                        <t t-call="ct_print_format_report.body_inventory_adjustment"/>
+                    </div>
+                </div>
+                <div style="width:100%;height:110mm; top:130mm; position:absolute; border-width: 1px; border-style: solid; border-color: black;">
+                    <div style="width:100%;  height:15mm;  top:1mm; position:absolute;">
+                        <t t-call="ct_print_format_report.header_inventory_adjustment"/>
+                    </div>
+                    <div style="width:100%;  height:70mm;  top:25mm; position:absolute; border-width: 1px; border-style: solid; border-color: black; ">
+                        <t t-call="ct_print_format_report.body_inventory_adjustment"/>
+                    </div>
+                </div>
+
+            </t>
+        </template>
+    </data>
+</odoo>

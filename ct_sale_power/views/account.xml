@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="view_ct_sale_power_account_move_form" model="ir.ui.view"   >
+            <field name="name">view.ct.sale.power.account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"></field>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="amount_commission" />
+                </field>
+            </field>
+        </record>
+        <record id="view_ct_sale_power_account_move_tree" model="ir.ui.view">
+            <field name="name">view.ct.sale.power.account.move.tree</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"></field>
+            <field name="arch" type="xml">
+               <field name="date_delivered" position="after">
+                   <field name="is_commissions_pay" string="Comision/Pagada" />
+               </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

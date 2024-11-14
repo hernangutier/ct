@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <!-- Vista Dialogo para Pdf Registro de efectivo -->
+         <record id="view_ct_payment_efective_report_wz" model="ir.ui.view">
+            <field name="name">Reporte de Efectivo (Pdf)</field>
+            <field name="model">ct.payment.wz.efective.report.form</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <group>
+                        <group>
+                            <field name="date_init" string="Desde"/>
+
+                        </group>
+                        <group>
+                            <field name="date_end" string="Hasta"/>
+                            <field name="disponible" string="Disponible/No Disponible"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="get_report" string="Generer (Pdf)" icon="fa-file-pdf-o" type="object"
+                                class="btn-success"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

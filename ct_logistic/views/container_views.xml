@@ -1,0 +1,150 @@
+<odoo>
+    <data>
+        <!-- Action para Generar la Guia por Asesor de Ventas -->
+        <record id="action_ct_logistic_guia_for_comercial_dialog" model="ir.actions.act_window">
+            <field name="name">Generar Guia por Asesor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.dialog.guia.for.comercial</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Dialog para Generar la Guia por Asesor de Ventas -->
+        <record id="ct_logistic_guia_for_comercial" model="ir.ui.view">
+            <field name="name">Generar Guia por Asesor de Ventas</field>
+            <field name="model">ct.logistic.dialog.guia.for.comercial</field>
+             <field name="arch" type="xml">
+                 <form string="Guia">
+                     <sheet>
+                         <group>
+                             <group>
+                                <field name="container_id" readonly="1" />
+
+                                <field name="comercial_id" options="{'no_open':True,'no_create': True}" />
+                             </group>
+                         </group>
+
+                     </sheet>
+
+                     <footer>
+
+                        <button name="get_report" string="Generar (PDF)" icon="fa-file-pdf-o" type="object"
+                                class="btn-info"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                 </form>
+             </field>
+
+
+        </record>
+
+        <record id="action_ct_logistic_container_post_form_view" model="ir.actions.act_window">
+            <field name="name">Procesar Container</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.container.post.form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+
+        <record id="view_ct_logistic_container_form" model="ir.ui.view">
+            <field name="name">view.ct.logistic.container.form</field>
+            <field name="model">ct.logistic.container</field>
+             <field name="arch" type="xml">
+                 <form string="Container">
+                     <header>
+                            <button name="initial" type="object"  confirm="Esta Seguro de Iniciar la Carga!"  context="{'default_container_id': active_id}" string="Iniciar Carga..."  attrs="{'invisible': [('state', 'in', ('draft','transit','done'))]}" class="btn-primary"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="send" type="object"  confirm="Esta Seguro de Enviar el Despacho!"  context="{'default_container_id': active_id}" string="Enviar Container"  attrs="{'invisible': [('state', 'in', ('new','transit','done'))]}" class="btn-warning"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="clear" type="object"  confirm="Esta Seguro de Limpiar Pedidos de el Container!"  context="{'default_container_id': active_id}" string="Limpiar Pedidos"  attrs="{'invisible': [('state', 'in', ('new','transit','done'))]}" class="btn-danger"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="%(action_ct_logistic_container_post_form_view)d"  type="action" context="{'default_container_id': active_id}" string="Procesar Container"  attrs="{'invisible': [('state', 'not in', ('transit'))]}" class="btn-success" groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="reopen" type="object" string="Abrir Container"  confirm="Esta Seguro de Abrir el Despacho!" attrs="{'invisible': [('state', 'in', ('new','draft'))]}" class="btn-info"  groups="ct_logistic.ct_logistic_group_manager"/>
+                            <button name="%(action_ct_logistic_summary_form)d" type="action" context="{'default_container_id': active_id}" attrs="{'invisible': [('state', 'in', ('new'))]}" string="Ver Resumen/Guia"  class="btn-info" groups="ct_logistic.ct_logistic_group_manager"/>
+                            <button name="%(action_ct_logistic_guia_for_comercial_dialog)d"  type="action" context="{'default_container_id': active_id}" attrs="{'invisible': [('state', 'in', ('new'))]}" string="Generar Guia/Asesor"   class="btn-info" groups="ct_logistic.ct_logistic_group_manager"/>
+                            <button name="%(ct_logistic_dialog_container_traslate)d" type="action" context="{'default_container_id': active_id}" attrs="{'invisible': [('state', 'not in', ('draft'))]}" string="Trasladar Carga..."  class="btn-primary" groups="ct_logistic.ct_logistic_group_manager"/>
+                            <field name="state" widget="statusbar" statusbar_visible="new,draft,transit,done"/>
+                     </header>
+
+                     <sheet>
+
+                      <div class="oe_button_box" name="button_box">
+                            <button string="Documentos" type="object" name="action_view_related_container_invoice_loads" class="oe_stat_button" icon="fa-exchange" attrs="{'invisible': [('state', '=', 'new')]}" groups="ct_logistic.ct_logistic_group_manager" />
+                            <button string="Productos" type="object" name="action_view_order_lines_products" class="oe_stat_button" icon="fa-list" attrs="{'invisible': [('state', '=', 'new')]}" groups="ct_logistic.ct_logistic_group_manager" />
+                            <button string="Img. Fiscal" type="object" name="action_view_related_container_invoice_fisacl_loads" class="oe_stat_button" icon="fa-list" attrs="{'invisible': [('state', '=', 'new')]}" groups="ct_logistic.ct_logistic_group_manager" />
+                      </div>
+                     <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                     </div>
+
+                         <group>
+                             <group>
+                                <field name="type" invisible="1"/>
+                                <field name="number" attrs="{'invisible': [('type','!=','enc')],'required': [('type','==','enc')]}" />
+                                <field name="supplier_service_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" attrs="{'invisible': [('type','!=','enc')],'required': [('type','==','enc')]}" domain="[('supplier_service','=', True)]" />
+
+                                <field name="route" attrs="{'invisible': [('type','in',('glp'))],'required': [('type','==','ddt')]}" />
+                                <field name="chofer_id"  options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" attrs="{'invisible': [('type','in',('enc','glp'))],'required': [('type','==','ddt')]}" domain="[('is_rrhh_transport','=', True)]" />
+                                <field name="ayudante_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" attrs="{'invisible': [('type','in',('enc','glp'))],'required': [('type','==','ddt')]}" domain="[('is_rrhh_transport','=', True)]" />
+                                <field name="vehiculo_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" attrs="{'invisible': [('type','in',('enc','glp'))],'required': [('type','==','ddt')]}" />
+                             </group>
+                             <group>
+                                <field name="date_init" />
+                                <field name="date_end" />
+                                <field name="sale_order_count" readonly="1" />
+                             </group>
+
+
+                         </group>
+                         <notebook string="Pedidos Cargados">
+                                    <page string="Pedidos Cargados">
+                                        <field name="order_ids"  domain="[('state', '=', 'sale'), ('invoice_status', 'in', ('invoiced','to invoice')),('load','=',False), ('state_delivered','=',False)]" attrs="{'readonly':[('state','in',('new','done','transit'))]}"  options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"  >
+                                                    <tree >
+                                                        <field name="name" string="#Pedido" />
+                                                        <field name="date_order" string="Fecha Confirmación" invisible="1"/>
+                                                        <field name="partner_id" />
+                                                        <field name="state_id" />
+                                                        <field name="city" />
+                                                        <field name="user_id" string="Asesor/Ventas"/>
+                                                        <field name="packing_register" />
+                                                        <field name="consolidated_count" />
+                                                        <field name="invoice_status" widget="label_selection"
+                                                            options="{'classes': {'invoiced': 'success','to invoice': 'danger','no': 'info'}}"/>
+                                                        <field name="state" invisible="1" />
+                                                    </tree>
+                                                </field>
+                                    </page>
+
+                            </notebook>
+                     </sheet>
+                 </form>
+             </field>
+
+
+        </record>
+
+        <record id="view_ct_logistic_container_tree" model="ir.ui.view">
+            <field name="name">Containers (Trasporte/Interno)</field>
+            <field name="model">ct.logistic.container</field>
+             <field name="arch" type="xml">
+                <tree>
+                    <field name="type" invisible="1" />
+                    <field name="name" />
+                    <field name="number" attrs="{'invisible': [('type','!=','enc')]}"/>
+                    <field name="route" />
+                    <field name="vehiculo_id" />
+                    <field name="chofer_id" />
+                    <field name="ayudante_id" />
+                    <field name="date_init" />
+                    <field name="date_end" />
+                    <field name="sale_order_count" />
+                    <field name="state"  widget="label_selection" options="{'classes': {'draft': 'info', 'transit': 'warning', 'done': 'success'}}"/>
+                </tree>
+
+             </field>
+
+
+        </record>
+
+
+    </data>
+</odoo>

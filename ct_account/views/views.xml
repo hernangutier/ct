@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+        <!-- Vista de Formulario para Facturas Modificada Add Button para Notas de Credit Especiales -->
+        <record id="ct_account_account_move_form" model="ir.ui.view">
+            <field name="name">ct.account.account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='button_draft']" position="after">
+                    <button name="action_view_note_credit_special"
+                            context="{'default_account_id': id}"  attrs="{'invisible': [('type','=','out_refund')]}" string="Generar Nota/Credito/Especial" type="object"
+                            class="btn-info"/>
+                </xpath>
+                <field name="ref" position="after">
+                    <field name="type_note_credit" readonly="1" attrs="{'invisible': [('type','not in','out_refund')]}" />
+                </field>
+            </field>
+        </record>
+        <!--  Formulario Dialogo para Generar Nota de Credito Especial  -->
+        <record id="ct_account_note_credit_special_dialog" model="ir.ui.view">
+            <field name="name">ct.account.note.credit.special.dialog</field>
+            <field name="model">ct.account.note.credit.special.dailog.form</field>
+            <field name="arch" type="xml">
+                 <form>
+                     <sheet>
+                         <div>
+                                <h1 class="text-center">Generar Nota de Credito Especial</h1>
+                         </div>
+                         <group>
+
+
+                              <div class="o_planner_intro">
+                                <p>
+                                    Nota: Esta operacion genera una nota de credito para operaciones especiales...
+                                </p>
+
+
+                             </div>
+                                                      </group>
+                         <group>
+                             <field name="account_id"  readonly="1"/>
+                             <field name="type_note_credit" />
+                             <field name="percent"  attrs="{'invisible': [('type_note_credit','not in','desc')] , 'required': [('type_note_credit','=','desc')]}"/>
+                             <field name="amount" />
+                         </group>
+
+                     </sheet>
+
+                 <footer>
+                      <button  name="action_post" type="object" string="Procesar" confirm="Esta seguro de Procesar?" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+               </form>
+             </field>
+        </record>
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <!-- Formulario Modal de Procesamiento de las Traslado de Categorias -->
+        <record id="view_ct_tralate_categ_wz_form" model="ir.ui.view">
+            <field name="name">Trasladar</field>
+            <field name="model">ct.product.traslate.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="categ_id"/>
+
+                    </group>
+
+
+                    <footer>
+                        <button name="post_traslate" string="Trasladar" icon="fa-table" type="object"
+                                class="btn-success"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_ct_product_traslate_caget_wz_form"
+                    name="Trasladar de Categoria"
+                    binding_model="product.template"
+                    res_model="ct.product.traslate.category"
+                    view_mode="form" target="new"
+                    groups="base.group_partner_manager"/>
+
+
+    </data>
+</odoo>

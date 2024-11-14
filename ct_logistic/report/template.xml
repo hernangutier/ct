@@ -1,0 +1,415 @@
+<odoo>
+    <data>
+        <!-- Guia de Carga Consolidada -->
+        <template id="ct_logistic_load_pdf_800">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page">
+
+
+                            <h4>
+                                <b>Material Consolidado</b>
+                            </h4>
+
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-2" t-if="o.name">
+                                    <strong>Ref:</strong>
+                                    <p t-field="o.name"/>
+                                </div>
+                                <div class="col-xs-2" t-if="o.name">
+                                    <strong>Ruta:</strong>
+                                    <p t-field="o.route"/>
+                                </div>
+                            </div>
+
+                            <table style="table-layout: fixed;" class="table table-condensed" name="invoice_line_table">
+                                <thead>
+                                    <tr>
+                                        <th style="word-wrap: break-word; width:300px;">Producto</th>
+                                        <th style="word-wrap: break-word; width:100px;">Cantidad Total</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="invoice_tbody">
+                                    <tr t-foreach="o.get_items_carga()" t-as="l">
+                                        <td>
+                                            <span t-esc="l['product']"/>
+                                        </td>
+                                        <td style="text-align:right;">
+                                            <span t-esc="l['cnt']"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+
+        </template>
+        <!-- Guia de Carga DDT -->
+        <template id="ct_logistic_ddt_document_pdf_801">
+            <t t-name="ct_logistica.report_guia_ddt_view">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-set="data_report_margin_top" t-value="20"/>
+                        <t t-set="data_report_header_spacing" t-value="15"/>
+                        <t t-set="data_report_dpi" t-value="110"/>
+                        <t t-call="web.internal_layout">
+                            <div class="page">
+                                <div>
+                                    <p class="text-center">Documento DDT</p>
+                                </div>
+
+                                <div id="informations" class="row mt32 mb32">
+                                    <div class="col-auto mw-100 mb-2" t-if="o.chofer_id">
+                                        <strong style="font-size: 12px;">Chofer:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.chofer_id"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.ayudante_id" name="Ayudante">
+                                        <strong style="font-size: 12px;">Ayudante:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.ayudante_id"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.vehiculo_id" name="Unidad">
+                                        <strong style="font-size: 12px;">Unidad:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.vehiculo_id"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.name" name="# de Control">
+                                        <strong style="font-size: 12px;">#Control:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.name"/>
+                                    </div>
+                                </div>
+
+                                <t t-set="user_current" t-value="None"/>
+                                <t t-foreach="o.order_ids.sorted(key=lambda x: x.user_id.name)" t-as="l">
+                                    <t t-if="l.user_id!=user_current">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="font-size: 12px;"># Pedido</th>
+                                                    <th style="font-size: 12px;" class="text-center">Cliente</th>
+                                                    <th style="font-size: 12px;" class="text-center">Estado</th>
+                                                    <th style="font-size: 12px;" class="text-center">Telefono</th>
+                                                    <th style="font-size: 12px;" class="text-center">Dirección/Entrega
+                                                    </th>
+                                                    <th style="font-size: 12px;" class="text-center">Consol.</th>
+                                                    <th style="font-size: 12px;" class="text-center">Bultos</th>
+                                                    <th style="font-size: 12px;" class="text-center">Firma y Sello</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                    <td colspan="8">
+                                                        <h6 style="font-weight: bold; font-size: 10px; "
+                                                            t-field="l.user_id.partner_id.name"/>
+                                                    </td>
+                                                    <!--<td colspan="5" t-field="l1.user_id.partner_id.name" style="font-weight: bold;" />-->
+                                                </tr>
+                                                <t t-set="city_current" t-value="None"/>
+                                                <t t-set="asesor_count" t-value="0"/>
+                                                <t t-foreach="o.order_ids.sorted(key=lambda x: x.partner_id.city)"
+                                                   t-as="l1">
+                                                    <t t-if="l.user_id==l1.user_id">
+                                                        <t t-set="asesor_count" t-value="asesor_count + 1"/>
+                                                        <t t-if="city_current!=l1.partner_id.city">
+                                                            <tr>
+                                                                <td colspan="9">
+                                                                    <h6 style="font-weight: bold; font-size: 10px;"
+                                                                        t-field="l1.partner_id.city"/>
+                                                                </td>
+                                                                <!--<td colspan="5" t-field="l1.user_id.partner_id.name" style="font-weight: bold;" />-->
+                                                            </tr>
+                                                            <t t-set="city_current" t-value="l1.partner_id.city"/>
+
+                                                            <t t-foreach="o.order_ids.sorted(key=lambda x: x.partner_id.name)"
+                                                               t-as="l2">
+                                                                <t t-if="l.user_id==l2.user_id">
+
+                                                                    <t t-if="l2.partner_id.city==city_current">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span style="font-size: 12px;"
+                                                                                      t-field="l2.name"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span style="font-size: 12px;"
+                                                                                      class="text-left"
+                                                                                      t-field="l2.partner_id.name"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span style="font-size: 12px;"
+                                                                                      class="text-center"
+                                                                                      t-field="l2.partner_id.state_id.name"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span style="font-size: 12px;"
+                                                                                      class="text-center"
+                                                                                      t-field="l2.partner_id.phone"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span style="font-size: 10px;"
+                                                                                      class="text-left"
+                                                                                      t-field="l2.partner_id.street"/>
+                                                                            </td>
+                                                                            <td><span style="font-size: 12px;"
+                                                                                      class="text-center" t-field="l2.consolidated_count"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span style="font-size: 12px;"
+                                                                                      class="text-center"
+                                                                                      t-field="l2.packing_register"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span style="font-size: 12px;"
+                                                                                      class="text-center">
+                                                                                    ________________________
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </t>
+                                                                </t>
+
+
+                                                            </t>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                                <t t-if="l.user_id!=user_current">
+                                                    <table class="table table-condensed"
+                                                           style="min-width: 250px;max-width: 400px;page-break-inside: avoid;">
+                                                        <tr class="border-black">
+                                                            <tr>
+                                                                <td>
+                                                                    <strong style="font-size: 12px;"># Total Pedidos
+                                                                        Asesor
+                                                                    </strong>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    <span style="font-size: 12px;"
+                                                                          t-esc="asesor_count"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tr>
+                                                    </table>
+                                                </t>
+                                                <t t-set="user_current" t-value="l.user_id"/>
+
+
+                                            </tbody>
+                                        </table>
+                                    </t>
+                                </t>
+                                <table class="table table-condensed"
+                                       style="min-width: 250px;max-width: 400px;page-break-inside: avoid;">
+                                    <tr class="border-black">
+                                        <td>
+                                            <strong style="font-size: 12px;"># Pedidos</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span style="font-size: 12px;" t-field="o.sale_order_count"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td>
+                                            <strong style="font-size: 12px;"># Bultos</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.packing_count"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td>
+                                            <strong># Total Carga Kgrs.</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <!--<span t-field="o.peso"/> -->
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="row">
+
+                                    <div class="col-xs-6">
+                                        <span style="font-size: 14px;" class="text-center">Revisado por:</span>
+                                        <br/>
+                                        <br/>
+                                        <span style="font-size: 14px;" class="text-center">
+                                            _____________________________________
+                                        </span>
+
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <span style="font-size: 14px;" class="text-center">Recibe Conforme:</span>
+                                        <br/>
+                                        <br/>
+                                        <span style="font-size: 14px;" class="text-center">
+                                            _____________________________________
+                                        </span>
+                                    </div>
+                                </div>
+                                <span style="font-size: 14px;">Observaciones:</span>
+                                <br/>
+                                <!-- <p t-field="o.note"/> -->
+
+
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <!-- Distribucion de Consolidados -->
+        <template id="ct_logistic_dist_consolidados_pdf_802">
+            <div t-name="ct_logistica.report_guia_dist_consolidados_view">
+                <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                <t t-set="data_report_margin_top" t-value="20"/>
+                <t t-set="data_report_header_spacing" t-value="15"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                    <div>
+                        <p class="text-center">Distribucion de Consolidados</p>
+                    </div>
+
+                        <t t-foreach="o.get_items_carga()" t-as="l">
+                            <!-- Sacamos la Cabecera -->
+
+                                <span t-esc="l['product']"></span> - Total:
+                                <span t-esc="l['cnt']"></span>
+                                <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th style="font-size: 12px;"># Pedido</th>
+                                    <th style="font-size: 12px;" class="text-center">Cliente</th>
+                                    <th style="font-size: 12px;" class="text-center">Demanda</th>
+                                    <th style="font-size: 12px;" class="text-center">Entregado/Entrega</th>
+                                    <th style="font-size: 12px;" class="text-center">Facturado</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            <t t-foreach="o._get_lines_orders_consolidados().filtered(lambda x: x.product_id.id==l['id'])" t-as="l">
+                                <tr>
+                                    <td>
+                                        <span style="font-size: 12px;" t-field="l.order_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 12px;" class="text-left"
+                                              t-field="l.order_id.partner_id.name"/>
+                                    </td>
+
+                                    <td>
+                                        <span style="font-size: 12px;" class="text-center" t-field="l.product_uom_qty"/>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 10px;" class="text-left" t-field="l.qty_delivered"/>
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 10px;" class="text-left" t-field="l.qty_invoiced"/>
+                                    </td>
+                                </tr>
+
+                             </t>
+                            </tbody>
+
+                        </table>
+
+                        </t>
+
+
+
+                    </div>
+
+
+                     </t>
+                    </t>
+                </t>
+            </div>
+
+        </template>
+        <!-- Guia DDT Fiscal              -->
+        <template id="ct_logistic_ddt_fiscal_803">
+            <t t-name="ct_logistica.report_guia_ddt_fiscal_view">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="o">
+                        <t t-set="data_report_margin_top" t-value="20"/>
+                        <t t-set="data_report_header_spacing" t-value="15"/>
+                        <t t-set="data_report_dpi" t-value="110"/>
+                        <t t-call="web.internal_layout">
+                            <div class="page">
+                                <div>
+                                    <p class="text-center">Documento DDT</p>
+                                </div>
+
+                                <div id="informations" class="row mt32 mb32">
+                                    <div class="col-auto mw-100 mb-2" t-if="o.chofer_id">
+                                        <strong style="font-size: 12px;">Chofer:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.chofer_id"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.ayudante_id" name="Ayudante">
+                                        <strong style="font-size: 12px;">Ayudante:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.ayudante_id"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.vehiculo_id" name="Unidad">
+                                        <strong style="font-size: 12px;">Unidad:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.vehiculo_id"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-2" t-if="o.name" name="# de Control">
+                                        <strong style="font-size: 12px;">#Control:</strong>
+                                        <p style="font-size: 12px;" class="m-0" t-field="o.name"/>
+                                    </div>
+
+
+                            </div>
+                                <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="font-size: 12px;"># Factura</th>
+                                                    <th style="font-size: 12px;" class="text-center">Cliente</th>
+                                                    <th style="font-size: 12px;" class="text-center">Estado</th>
+                                                    <th style="font-size: 12px;" class="text-center">Telefono</th>
+                                                    <th style="font-size: 12px;" class="text-center">Dirección/Entrega</th>
+                                                    <th style="font-size: 12px;" class="text-center">Firma y Sello</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <t t-foreach="o.get_invoice_fiscal()"
+                                                   t-as="l">
+                                                    <tr>
+                                                        <td>
+                                                            <span t-esc="l['name']"></span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="l['partner_id']['name']"></span>
+                                                        </td>
+                                                        <td>
+                                                           <t i-if="l['partner_id']['state_id']">
+                                                                <span t-esc="l['partner_id']['state_id']['name']"></span>
+                                                           </t>
+
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="l['partner_id']['phone']"></span>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="l['partner_id']['street']"></span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+
+                                            </tbody>
+                                        </table>
+
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ct_brand,ct_product_brands,model_ct_product_brands,base.group_user,1,1,1,1
+access_ct_departament,ct_product_departament,model_ct_product_departament,base.group_user,1,1,1,1
+access_ct_locations,ct_product_locations,model_ct_product_locations,base.group_user,1,1,1,1
+

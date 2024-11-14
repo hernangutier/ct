@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_ct_container_usr,ct_container_usr,model_ct_logistic_container,ct_logistic_group_user,1,0,0,0
+
+
+
+
+
+access_ct_container,ct_container,model_ct_logistic_container,ct_logistic_group_manager,1,1,1,1
+
+

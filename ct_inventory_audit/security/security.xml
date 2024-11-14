@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ct_audit_category_groups" model="ir.module.category">
+            <field name="name">Auditorias</field>
+            <field name="sequence" eval="1"/>
+        </record>
+        <record id="ct_audit_manager_groups" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="ct_audit_category_groups"/>
+            <field name="implied_ids" eval="[(4, ref('stock.group_stock_manager'))]"/>
+        </record>
+
+    </data>
+</odoo>

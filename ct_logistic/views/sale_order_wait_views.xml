@@ -1,0 +1,22 @@
+<odoo>
+
+    <data>
+        <!--  Vista Tree Pedidos Listos para Despachar  -->
+        <record id="view_ct_logistic_sale_order_wait_tree" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <tree decoration-bf="load==True" decoration-success="load==True" decoration-warning="load==False">
+                    <field name="name" />
+                    <field name="partner_id"/>
+                    <field name="user_id" string="Asesor/Ventas"/>
+                    <field name="amount_total" string="Monto$"/>
+                    <field name="load" string="Pedido/Cargado"/>
+                    <field name="info_delivered" string="Info/Despacho"/>
+                    <field name="state" invisible="1" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

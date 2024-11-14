@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xml:space="preserve">
+ <t t-extend="ListView.buttons">
+ <t t-jquery="button.o_list_button_add" t-operation="after">
+  <button t-if="widget.modelName == 'migrate.account.invoice'" icon="fa-tasks" class="btn btn-info o_list_migrate_button_create"
+          type="button">Migrar Facturacion...</button>
+ </t>
+ </t>
+ <t t-extend="ListView.buttons">
+ <t t-jquery="button.o_list_button_add" t-operation="after">
+  <button t-if="widget.modelName == 'ct.migrate.product.template'" icon="fa-tasks" class="btn btn-info o_list_migrate_button_create"
+          type="button">Actualizar Maestro</button>
+ </t>
+ </t>
+ </template>
+

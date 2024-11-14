@@ -1,0 +1,159 @@
+<odoo>
+    <data>
+        <!-- Template para PDF Kardex -->
+        <template id="ct_pdf_report_page_200">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+
+
+
+                    <table class="blueTable">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Fecha</th>
+                                <th class="text-center">Origen</th>
+                                <th class="text-center">Empresa</th>
+                                <th class="text-center">Medida</th>
+                                <th class="text-center">Entradas</th>
+                                <th class="text-center">Salidas</th>
+                                <th class="text-center">Balance</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="hr"><hr /></div>
+                    <table class="blueTable">
+                        <tbody>
+                            <t t-set="count" t-value="0"/>
+                            <t t-foreach="docs" t-as="doc">
+                                <t t-set="count" t-value="count+1"/>
+                                <tr>
+                                    <td t-esc="doc['date']" t-options='{"widget": "date", "format": "dd/MM/Y"}'>
+
+                                    </td>
+                                    <td t-esc="doc['origin']">
+
+                                    </td>
+                                    <td>
+                                        <t t-if="doc['owner_id']">
+                                            <t t-esc="doc['owner_id'][1]"></t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="doc['product_uom_id']">
+                                            <t t-esc="doc['product_uom_id'][1]"/>
+                                        </t>
+                                    </td>
+
+                                    <td t-esc="doc['qty_in']">
+
+                                    </td>
+                                    <td t-esc="doc['qty_out']">
+
+                                    </td>
+                                    <td t-esc="doc['balance']">
+                                    </td>
+                                </tr>
+                            </t>
+
+
+                        </tbody>
+
+
+                    </table>
+                    <!-- Totales -->
+                    <div class="clearfix">
+                        <div id="total" class="row title-text">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td>
+                                            <strong>Total Movimientos</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="count"/>
+                                        </td>
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </xpath>
+        </template>
+        <template id="ct_pdf_report_200">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    
+                    <t t-call="ct_products_kardex.ct_pdf_report_page_200"/>
+
+
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+        <!-- Formulario Modal de Procesamiento de las Traslado de Categorias -->
+        <record id="view_ct_update_tasa_form" model="ir.ui.view">
+            <field name="name">Trasladar</field>
+            <field name="model">ct.update.tasa.form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="percent"/>
+
+                    </group>
+
+
+                    <footer>
+                        <button name="post_update" string="Actualizar" icon="fa-table" type="object"
+                                class="btn-success"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- Formulario Modal de Consulta de Comissiones entre Periodos -->
+        <record id="view_ct_sale_power_commissions_for_date_form" model="ir.ui.view">
+            <field name="name">Commiones/Periodo</field>
+            <field name="model">ct.sale.power.commissions.for.date.form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                       <group>
+                           <field name="date_init"  required="1"/>
+                           <field name="for_users" />
+                       </group>
+                       <group>
+                           <field name="date_end" required="1" />
+                           <field name="user_id" options="{'no_open':True,'no_create': True}" attrs="{'invisible': [('for_users','=',False)] , 'required': [('for_users','=',True)]}" />
+                       </group>
+                    </group>
+
+
+                    <footer>
+                        <button name="get_report" string="Generar (PDF)" icon="fa-table" type="object"
+                                class="btn-success"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- Action para Actualizacion de Tasas -->
+        <act_window id="action_ct_sale_power_update_tasa_form"
+                    name="Actualizar % Tasa "
+                    binding_model="product.template"
+                    res_model="ct.update.tasa.form"
+                    view_mode="form" target="new"
+                    groups="base.group_partner_manager"/>
+        <!-- Action para Consulta de Commiones por Periodos -->
+        <act_window id="action_ct_sale_power_commissions_for_date_form"
+                    name="Consultar Comisiones en Periodos"
+                    res_model="ct.sale.power.commissions.for.date.form"
+                    view_mode="form" target="new"
+                    groups="base.group_partner_manager"/>
+    </data>
+
+</odoo>

@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+         <!-- Vista de Reservas en Pedidos de el Producto -->
+        <record id="view_ct_sale_management_product_reserve_form" model="ir.ui.view">
+            <field name="name">view.ct.sale.management.product.reserve.form</field>
+            <field name="model">ct.sale.management.product.reserved</field>
+            <field name="arch" type="xml">
+                <form>
+                    <p>
+                        <h2>
+                            <span class="text-muted">Pedidos con Reservas sobre el Producto...</span>
+                        </h2>
+                    </p>
+                    <p>
+                        <h4>
+                            <field name="product_tmpl_id" readonly="1"/>
+                        </h4>
+                    </p>
+                    <group>
+                        <notebook>
+                            <page string="Cantidades Reservadas">
+                                <field name="stock_move_ids" nolabel="1" readonly="1" >
+                                    <tree create="0" delete="0" editable="0">
+                                        <field name="origin" string="Orden #" reandonly="1"/>
+                                        <field name="write_date" string="Fecha Reserva" reandonly="1"/>
+                                        <field name="partner_id" string="Cliente" reandonly="1"/>
+                                        <field name="product_uom_qty" sum="Total Reserva" string="Qty (Reservada)" reandonly="1"/>
+                                        <field name="product_uom" string="Und. Medida" reandonly="1"/>
+                                        <field name="state" invisible="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+                    <footer>
+
+                    <button string="Ok Visto..." class="btn-success" special="cancel"/>
+                </footer>
+                </form>
+
+            </field>
+        </record>
+        <!--   Formulario de Productos Template con Accion de Ver Reservas         -->
+        <record id="view_ct_sale_management_product_template_procurement_form" model="ir.ui.view">
+            <field name="name">view.ct.sale.management.product.template.procurement.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='180']" position="after">
+                    <button name="%(action_ct_sale_management_product_reserve)d" string="Consultar Reservas" help="Ver Reservas" type="action"
+                            context="{'default_product_tmpl_id': active_id }" class="btn-info" icon="fa-handshake-o"/>
+
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

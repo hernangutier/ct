@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ct_sale_power_commissions_id,ct_sale_power_commissions,model_ct_sale_power_commissions,ct_sale_power_group_user,1,1,1,0
+access_ct_sale_power_commissions_line_id,ct_sale_power_commissions_line,model_ct_sales_power_commissions_line,ct_sale_power_group_user,1,1,1,1
+access_ct_sale_power_rules_id,ct_sale_power_rules,model_ct_sale_power_rules_police,ct_sale_power_group_user,1,1,1,1
+access_ct_sale_power_efect_id,ct_sale_power_efect,model_ct_sale_power_ad_efect,ct_sale_power_group_user,1,1,1,1
+
+
+

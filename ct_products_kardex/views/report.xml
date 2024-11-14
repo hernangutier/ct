@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <!-- Object Report Code 200 Documents -->
+
+        <report id="kardex_report_200"
+            model="ct.kardex.report.wz"
+            string="Kardex/Existencias"
+            report_type="qweb-pdf"
+            name="ct_products_kardex.ct_pdf_report_200"
+            menu="False"/>
+    </data>
+</odoo>

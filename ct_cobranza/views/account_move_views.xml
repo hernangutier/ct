@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <!--  Vista Tree Factuarcion Vencida segun despacho   -->
+        <record id="view_ct_cobranza_account_move_due_delivered_tree" model="ir.ui.view" >
+            <field name="name">view.ct.cobranza.account.move.due.delivered.tree</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree string="Facturacion Vencida segun Despacho"  delete="false" edit="false" create="false">
+                    <field name="name" />
+                    <field name="invoice_origin" />
+                    <field name="partner_id" />
+                    <field name="invoice_payment_term_id" />
+                    <field name="user_id" string="Asesor/Ventas" />
+                    <field name="invoice_date" />
+                    <field name="date_delivered" />
+                    <field name="date_due_delivered" />
+                    <field name="day_due" />
+                    <field name="amount_total_signed" string="Monto$" sum="Monto" readonly="1"/>
+                    <field name="company_id" invisible="1" readonly="1"/>
+                    <field name="state" invisible="1" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+        <!--  Vista Tree Factuarcion Vencida segun despacho   -->
+        <!-- Vista de Facturacion Modificada para Mostrar mas Datos de Interes -->
+         <record id="view_ct_cobranza_account_move_tree" model="ir.ui.view">
+            <field name="name">view.ct.cobranzaaccount.move.tree</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"></field>
+            <field name="arch" type="xml">
+               <field name="invoice_user_id" position="replace">
+                   <field name="invoice_user_id" string="Asosor/Ventas" />
+               </field>
+                <field name="invoice_user_id" position="after">
+                    <field name="invoice_payment_term_id" />
+                </field>
+                <field name="invoice_payment_term_id" position="after">
+                    <field name="state_delivered" />
+                </field>
+                <field name="state_delivered" position="after">
+                    <field name="date_delivered" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="ct_sale_power_groups" model="ir.module.category">
+            <field name="name">Fuerza de Ventas</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="ct_sale_power_group_user" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="ct_sale_power_groups"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+    </data>
+</odoo>

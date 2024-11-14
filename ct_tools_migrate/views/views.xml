@@ -1,0 +1,99 @@
+<odoo>
+    <data>
+        <!-- Vista Tree para Importar los Facturas a Migrar -->
+        <record id="view_ct_migrate_account_invoice_tree" model="ir.ui.view">
+            <field name="name">Facturacion</field>
+            <field name="model">ct.migrate.account.invoice</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="invoice_id"/>
+                    <field name="date_invoice"/>
+                    <field name="partner_id"/>
+                    <field name="date_due"/>
+                    <field name="amount_due"/>
+                    <field name="state" widget="label_selection"
+                           options="{'classes': {'draft': 'info', 'done': 'success'}}"/>
+                </tree>
+
+            </field>
+        </record>
+        <!-- Vista Tree para Importar los Productos a Migrar -->
+        <record id="view_ct_migrate_product_tree" model="ir.ui.view">
+            <field name="name">Productos</field>
+            <field name="model">ct.migrate.product.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="ref"/>
+                    <field name="name"/>
+                    <field name="cost"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_ct_migrate_product_form" model="ir.ui.view">
+            <field name="name">Productos</field>
+            <field name="model">ct.migrate.product.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="ref"/>
+                    <field name="name"/>
+                    <field name="cost"/>
+                    <field name="cost"/>
+                    <button name="updateMaster" string="Actualizar Master" type="object" class="btn-info" />
+                    <button name="updateQty" string="Actualizar Existencias" type="object" class="btn-info" />
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista Form para Importar los Facturas a Migrar -->
+        <record id="view_ct_migrate_account_invoice_form" model="ir.ui.view">
+            <field name="name">Facturacion</field>
+            <field name="model">ct.migrate.account.invoice</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="migrate" type="object" string="Migrar" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="date_invoice"/>
+                            </group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="date_due"/>
+                                <field name="amount_due"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                </form>
+
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_ct_migrate_migrate" model="ir.actions.act_window">
+            <field name="name">Facturacion (Migracion)</field>
+            <field name="res_model">ct.migrate.account.invoice</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_ct_migrate_product" model="ir.actions.act_window">
+            <field name="name">Productos (Migracion)</field>
+            <field name="res_model">ct.migrate.product.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Menus -->
+        <menuitem id="menu_migrate" parent="base.menu_custom" name="Migracion"/>
+        <menuitem id="menu_migrate_invoice" parent="menu_migrate" name="Migracion Facturas"
+                  action="action_ct_migrate_migrate"/>
+        <menuitem id="menu_migrate_product" parent="menu_migrate" name="Migracion Productos"
+                  action="action_ct_migrate_product"/>
+
+
+    </data>
+</odoo>

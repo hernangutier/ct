@@ -1,0 +1,123 @@
+<odoo>
+    <data>
+        <!-- Parte de la Localizacion -->
+        <!-- Estados de Venezuela -->
+        <record model="res.country.state" >
+            <field name="code">1000-1090</field>
+            <field name="country_id">238</field>
+            <field name="name">Distrito Capital</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">1070 - 1080, 1201 - 1246</field>
+            <field name="country_id">238</field>
+            <field name="name">Miranda</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">1160</field>
+            <field name="country_id">238</field>
+            <field name="name">Vargas</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">2001-2053</field>
+            <field name="country_id">238</field>
+            <field name="name">Carabobo</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">2052 - 2055, 4101 - 4167</field>
+            <field name="country_id">238</field>
+            <field name="name">Falcon</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">2101 - 2128, 2334 - 2340</field>
+            <field name="country_id">238</field>
+            <field name="name">Aragua</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">2201 - 2216</field>
+            <field name="country_id">238</field>
+            <field name="name">Cojedes</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">2301 - 2358</field>
+            <field name="country_id">238</field>
+            <field name="name">Guárico</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">3001 - 3063</field>
+            <field name="country_id">238</field>
+            <field name="name">Lara</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">3101 - 3157</field>
+            <field name="country_id">238</field>
+            <field name="name">Trujillo</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">5201</field>
+            <field name="country_id">238</field>
+            <field name="name">Barinas</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">3137 - 3141, 4001 - 4047</field>
+            <field name="country_id">238</field>
+            <field name="name">Zulia</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">3201 - 3222</field>
+            <field name="country_id">238</field>
+            <field name="name">Yaracuy</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">3301 - 3357</field>
+            <field name="country_id">238</field>
+            <field name="name">Portuguesa</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">5001 - 5065</field>
+            <field name="country_id">238</field>
+            <field name="name">Tachira</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">5063 - 5067, 7001 - 7011</field>
+            <field name="country_id">238</field>
+            <field name="name">Apure</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">5101 - 5154</field>
+            <field name="country_id">238</field>
+            <field name="name">Merida</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">5201 - 5224</field>
+            <field name="country_id">238</field>
+            <field name="name">Barinas</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">6001 - 6057</field>
+            <field name="country_id">238</field>
+            <field name="name">Anzoategui</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">6101 - 6168</field>
+            <field name="country_id">238</field>
+            <field name="name">Sucre</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">6201 - 6226</field>
+            <field name="country_id">238</field>
+            <field name="name">Monagas</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">6301 - 6322</field>
+            <field name="country_id">238</field>
+            <field name="name">Nueva Esparta</field>
+        </record>
+        <record model="res.country.state" >
+            <field name="code">8001 - 8057</field>
+            <field name="country_id">238</field>
+            <field name="name">Bolivar</field>
+        </record>
+
+
+    </data>
+</odoo>

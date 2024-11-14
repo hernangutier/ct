@@ -1,0 +1,317 @@
+<odoo>
+    <data>
+        <!-- Page Recibo Agrupado por Clientes  Code: 1200-->
+        <template id="ct_pdf_report_page_1200">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <h4 class="text-center">
+                        <strong> Recibo de Calculo de Comisiones </strong>
+                    </h4>
+                    <t t-foreach="docs" t-as="o" >
+                    <div class="title-text">
+                        <span> #Recibo </span>
+                        <strong t-field="o.name" />
+                    </div>
+                    <div class="row title-text">
+                        <div class="col-6">
+                            <span> Asesor Ventas </span>
+                            <strong t-field="o.user_id.name" />
+                        </div>
+                        <div class="col-6 title-text">
+                            <span> Fecha/Corte </span>
+                            <strong t-esc="o.date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}' />
+                        </div>
+                    </div>
+
+                        <div class="hr">
+                            <hr/>
+                    </div>
+
+                    <!--- Cabeceras de la Tabla -->
+                    <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="5%"># Doc.</th>
+                                    <th class="text-left title-text" WIDTH="3%">T/Doc</th>
+                                    <th class="text-left title-text" WIDTH="3%">Memo</th>
+                                    <th class="text-left title-text" WIDTH="20%">Cliente</th>
+                                    <th class="text-left title-text" WIDTH="5%">Plazo</th>
+                                    <th class="text-left title-text" WIDTH="5%">Emi.</th>
+                                    <th class="text-left title-text" WIDTH="5%">Desp.</th>
+                                    <th class="text-left title-text" WIDTH="5%">Venc.</th>
+                                    <th class="text-left title-text" WIDTH="5%">U/Pag.</th>
+                                    <th class="text-center title-text" WIDTH="5%">Mora(Dias)</th>
+                                    <th class="text-right title-text" WIDTH="5%">Mont.$</th>
+                                    <th class="text-right title-text" WIDTH="5%">Com.$</th>
+                                    <th class="text-right title-text" WIDTH="5%">% Com.</th>
+                                    <th class="text-right title-text" WIDTH="5%">% Pen.</th>
+                                    <th class="text-right title-text" WIDTH="5%">Com. Ajust.</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    <t t-foreach="o.line_ids.sorted(key=lambda r: r.partner_name)" t-as="l">
+
+                                <tr>
+                                    <th class="text-left title-text" WIDTH="5%"><span t-field="l.account_id.name"></span></th>
+                                    <th class="text-left title-text" WIDTH="3%"><span t-field="l.type_doc"></span></th>
+                                    <th class="text-left title-text" WIDTH="3%"><span t-field="l.ref"></span></th>
+                                    <th class="text-left title-text" WIDTH="20%"><span t-field="l.partner_name"></span></th>
+                                    <th class="text-left title-text" WIDTH="5%"><span t-field="l.invoice_payment_term_desc"></span></th>
+                                    <th class="text-left title-text" WIDTH="5%"><span t-field="l.date_move"></span></th>
+                                    <th class="text-left title-text" WIDTH="5%"><span t-field="l.date_delivered"></span></th>
+                                    <th class="text-left title-text" WIDTH="5%"><span t-field="l.date_due_delivered"></span></th>
+                                    <th class="text-left title-text" WIDTH="5%"><span t-field="l.date_last_payment"></span></th>
+                                    <th class="text-center title-text" WIDTH="5%"><span t-field="l.day_due_return"></span></th>
+                                    <th class="text-right title-text" WIDTH="5%"><span t-esc="round(l.amount_total_signed,2)"></span></th>
+                                    <th class="text-right title-text" WIDTH="5%"><span t-esc="round(l.amount_commission,2)"></span></th>
+                                    <th class="text-right title-text" WIDTH="5%"><span t-esc="round(l.representative_percentage,2)"></span></th>
+                                    <th class="text-right title-text" WIDTH="5%"><span t-esc="round(l.percent_police,2)"></span></th>
+                                    <th class="text-right title-text" WIDTH="5%"><span t-esc="round(l.amount_commission_adjust,2)"></span></th>
+                                </tr>
+
+                                    </t>
+                            </tbody>
+
+                        </table>
+
+
+
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                        <table class="blueTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <b>Total Comision Generada:</b>
+                                    </th>
+                                    <th class="text-left " WIDTH="30%">
+                                        <b t-esc="round(o.amount_total,2)"></b>
+                                    </th>
+
+                                </tr>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <b>Total Deducciones:</b>
+                                    </th>
+
+                                    <th class="text-left " WIDTH="30%">
+                                        <b t-esc="round(o.amount_police,2)"></b>
+                                    </th>
+
+                                </tr>
+                                <tr>
+                                    <th class="text-left " WIDTH="70%">
+                                        <b>Total Comision Ajustada:</b>
+                                    </th>
+
+                                    <th class="text-left " WIDTH="30%">
+                                        <b t-esc="round(o.amount_adjust_total,2)"></b>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                    </t>
+
+
+
+                </div>
+
+            </xpath>
+        </template>
+        <!-- Page Consulta de Comisiones Segun Periodo 1210-->
+        <template id="ct_pdf_report_page_1210">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <h4 class="text-center">
+                        <strong> Comisiones Generadas en Periodo:
+                            <span t-esc="date_init" t-options='{"widget": "date", "format": "dd/MM/Y"}' />
+                            <span> y </span>
+                            <span t-esc="date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}' />
+                        </strong>
+                    </h4>
+                    <t t-foreach="docs" t-as="o" >
+
+
+
+
+
+                    <!--- Cabeceras de la Tabla -->
+                    <table class="blueTable">
+                            <thead>
+
+                            </thead>
+
+
+                        </table>
+
+
+
+                        <div class="hr">
+                            <hr/>
+                        </div>
+                        <table class="blueTable">
+                            <thead>
+
+                            </thead>
+                        </table>
+                    </t>
+
+
+
+                </div>
+
+            </xpath>
+        </template>
+        <!-- Template Report Recibo Agrupado Code: 1200 -->
+        <template id="ct_pdf_report_1200">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <!--- Agregamos el Body -->
+                    <t t-call="ct_sale_power.ct_pdf_report_page_1200"/>
+                    <!--- Agregamos el Footer -->
+                    <t t-call="ct_commons_report.footer-custom"/>
+                </t>
+            </t>
+
+        </template>
+        <!-- Template Report Comisiones Segun Periodo 1210 -->
+        <template id="ct_pdf_report_1210">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <!--- Agregamos el Body -->
+                    <t t-call="ct_sale_power.ct_pdf_report_page_1210"/>
+                    <!--- Agregamos el Footer -->
+                    <t t-call="ct_commons_report.footer-custom"/>
+                </t>
+            </t>
+
+        </template>
+
+
+
+    </data>
+</odoo>

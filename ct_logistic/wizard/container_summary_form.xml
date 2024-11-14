@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <!-- Action para Llamar al Wizard -->
+        <record id="action_ct_logistic_summary_form" model="ir.actions.act_window">
+            <field name="name">Ver Resumen</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.container.summary</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+        <record id="view_ct_logistic_summary_form" model="ir.ui.view" >
+            <field name="name">view.ct.logistic</field>
+            <field name="model">ct.logistic.container.summary</field>
+            <field name="arch" type="xml">
+              <form string="Resumen de la Guia">
+                  <sheet>
+                      <group>
+                          <group string="Resume de la Guia">
+                            <field name="container_id" readonly="1" />
+                            <field name="sale_order_count" readonly="1" />
+                            <field name="amount_packing" readonly="1"/>
+                            <field name="paradas_count" readonly="1"/>
+                            <field name="amount_invoiced" readonly="1"/>
+                          </group>
+
+                      </group>
+
+
+                  </sheet>
+                  <footer>
+
+                      <button  string="Ok..." class="btn-success" special="cancel" />
+                 </footer>
+              </form>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

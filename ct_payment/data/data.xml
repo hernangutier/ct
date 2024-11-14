@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="seq_payment_ref" model="ir.sequence">
+        <field name="name">Pagos # de Control</field>
+        <field name="code">payment</field>
+        <field eval="5" name="padding" />
+        <field name="prefix">PAY</field>
+    </record>
+</odoo>

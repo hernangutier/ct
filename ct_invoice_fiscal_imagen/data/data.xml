@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+         <record model="ir.sequence" id="fiscal_number">
+            <field name="name">Numero Fiscal</field>
+            <field name="code">nfiscal</field>
+            <field name="padding">6</field>
+            <field name="prefix"></field>
+            <field name="implementation">no_gap</field>
+         </record>
+    </data>
+</odoo>

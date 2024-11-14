@@ -1,0 +1,110 @@
+<odoo>
+    <data>
+        <!-- page Registro de efectivo -->
+        <template id="ct_pdf_report_page_400">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+                    <div>
+                        <h4 class="title-text text-center" t-esc="title" />
+                        <p class="title-text"> Desde: <t t-esc="date_init" t-options='{"widget": "date", "format": "dd/MM/Y"}'/> Hasta: <t t-esc="date_end" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>  </p>
+                    </div>
+
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="title-text">
+                                <th class="text-left">Fecha</th>
+                                <th class="text-center">Nro. Control</th>
+                                <th class="text-center">Empresa</th>
+                                <th class="text-center">Notas</th>
+                                <th class="text-center">Monto$</th>
+                                <t t-if="disponible==1">
+                                    <th class="text-center">Firma</th>
+                                </t>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <t t-set="count" t-value="0"/>
+                            <t t-foreach="docs" t-as="doc">
+                                <t t-set="count" t-value="count+1"/>
+                                <tr class="title-text">
+                                    <td>
+                                        <h6 class="text-left " t-esc="doc['payment_date']" t-options='{"widget": "date", "format": "dd/MM/Y"}'/>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-left " t-esc="doc['number']"/>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-left " t-esc="doc['partner_id'][1]"/>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-left " t-esc="doc['note'][1]"/>
+                                    </td>
+                                    <td>
+                                        <h6 class="text-left " t-esc="doc['amount']"/>
+                                    </td>
+                                    <t t-if="disponible==1">
+                                        <td>
+                                            <h6>___________</h6>
+                                        </td>
+                                    </t>
+
+                                </tr>
+                            </t>
+
+
+                        </tbody>
+
+
+                    </table>
+                    <!-- Totales -->
+                        <div class="clearfix">
+                            <div id="total" class="row title-text">
+                                <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <tr class="border-black o_subtotal" style="">
+                                            <td>
+                                                <strong>Total Movimientos</strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="count"/>
+                                            </td>
+                                        </tr>
+
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
+            </xpath>
+        </template>
+         <!-- page Reporte de efectivo -->
+        <template id="ct_pdf_report_400">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <t t-call="ct_payment.ct_pdf_report_page_400"/>
+                    <t t-call="ct_commons_report.footer-custom"/>
+
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>

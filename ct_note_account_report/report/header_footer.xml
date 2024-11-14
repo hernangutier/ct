@@ -1,0 +1,532 @@
+<odoo>
+    <data>
+        <!-- *****************************************
+        *
+        *
+        *      Header-Body-Footer Nota de Entega
+        *
+        ********************************************** -->
+
+        <!-- Header Personalizado para Media Pagina -->
+        <template id="header_note">
+
+            <div style="width:100%;" class="row col-12">
+                <!--
+                <div class="col-2">
+                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                         style="max-height: 80px;" alt="Logo"/>
+                </div>
+                -->
+                <div class="col-10">
+                    <!--
+                    <span style="position:absolute; left:10mm; font-size: 16px;" t-field="o.company_id.name"/>
+                    <span style="position:absolute; right:20mm;">Rif.: J-40717167-4</span>
+                    <span style="position:absolute; top:9mm; font-size: 8px;" t-field="o.company_id.street"/>
+                    -->
+                    <span style="position:absolute; top:10mm; font-size: 8px; font-style: bold; ">Razon Social:</span>
+                    <span style="position:absolute; top:10mm; left:25mm; font-size: 10px;" t-field="o.partner_id.name"/>
+
+                    <span style="position:absolute; top:15mm; font-size: 8px;">Rif:</span>
+                    <span style="position:absolute; top:15mm; left:8mm; font-size: 8px;" t-field="o.partner_id.vat"/>
+
+                    <span style="position:absolute; top:15mm; left:25mm; font-size: 8px;">Telefono:</span>
+                    <span style="position:absolute; top:15mm; left:38mm; font-size: 8px;" t-field="o.partner_id.phone"/>
+
+                    <span style="position:absolute; top:20mm; left:25mm; font-size: 8px;">Direccion:</span>
+                    <span style="position:absolute; top:20mm; left:38mm; font-size: 8px;"
+                          t-field="o.partner_id.street"/>
+
+                    <!-- Asesor de Ventas y Zona -->
+
+
+                    <!--
+                    <span style="position:absolute; top:13mm; font-size: 8px;">Asesor/Ventas:</span>
+                    <span style="position:absolute; top:13mm; left:15mm; font-size: 8px;" t-field="o.user_id.name"/>
+                    <span style="position:absolute; top:13mm; left:50mm; font-size: 8px;">Zona:</span>
+                    <span style="position:absolute; top:13mm; left:60mm; font-size: 8px;"
+                          t-field="o.partner_id.team_id.name"/>
+                    -->
+                    <!-- Resumen Nota -->
+                    <span style="position:absolute; top:9mm; left:130mm; font-size: 8px;">Nota #:</span>
+                    <span style="position:absolute; top:9mm; left:140mm; font-size: 8px;" t-field="o.name"/>
+                    <span style="position:absolute; top:11mm; left:130mm; font-size: 8px;">Orden #:</span>
+                    <span style="position:absolute; top:11mm; left:140mm; font-size: 8px;" t-field="o.invoice_origin"/>
+                    <span style="position:absolute; top:13mm; left:130mm; font-size: 8px;">Emision:</span>
+                    <span style="position:absolute; top:13mm; left:140mm; font-size: 8px;" t-field="o.invoice_date"
+                          t-field-options='{"format": "dd/mm/yyyy"}'/>
+                    <span style="position:absolute; top:15mm; left:130mm; font-size: 8px;">Terminos:</span>
+                    <span style="position:absolute; top:15mm; left:140mm; font-size: 8px;"
+                          t-field="o.invoice_payment_term_id.name" t-field-options='{"format": "dd/mm/yyyy"}'/>
+
+
+                </div>
+
+
+            </div>
+            <div style="width:100%;" class="row col-12">
+                <div class="col-8">
+                    <span style="position:absolute; left:10mm; font-size: 16px;">Nota de Entrega</span>
+                    <br/>
+
+                </div>
+                <div class="col-4">
+                    <span style="position:absolute; font-size: 6px; left:10mm;">Asesor/Ventas:</span>
+                    <span style="position:absolute; font-size: 6px; left:25mm;" t-field="o.user_id.name"></span>
+                    <span style="position:absolute; font-size: 6px; left:10mm; top:8px;">Zona:</span>
+                    <span style="position:absolute; font-size: 6px; left:25mm; top:8px;"
+                          t-field="o.partner_id.team_id.name"></span>
+                </div>
+            </div>
+        </template>
+        <!-- Body Personalizado para Media Pagina-->
+        <template id="body_note">
+
+            <style type="text/css">
+                @font-face{
+                font-family: custom;
+                src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                }
+                .title-text{
+                font-family: custom;
+                }
+            </style>
+            <style type="text/css">
+                span.recorte {
+                display: inline-block;
+                width: 350px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: bold;
+                }
+
+                table.blueTable {
+                border: 1px solid #FFFFFF;
+                background-color: #FFFFFF;
+                width: 100%;
+                text-align: left;
+                border-collapse: collapse;
+                }
+
+                table.blueTable td, table.blueTable th {
+                border: 1px solid #FFFFFF;
+                padding: 3px 2px;
+                }
+                table.blueTable tbody td {
+                font-size: 7px;
+                line-height: 6px;
+                color: #737373;
+                text-overflow: ellipsis;
+                overflow:hidden;
+                white-space:nowrap;
+                }
+                table.blueTable tr:nth-child(even) {
+                background: #FFFFFF;
+                line-height: 6px;
+                }
+
+
+                table.blueTable td:nth-child(even) {
+                background: #FFFFFF;
+                }
+                table.blueTable thead {
+                background: #FFFFFF;
+                background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                }
+                table.blueTable thead th {
+                font-size: 8px;
+                text-overflow: ellipsis;
+                overflow:hidden;
+                white-space:nowrap;
+                font-weight: bold;
+                color: #737373;
+                }
+                table.blueTable tfoot td {
+                font-size: 14px;
+                }
+                table.blueTable tfoot .links {
+                text-align: right;
+                }
+                table.blueTable tfoot .links a{
+                display: inline-block;
+                background: #1C6EA4;
+                color: #FFFFFF;
+                padding: 2px 8px;
+                border-radius: 5px;
+                }
+                div.hr{ border-top: 1px dashed #000; }
+                div.hr hr { display: none; }
+            </style>
+            <!-- Cabecera de Pedidos -->
+            <table class="blueTable">
+                <thead>
+                    <tr>
+                        <th class="text-left" WIDTH="40px">Codigo</th>
+                        <th class="text-left" WIDTH="350px">Descripcion</th>
+                        <th class="text-center" WIDTH="40px">Cnt.</th>
+                        <th class="text-right" WIDTH="40px">P/U</th>
+                        <th class="text-right" WIDTH="40px">Sub-Total</th>
+
+                    </tr>
+                </thead>
+            </table>
+            <div class="hr">
+                <hr/>
+            </div>
+            <table class="blueTable">
+                <tbody>
+                    <t t-set="count" t-value="0"/>
+                    <t t-set="lines" t-value="o.invoice_line_ids"/>
+                    <t t-foreach="lines" t-as="line">
+                        <t t-set="count" t-value="count+1"/>
+                        <t t-if="count!=21">
+                            <tr>
+                                <td class="text-left" WIDTH="40px">
+                                    <span style="font-weight: bold;" t-esc="line.product_id.default_code"></span>
+                                </td>
+                                <td class="text-left" WIDTH="350px">
+                                    <t t-if="line.move_id.type==out_invoice">
+                                        <span class="recorte" t-esc="line.product_id.name">
+
+                                        </span>
+                                    </t>
+                                    <t t-if="line.move_id.type!=out_invoice">
+                                        <span class="recorte" t-esc="line.name">
+
+                                        </span>
+                                    </t>
+                                </td>
+                                <td class="text-center" style="font-weight: bold;" WIDTH="40px">
+                                    <span t-esc="int(line.quantity)"/>
+                                </td>
+                                <td class="text-right" style="font-weight: bold;" WIDTH="40px">
+                                    <span t-esc="round(line.price_unit,2)"/>
+                                </td>
+                                <td class="text-right" style="font-weight: bold;" WIDTH="40px">
+                                    <span t-esc="round(line.price_subtotal,2)"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </t>
+
+
+                </tbody>
+            </table>
+
+
+        </template>
+        <!-- Footer Personalizado para Media Pagina-->
+        <template id="footer_note">
+
+            <style type="text/css">
+                @font-face{
+                font-family: custom;
+                src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                }
+                .title-text{
+                font-family: custom;
+                }
+            </style>
+
+            <span style="position:absolute; top:2mm; left:10mm; font-size: 8px; font-style: bold;">Favor Devolver
+                Documento Firmado y Sellada
+            </span>
+            <div style="position:absolute; right:5px; width: 160px; padding: 30px 50px 20px 40px; border: 1px solid black;">
+                <span style="position:absolute; top:2mm; left:2mm; font-size: 10px;">Monto/Total:</span>
+                <span style="position:absolute; top:2mm; right:2mm; font-size: 10px;" t-field="o.amount_total_signed"/>
+                <span style="position:absolute; top:6mm; left:2mm; font-size: 10px;">Saldo/Pagar:</span>
+                <span style="position:absolute; top:6mm; right:2mm; font-size: 10px;" t-field="o.amount_total_signed"/>
+            </div>
+
+
+            <!--
+            <span style="position:absolute; top:4mm; left=20mm; font-size: 6px;">Direccion/Despacho:</span>
+            <p style="position:absolute; top:6mm; left=20mm; font-size: 6px;" t-field="o.partner_id.street"/>
+            <span style="position:absolute; top:4mm; right:40mm; font-size: 7px;">Monto $:</span>
+            <span style="position:absolute; top:4mm; right:30mm; font-size: 7px;" t-field="o.amount_total_signed"/>
+            <span style="position:absolute; top:6mm; right:40mm; font-size: 7px;">Saldo $:</span>
+            <span style="position:absolute; top:6mm; right:30mm; font-size: 7px;" t-field="o.amount_residual_signed"/>
+            -->
+
+
+        </template>
+
+
+        <!-- *****************************************
+        *
+        *
+        *      Header-Body-Footer Picking Inventary
+        *
+        ********************************************** -->
+        <!-- Header Personalizado para Media Pagina -->
+        <template id="header_picking">
+            <div class="row">
+                <div class="col-2">
+                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                         style="max-height: 50px;" alt="Logo"/>
+                </div>
+                <div class="col-10">
+                    <div class="row" style=" max-height: 18px; padding-right: 10px;">
+                        <div class="col-9">
+                            <h5 class="text-center" t-field="o.company_id.name"/>
+                        </div>
+                        <div class="col-3">
+                            <h6 class="text-right">
+                                <span t-field="o.company_id.vat"/>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8 text-left" style="display: block;">
+                            <ul class="list-unstyled">
+
+                                <li>Empresa:
+                                    <ul>
+                                        <li style="font-size: 6px;">
+                                            <span t-field="o.partner_id.name"/>
+                                        </li>
+                                        <li style="font-size: 6px;">
+                                            <span t-field="o.partner_id.vat"/>
+                                        </li>
+                                        <li style="font-size: 6px;">
+                                            <span t-field="o.partner_id.street"/>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-4 text-left">
+
+                            <ul style="line-height: 1;" class="list-unstyled">
+                                <li>
+                                    <span style="font-size: 10px; ">
+                                        <strong t-field="o.name"></strong>
+                                    </span>
+                                </li>
+                                <li >
+                                    <span style="font-size: 8px;">Fuente:</span>
+                                    <span style="font-size: 8px;">
+                                        <strong t-field="o.origin"/>
+                                    </span>
+                                </li>
+                                <li >
+                                    <span style="font-size: 8px;">Fecha:</span>
+                                    <span style="font-size: 8px;">
+                                        <strong t-field="o.date_done"/>
+                                    </span>
+                                </li>
+
+                            </ul>
+                            <div>
+
+
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </template>
+        <!-- Body Personalizado para Media Pagina-->
+        <template id="body_picking">
+
+            <style type="text/css">
+                @font-face{
+                font-family: custom;
+                src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                }
+                .title-text{
+                font-family: custom;
+                }
+            </style>
+            <style type="text/css">
+                span.recorte {
+                display: inline-block;
+                width: 300px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+                }
+
+                table.blueTable {
+                border: 1px solid #FFFFFF;
+                background-color: #FFFFFF;
+                width: 100%;
+                text-align: left;
+                border-collapse: collapse;
+                }
+
+                table.blueTable td, table.blueTable th {
+                border: 1px solid #FFFFFF;
+                padding: 3px 2px;
+                }
+                table.blueTable tbody td {
+                font-size: 9px;
+                line-height: 8px;
+                color: #737373;
+                text-overflow: ellipsis;
+                overflow:hidden;
+                white-space:nowrap;
+                }
+                table.blueTable tr:nth-child(even) {
+                background: #FFFFFF;
+                line-height: 6px;
+                }
+                table.blueTable td:nth-child(even) {
+                background: #FFFFFF;
+                }
+                table.blueTable thead {
+                background: #FFFFFF;
+                background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                }
+                table.blueTable thead th {
+                font-size: 8px;
+                text-overflow: ellipsis;
+                overflow:hidden;
+                white-space:nowrap;
+                font-weight: bold;
+                color: #737373;
+                }
+                table.blueTable tfoot td {
+                font-size: 14px;
+                }
+                table.blueTable tfoot .links {
+                text-align: right;
+                }
+                table.blueTable tfoot .links a{
+                display: inline-block;
+                background: #1C6EA4;
+                color: #FFFFFF;
+                padding: 2px 8px;
+                border-radius: 5px;
+                }
+                div.hr{ border-top: 1px dashed #000; }
+                div.hr hr { display: none; }
+            </style>
+            <!-- Cabecera de Pedidos -->
+
+            <table class="table table-sm" style="line-height: 1;">
+
+                <thead style="line-height: 1;">
+                    <tr>
+                        <th scope="col" style="font-size: 6px;">SKU</th>
+                        <th scope="col" style="font-size: 6px;">Descripcion</th>
+                        <th scope="col" class="text-center" style="font-size: 6px;">Cantidad</th>
+
+                    </tr>
+                </thead>
+
+                <tbody style="line-height: 1;">
+                    <t t-foreach="o.move_ids_without_package" t-as="line">
+                        <tr style="line-height: 0.3;">
+                            <th scope="row">
+                                <span style="font-size: 6px; line-height: 0.3;" t-field="line.product_id.default_code"/>
+                            </th>
+                            <td>
+                                <span style="font-size: 6px; line-height: 0.3;" t-field="line.product_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span style="font-size: 6px; line-height: 0.3;" t-esc="int(line.product_uom_qty)"/>
+                            </td>
+
+                        </tr>
+                    </t>
+
+
+                </tbody>
+            </table>
+
+            <!--
+            <table class="blueTable">
+                <thead>
+                    <tr>
+                        <th class="text-left" WIDTH="40px">Sku</th>
+                        <th class="text-left" WIDTH="40px">Codigo</th>
+                        <th class="text-left" WIDTH="200px">Descripcion</th>
+                        <th class="text-center" WIDTH="40px">Cnt.</th>
+                        <th class="text-center" WIDTH="40px">Recolectado</th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="hr">
+                <hr/>
+            </div>
+            <table class="blueTable">
+                <tbody>
+                    <t t-set="count" t-value="0"/>
+                    <t t-set="lines" t-value="o.move_ids_without_package"/>
+                    <t t-foreach="lines" t-as="line">
+                        <t t-set="count" t-value="count+1"/>
+                        <t t-if="count!=21">
+                            <tr HEIGHT="6" line-height="1">
+                                <td class="text-left" WIDTH="40px" height="8px">
+                                    <span t-esc="line.product_id.default_code"></span>
+                                </td>
+                                <td class="text-left" WIDTH="40px" height="8px">
+                                    <span class="text-left" t-esc="line.product_id.old_sku"></span>
+                                </td>
+                                <td class="text-left" WIDTH="200px" height="8px">
+                                    <span class="recorte" t-esc="line.product_id.name">
+
+                                    </span>
+
+                                </td>
+                                <td class="text-center" WIDTH="40px" height="8px">
+                                    <span class="text-center" t-esc="int(line.product_uom_qty)"/>
+                                </td>
+                                <td class="text-right" WIDTH="40px" height="8px">
+                                    <span class="text-center">______</span>
+                                </td>
+
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+             -->
+
+        </template>
+        <!-- Footer Personalizado para Media Pagina-->
+        <template id="footer_picking">
+
+            <style type="text/css">
+                @font-face{
+                font-family: custom;
+                src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                }
+                .title-text{
+                font-family: custom;
+                }
+            </style>
+            <div style="width:100%;" class="container">
+                <div class="row" style="width:100%;">
+                    <div class="col-6 text-center">
+                        <span style="font-size: 9px;">
+                            Recolectado por:
+                        </span>
+                    </div>
+                    <div class="col-6 text-center">
+                        <span style="font-size: 9px;">
+                            Verificado por:
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+        </template>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+          <!--- Dialog para Generar Listas de Precios -->
+        <record id="ct_note_account_report_form" model="ir.ui.view">
+            <field name="name">Imprimir</field>
+            <field name="model">ct.note.account.report.dialog.form</field>
+             <field name="arch" type="xml">
+                 <form string="General">
+                     <sheet>
+                         <h3>Imprimir archivo Media Carta</h3>
+                         <group>
+                             <!-- <field name="departament_id" attrs="{'invisible': [('type','in',('gen','categ','torigin'))] , 'required': [('type','=','dep')] }"/> -->
+                             <field name="type" invisible="1" />
+                             <field name="account_move_id" attrs="{'invisible': [('type','!=',('note'))]}" readonly="1" />
+                             <field name="stock_picking_id" attrs="{'invisible': [('type','!=',('picking'))]}"  readonly="1" />
+
+                         </group>
+                     </sheet>
+                     <footer>
+                      <button  name="get_report" type="object" string="Generar (Pdf)" class="btn-success"  icon="fa-history"/>
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+                 </form>
+             </field>
+
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <template id="body_order_service">
+            <div class="row">
+                <h4>Datos del Servicio</h4>
+                <div class="col-6">
+                    <ul class="list-unstyled">
+
+                        <li>Datos del Servicio
+                            <ul>
+                                <li>Tipo</li>
+                                <li><span t-field="o.type"></span></li>
+                                <li>Clasificacion</li>
+                                <li><span  t-field="o.category_order"></span></li>
+                            </ul>
+                        </li>
+                        <li>Faucibus porta lacus fringilla vel</li>
+                        <li>Aenean sit amet erat nunc</li>
+                        <li>Eget porttitor lorem</li>
+                    </ul>
+                </div>
+                <h4>Datos del Centro de Servicio</h4>
+                <div class="col-6">
+                    <span>container 2</span>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

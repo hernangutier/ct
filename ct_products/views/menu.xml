@@ -1,0 +1,69 @@
+<odoo>
+    <data>
+        <!-- Action para llamar a los Departamentos de Ventas -->
+        <record id="action_ct_product_departament_tree_action" model="ir.actions.act_window">
+            <field name="name">Departamentos de Ventas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.product.departament</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear un Nuevo Departamento
+                </p><p>
+                    Los departamentos de ventas se usan para clasificar los pedidos
+                de ventas
+                </p>
+            </field>
+        </record>
+        <!--- Action para llamar al los Productos que estan en el departamento -->
+        <record id="action_ct_product_departament_product_template_tree" model="ir.actions.act_window">
+            <field name="name">Productos Asignados</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+
+            <field name="domain">[('departament_id','=',active_id)]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear un Nuevo Product
+                </p><p>
+                    Registre Productos a este Departamento
+                </p>
+            </field>
+        </record>
+        <!-- Action para llamar a los Marcas -->
+        <record id="action_ct_product_brand_tree_action" model="ir.actions.act_window">
+            <field name="name">Marcas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.product.brands</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear un Nueva Marca
+                </p><p>
+                    Las Marcas de Ventas se emplean para agrupar...
+                </p>
+            </field>
+        </record>
+        <!--- Action para llamar al los Productos que estan en la Marca -->
+        <record id="action_ct_product_brand_product_template_tree" model="ir.actions.act_window">
+            <field name="name">Productos Asignados</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+
+            <field name="domain">[('brand_id','=',active_id)]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear un Nuevo Product
+                </p><p>
+                    Registre Productos a esta Marca
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_ct_product_departament_main" name="Departamentos/Ventas" parent="sale.product_menu_catalog" action="action_ct_product_departament_tree_action"  sequence="4" active="True"/>
+        <menuitem id="menu_ct_product_brand_main" name="Marcas" parent="sale.product_menu_catalog" action="action_ct_product_brand_tree_action"  sequence="5" active="True"/>
+    </data>
+</odoo>

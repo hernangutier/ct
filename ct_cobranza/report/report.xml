@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <!-- Cuentas x Cobrar por Asesor de Ventas  -->
+        <report id="ct_cobranza_report_1005"
+            model="ct.due.by.asesor.form"
+            string="Cobranza"
+            report_type="qweb-pdf"
+            name="ct_cobranza.ct_pdf_report_1005"
+            menu="False"/>
+        <!-- Cuentas x Cobrar por Cliente  -->
+        <report id="ct_cobranza_report_1006"
+            model="ct.due.by.asesor.form"
+            string="Cobranza"
+            report_type="qweb-pdf"
+            name="ct_cobranza.ct_pdf_report_1006"
+            menu="False"/>
+        <!-- Cuentas x Cobrar General  -->
+        <report id="ct_cobranza_report_1007"
+            model="ct.due.by.asesor.form"
+            string="Cobranza"
+            report_type="qweb-pdf"
+            name="ct_cobranza.ct_pdf_report_1007"
+            menu="False"/>
+        <!--- Reporte de Planilla de Enterar Efectivo -->
+        <record id="ct_cobranza_report_1008" model="ir.actions.report">
+            <field name="name">Planilla Declaracion Efectivo (Pdf)</field>
+            <field name="model">ct.cobranza.payment.efective.control</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_cobranza.ct_pdf_report_1008</field>
+            <field name="print_report_name">'Planilla de Declaracion de Efectivo - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="ct_cobranza.model_ct_cobranza_payment_efective_control"></field>
+        </record>
+
+    </data>
+</odoo>

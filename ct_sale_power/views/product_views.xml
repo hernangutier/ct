@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <!-- Vista tree para actualizar % de Comisiones en los Productos
+            sobre lineas Facturadas -->
+        <record id="view_ct_sale_power_product_template_tree" model="ir.ui.view"   >
+            <field name="name">view.ct.sale.power.product.template.tree</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+               <tree create="false" delete="false" editable="bottom">
+                   <field name="default_code" string="Sku" readonly="1" />
+                   <field name="name" readonly="1"/>
+                   <field name="categ_id" readonly="1"/>
+                   <field name="type_origim" readonly="1"/>
+                   <field name="percent" />
+               </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

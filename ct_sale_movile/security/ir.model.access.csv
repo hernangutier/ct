@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ct_sale_order_movile,ct_sale_order_movile,model_ct_sale_order_movile,base.group_user,1,1,1,1
+access_ct_sale_order_movile_line,ct_sale_order_movile_line,model_ct_sale_order_movile_line,base.group_user,1,1,1,1
+

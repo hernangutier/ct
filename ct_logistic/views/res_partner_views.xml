@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <!-- Vista Formulario Clientes con control logistico -->
+        <record id="view_ct_logistic_partner_form" model="ir.ui.view" >
+            <field name="name">view.ct.logistic.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="ct_res_partner_limit_credit.view_ct_limit_credit_partner_form"></field>
+            <field name="arch" type="xml">
+               <xpath expr="//page[@class='control_credit']" position="after">
+                   <page string="Control Logistico" class="control_logistic" attrs="{'invisible': [('supplier_rank','=',1)]}">
+                        <group>
+                            <group>
+                                <field name="is_rrhh_transport" />
+                                <field name="delivery_proposal" />
+                                <field name="supplier_service" attrs="{'invisible': [('delivery_proposal','=','enc')]}"/>
+                                <field name="recovery_expenses" attrs="{'invisible': [('delivery_proposal','=','glp')]}" />
+
+                            </group>
+                            <group>
+                                <field name="street_delivered" />
+                            </group>
+                        </group>
+                   </page>
+               </xpath>
+            </field>
+        </record>
+        <!-- Vista Proveedores de Servicios Arbol -->
+        <record id="view_ct_logistic_supplier_service_tree" model="ir.ui.view">
+            <field name="name">view.ct.logistic.supplier.tree</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="vat" string="Ce/Rif" />
+                    <field name="name" string="Razon/Social"/>
+                    <field name="phone" />
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

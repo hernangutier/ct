@@ -1,0 +1,142 @@
+<odoo>
+    <data>
+        <!-- Footer de la Nota de Entrega -->
+        <template id="footer_note_delivery">
+            <div class="row">
+                <div class="col-3 text-center">
+                    <div style="height: 5mm">
+
+                    </div>
+
+                    <span>
+                        <strong t-field="o.name"/>
+                    </span>
+                    <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', o.name, 600, 100)"
+                         style="width:150px;height:50px; padding-left:2px"/>
+                </div>
+                <div class="col-5">
+                  <ul class="list-unstyled">
+                    <li>Emabalaje:
+                        <ul>
+                            <li style="font-size: 8px;">
+                                <span>Bultos:</span>
+                                <span t-field="o.packing_register" />
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Observaciones:
+                        <ul>
+                            <li style="font-size: 10px;">
+                                <span t-field="o.narration"> </span>
+                            </li>
+                        </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-4 text-right">
+                    <div class="row text-center" >
+                        <h6><strong>Totales</strong></h6>
+                    </div>
+                    <div class="row">
+
+                        <hr/>
+                        <div class="col-6 text-left">
+                            <ul style="line-height: 1;" class="list-unstyled">
+                                <li>
+                                   <span style="font-size: 10px;">Sub-Total</span>
+                                </li>
+                                <li>
+                                    <span style="font-size: 10px;">Total</span>
+                                </li>
+                                <li>
+                                    <span style="font-size: 10px;">Saldo Pend.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-6 text-right">
+                            <ul style="line-height: 1;" class="list-unstyled">
+                                <li>
+                                    <span style="font-size: 10px;">
+                                        <strong t-field="o.amount_total"/>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span style="font-size: 10px;">
+                                        <strong t-field="o.amount_total"/>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span style="font-size: 10px;">
+                                        <strong t-field="o.amount_residual"/>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </template>
+        <!-- Footer de la Factura Fiscal -->
+        <template id="footer_invoice_imagen_fiscal">
+            <div class="row">
+                <div class="col-6">
+                    <p style="font-size: 8px; text-align: justify; padding-left: 4px; padding-top: 4px;">
+                        En caso de que realize el pago en divisas en efectivo o criptoactivos distintos del Petro,
+                                la presente factura generara IGTF a la alicuota del 3% sobre monto cobrado. art. 6 Providencia
+                                 SMAT/2022/000013 publicada en la G.O.Nro. 42.339 del 17/03/2022
+                    </p>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-8 text-left" style="line-height: 0.0; padding-top: 5px; padding-left: 20px;">
+                            <p style="font-size: 10px; padding-left: 5px;">Total Exento</p>
+                            <p style="font-size: 10px; padding-left: 5px;">Total Base Imponible 16.00%</p>
+                            <p style="font-size: 10px; padding-left: 5px;">16.00% IVA</p>
+                            <p style="font-size: 10px; padding-left: 5px;">Total Neto Bs.</p>
+                            <p style="font-size: 10px; padding-left: 5px;">Total IGTF 3.00% Bs.</p>
+                        </div>
+                         <div class="col-4 text-right" style="line-height: 0.0; padding-top: 5px; padding-left: 20px;">
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong  t-esc="'{:,.2f}'.format(o.amount_exento)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.amount_base)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.amount_tax)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.amount_total)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.igtf)"></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- Footer de Ajuste de Inventario -->
+        <template id="footer_invoice_imagen_fiscal">
+            <div class="row">
+                <div class="col-6">
+                    <p style="font-size: 8px; text-align: justify; padding-left: 4px; padding-top: 4px;">
+                        En caso de que realize el pago en divisas en efectivo o criptoactivos distintos del Petro,
+                                la presente factura generara IGTF a la alicuota del 3% sobre monto cobrado. art. 6 Providencia
+                                 SMAT/2022/000013 publicada en la G.O.Nro. 42.339 del 17/03/2022
+                    </p>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-8 text-left" style="line-height: 0.0; padding-top: 5px; padding-left: 20px;">
+                            <p style="font-size: 10px; padding-left: 5px;">Total Exento</p>
+                            <p style="font-size: 10px; padding-left: 5px;">Total Base Imponible 16.00%</p>
+                            <p style="font-size: 10px; padding-left: 5px;">16.00% IVA</p>
+                            <p style="font-size: 10px; padding-left: 5px;">Total Neto Bs.</p>
+                            <p style="font-size: 10px; padding-left: 5px;">Total IGTF 3.00% Bs.</p>
+                        </div>
+                         <div class="col-4 text-right" style="line-height: 0.0; padding-top: 5px; padding-left: 20px;">
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong  t-esc="'{:,.2f}'.format(o.amount_exento)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.amount_base)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.amount_tax)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.amount_total)"></strong></p>
+                            <p style="font-size: 9.5px; padding-left: 5px; padding-right: 30px;"><strong t-esc="'{:,.2f}'.format(o.igtf)"></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

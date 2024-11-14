@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <!-- Acciones   -->
+        <record id="action_ct_invoice_image_dialog_print_view" model="ir.actions.act_window">
+            <field name="name">Imprimir Imagen Fiscal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.invoice.fiscal.imagen.dialog.form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+        <!--- Dialog para Generar Listas de Precios -->
+        <record id="ct_invoice_fiscal_imagen_dialog_form" model="ir.ui.view">
+            <field name="name">Imprimir</field>
+            <field name="model">ct.invoice.fiscal.imagen.dialog.form</field>
+             <field name="arch" type="xml">
+                 <form string="General">
+                     <sheet>
+                         <h3>Imprimir Factura Fiscal</h3>
+                         <group>
+                             <!-- <field name="departament_id" attrs="{'invisible': [('type','in',('gen','categ','torigin'))] , 'required': [('type','=','dep')] }"/> -->
+                             <field name="image_id"  readonly="1" />
+
+                         </group>
+                     </sheet>
+                     <footer>
+                      <button  name="get_report" type="object" string="Generar (Pdf)" class="btn-success"  icon="fa-history"/>
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+                 </form>
+             </field>
+
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,194 @@
+<odoo>
+    <data>
+         <template id="ct_pdf_report_page_805">
+            <xpath expr="//div/[@class='page']" position="replace">
+
+                <div class="page">
+
+                    <div class="title-text">
+                        <span> Asesor de Ventas: </span>
+                        <strong t-esc="asesor" />
+                    </div>
+                    <div class="row title-text">
+                        <div class="col-4">
+                            <span> Ref: </span>
+                            <strong t-esc="number" />
+                        </div>
+                        <div class="col-4 title-text">
+                            <span> Chofer: </span>
+                            <strong t-esc="chofer" />
+                        </div>
+                        <div class="col-4 title-text">
+                            <span> Unidad: </span>
+                            <strong t-esc="unidad" />
+                        </div>
+
+                    </div>
+                    <table class="blueTable">
+                        <thead>
+                            <tr>
+                                <th class="text-left title-text" WIDTH="10%">#Pedido</th>
+                                <th class="text-left title-text" WIDTH="10%">#Nota</th>
+                                <th class="text-left title-text" WIDTH="40%">Cliente</th>
+                                <th class="text-left title-text" WIDTH="10%">Localidad</th>
+                                <th class="text-left title-text" WIDTH="10%">Plazo/Pago</th>
+                                <th class="text-right title-text" WIDTH="10%">Monto</th>
+                                <th class="text-right title-text" WIDTH="10%">Saldo</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="hr"><hr /></div>
+                    <table class="blueTable">
+                        <tbody>
+                            <t t-set="count" t-value="0"/>
+                            <t t-set="total" t-value="0"/>
+                            <t t-foreach="docs" t-as="doc">
+                                <t t-set="count" t-value="count+1"/>
+                                <t t-set="total" t-value="total+doc.amount_total"/>
+                                <tr>
+                                    <td>
+                                        <span WIDTH="10%" class="title-text " t-field="doc.invoice_origin" />
+                                    </td>
+                                    <td>
+                                         <span WIDTH="10%" class="title-text " t-field="doc.name" />
+                                    </td>
+
+                                    <td>
+                                         <span t-field="doc.partner_id.name" class="title-text" WIDTH="40%" />
+
+                                    </td>
+
+                                     <td>
+                                       <t t-if="doc.partner_id.city">
+                                            <span t-field="doc.partner_id.city" class="title-text text-left"  WIDTH="10%" />
+                                       </t>
+
+
+                                    </td>
+
+                                    <td>
+                                         <span t-field="doc.invoice_payment_term_id.name" WIDTH="10%" />
+
+                                    </td>
+
+                                    <td>
+                                         <span t-field="doc.amount_total" class="text-right title-text" WIDTH="10%" />
+                                    </td>
+
+                                    <td>
+                                         <span t-field="doc.amount_residual" class="text-right title-text" WIDTH="10%" />
+                                    </td>
+                                </tr>
+                            </t>
+
+
+                        </tbody>
+
+
+                    </table>
+                    <!-- Totales -->
+                    <div class="clearfix">
+                        <div id="total" class="row title-text">
+                            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                                <table class="table table-sm" style="page-break-inside: avoid;">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td>
+                                            <strong>Total Movimientos</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="count"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td>
+                                            <strong>Total Facturado</strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="round(total,2)"/>
+                                        </td>
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </xpath>
+        </template>
+         <template id="ct_pdf_report_805">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <style type="text/css">
+                        table.blueTable {
+                        border: 1px solid #FFFFFF;
+                        background-color: #FFFFFF;
+                        width: 100%;
+                        text-align: left;
+                        border-collapse: collapse;
+                        }
+                        table.blueTable td, table.blueTable th {
+                        border: 1px solid #FFFFFF;
+                        padding: 3px 2px;
+                        }
+                        table.blueTable tbody td {
+                        font-size: 10px;
+                        color: #737373;
+                        }
+                        table.blueTable tr:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable td:nth-child(even) {
+                        background: #FFFFFF;
+                        }
+                        table.blueTable thead {
+                        background: #FFFFFF;
+                        background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        background: linear-gradient(to bottom, #ffffff 0%, #ffffff 66%, #FFFFFF 100%);
+                        }
+                        table.blueTable thead th {
+                        font-size: 12px;
+                        font-weight: bold;
+                        color: #737373;
+                        }
+                        table.blueTable tfoot td {
+                        font-size: 14px;
+                        }
+                        table.blueTable tfoot .links {
+                        text-align: right;
+                        }
+                        table.blueTable tfoot .links a{
+                        display: inline-block;
+                        background: #1C6EA4;
+                        color: #FFFFFF;
+                        padding: 2px 8px;
+                        border-radius: 5px;
+                        }
+                        div.hr{ border-top: 1px dashed #000; }
+                        div.hr hr { display: none; }
+                    </style>
+                    <!-- Agregamos el Header -->
+                    <t t-call="ct_commons_report.header_custom"/>
+                    <!--- Agregamos el Body -->
+                    <t t-call="ct_logistic.ct_pdf_report_page_805"/>
+                    <!--- Agregamos el Footer -->
+                    <t t-call="ct_commons_report.footer-custom"/>
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>

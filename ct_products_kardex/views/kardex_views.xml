@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="view_ct_kardex_tree" model="ir.ui.view">
+        <field name="name">ct_kardex.tree</field>
+        <field name="model">ct.kardex</field>
+        <field name="arch" type="xml">
+            <tree string="Kardex Reporte" default_order='date' decoration-danger="qty_done &lt; 0" decoration-info="qty_done == 0" decoration-success="qty_done &gt; 0">
+                <field name="date" string="Fecha"/>
+                <field name="origin"/>
+                <field name="owner_id" string="Empresa"/>
+                <field name="product_id" string="Producto"/>
+                <field name="product_uom_id" string="Medida"/>
+                <field name="location_id" string="Desde" invisible="1"/>
+                <field name="location_dest_id" string="Hasta" invisible="1"/>
+                <field name="lot_id" string="Lote"/>
+                <field name="package_id"/>
+                <field name="qty_done" invisible="1"/>
+                <field name="qty_in" string="Entradas"/>
+                <field name="qty_out" string="Salidas"/>
+
+                <field name="balance" string="Balance"/>
+            </tree>
+        </field>
+    </record>
+    </data>
+</odoo>

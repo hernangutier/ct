@@ -1,0 +1,202 @@
+<odoo>
+    <data>
+
+
+        <!-- Vista Formulario heredada con modificaciones -->
+        <record id="view_ct_product_template_commons_form" model="ir.ui.view">
+            <field name="name">view.ct.product.template.commons.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='inventory']/group/group" position="inside">
+                    <label for="location_id" string="Ubicacion"/>
+                    <div class="o_row" name="weight">
+                        <field name="location_fisical_id"/>
+                    </div>
+
+                    <label for="emin" string="Min. Venta"/>
+                    <div class="o_row" name="weight">
+                        <field name="emin" required="1"/>
+                    </div>
+
+                    <label for="qty_packing" string="Cnt. Presentacion"/>
+                    <div class="o_row" name="weight">
+                        <field name="qty_packing" required="1"/>
+                    </div>
+                    <label for="is_consolidable" string="Es Consolidable"/>
+                    <div class="o_row" name="weight">
+                        <field name="is_consolidable" required="1"/>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+        <!-- Vista Formulario heredada con modificaciones -->
+        <record id="view_ct_product_template_form" model="ir.ui.view">
+            <field name="name">view.ct.product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"></field>
+            <field name="arch" type="xml">
+                <field name="barcode" position="after">
+                    <field name="old_sku"/>
+                    <field name="sku_prov"/>
+                    <field name="departament_id"/>
+                    <field name="brand_id"/>
+                    <field name="type_origim"/>
+                    <field name="is_consolidable"/>
+                </field>
+
+            </field>
+        </record>
+        <record id="view_ct_product_form" model="ir.ui.view">
+            <field name="name">view.ct.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"></field>
+            <field name="arch" type="xml">
+                <field name="barcode" position="after">
+                    <field name="departament_id"/>
+                    <field name="brand_id"/>
+                    <field name="type_origim"/>
+
+                </field>
+
+            </field>
+        </record>
+        <!-- Vista Arbol heredada con modificaciones -->
+        <record id="view_ct_product_template_tree" model="ir.ui.view">
+            <field name="name">view.ct.product.template.tree</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"></field>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <field name="barcode"/>
+                </field>
+                <field name="default_code" position="replace">
+                    <field name="default_code" string="SKU"/>
+                    <field name="old_sku"/>
+                </field>
+                <field name="name" position="after">
+                    <field name="categ_id" string="Categoria/Linea"/>
+                    <field name="departament_id" string="Dep./Facturacion"/>
+                    <field name="brand_id"/>
+                    <field name="type_origim" string="Procedencia"/>
+                </field>
+                <field name="qty_available" position="after">
+                    <field name="outgoing_qty" string="Qty. Reservada"></field>
+                </field>
+                <field name="virtual_available" position="replace">
+                    <field name="virtual_available" string="Qty. Futura"></field>
+                </field>
+                <field name="qty_available" position="replace">
+                    <field name="qty_available" string="Qty. Fisica"></field>
+                </field>
+
+            </field>
+        </record>
+        <!-- Vista Arbol Departamentos de Ventas en Productos -->
+        <record id="view_ct_product_departament_tree" model="ir.ui.view">
+            <field name="name">view.ct.product.departament.tree</field>
+            <field name="model">ct.product.departament</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="payment_term_id"/>
+                    <field name="confirm_invoice_inmediate"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vista Form Departamentos de Ventas en Productos -->
+        <record id="view_ct_product_departament_form" model="ir.ui.view">
+            <field name="name">view.ct.product.departament.form</field>
+            <field name="model">ct.product.departament</field>
+            <field name="arch" type="xml">
+                <form string="Departamentos de Ventas">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button"
+                                    name="%(action_ct_product_departament_product_template_tree)d"
+                                    icon="fa-th-list"
+                                    type="action"
+                                    context="{'search_default_departament_id': active_id, 'default_departament_id' : active_id}"
+                                    domain="[('departament_id','in', active_id)]"
+                            >
+
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="product_count"/>
+                                    </span>
+                                    <span class="o_stat_text">Productos</span>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="payment_term_id"/>
+                                <field name="confirm_invoice_inmediate" string="Permite Facturacion Inmediata"/>
+                                <field name="restrict_control_homogen"/>
+                            </group>
+                        </group>
+
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+        <!-- Vista Arbol Marcas de Ventas en Productos -->
+        <record id="view_ct_product_brand_tree" model="ir.ui.view">
+            <field name="name">view.ct.product.brand.tree</field>
+            <field name="model">ct.product.brands</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vista Form Marcas de Ventas en Productos -->
+        <record id="view_ct_product_brand_form" model="ir.ui.view">
+            <field name="name">view.ct.brand.form</field>
+            <field name="model">ct.product.brands</field>
+            <field name="arch" type="xml">
+                <form string="Marcas de Ventas">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button"
+                                    name="%(action_ct_product_brand_product_template_tree)d"
+                                    icon="fa-th-list"
+                                    type="action"
+                                    context="{'search_default_brand_id': active_id, 'default_brand_id' : active_id}"
+                                    domain="[('brand_id','in', active_id)]"
+                            >
+
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="product_count"/>
+                                    </span>
+                                    <span class="o_stat_text">Productos</span>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+
+                        </group>
+
+
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

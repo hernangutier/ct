@@ -1,0 +1,75 @@
+<odoo>
+    <data>
+        <!-- Header Personalizado -->
+        <template id="header_custom">
+            <xpath expr="//div/[@class='header']" position="replace">
+
+                <div class="header">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="row title-text">
+                                <h4>
+                                    <span t-field="company.name"/>
+                                </h4>
+                            </div>
+                            <div class="row title-text">
+                                <h6>
+                                    <span t-field="company.vat"/>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div t-if="report_type == 'pdf'" class="text-muted title-text">
+                                Pagina:
+                                <span class="page"/>
+                                de
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </xpath>
+        </template>
+        <!-- Footer Personalizado -->
+        <template id="footer-custom">
+            <xpath expr="//div/[@class='footer']" position="replace">
+
+                <div class="footer">
+                    <style type="text/css">
+                        @font-face{
+                        font-family: custom;
+                        src: url(/ct_commons_report/static/src/fonts/custom_font.ttf)
+                        }
+                        .title-text{
+                        font-family: custom;
+                        }
+                    </style>
+                    <div class="row">
+
+                        <div class="col-12 title-text">
+                            <p>
+                                <span t-field="company.website"/>
+                                -
+                                <span t-field="company.phone"/>
+                                Impreso por:
+                                <span t-field="user.name"/>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

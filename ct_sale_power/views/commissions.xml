@@ -1,0 +1,122 @@
+<odoo>
+    <data>
+        <!-- Tree Reglas de Penalizacion -->
+        <record model="ir.ui.view" id="view_rules_police_tree">
+                <field name="name">Reglas de Penalizacion</field>
+                <field name="model">ct.sale.power.rules.police</field>
+                <field name="arch" type="xml">
+                    <tree editable="bottom">
+                        <field name="lmin"/>
+                        <field name="percent_police"/>
+                    </tree>
+                </field>
+         </record>
+        <!-- Lineas de Facturas -->
+        <record model="ir.ui.view" id="view_account_move_lines_loads_tree">
+                <field name="name">Lineas de Facturas Cargadas</field>
+                <field name="model">ct.sales.power.commissions.line</field>
+                <field name="arch" type="xml">
+                    <tree editable="bottom" decoration-success="percent_police==0" decoration-danger="percent_police &gt; 0">
+                        <field name="number" readonly="1"/>
+                        <field name="type_doc"  widget="label_selection" options="{'classes': {'NC': 'danger','FV': 'info'}}" readonly="1"/>
+                        <field name="ref" readonly="1" />
+                        <field name="partner_name" readonly="1"/>
+                        <field name="invoice_payment_term_desc"/>
+                        <field name="date_move" readonly="1"/>
+                        <field name="date_delivered" readonly="1"/>
+                        <field name="date_due_delivered" readonly="1"/>
+                        <field name="date_last_payment" readonly="1"/>
+                        <field name="day_due_return" readonly="1"/>
+                        <field name="amount_total_signed" sum="Total/Facturado" widget="monetary" readonly="1"/>
+                        <field name="amount_commission" sum="Total/Comision" widget="monetary" readonly="1"/>
+                        <field name="representative_percentage" />
+                        <field name="percent_police"  widget="monetary" />
+                        <field name="amount_commission_adjust" sum="Total/Comision/Ajustada" widget="monetary" readonly="1"/>
+
+
+                    </tree>
+                </field>
+         </record>
+        <!-- Form Calculos de Comisiones por Asesor de Ventas -->
+        <record id="view_ct_sale_power_calculos_form" model="ir.ui.view">
+            <field name="name">view.ct.sale.power.calculos.form</field>
+            <field name="model">ct.sale.power.commissions</field>
+             <field name="arch" type="xml">
+                 <form string="Calculos">
+                     <header>
+                            <button name="started" type="object"  attrs="{'invisible': [('state', 'in', ('calc','rev','done','account'))]}" confirm="Esta Seguro de Iniciar los Calculos!"  context="{'default_container_id': active_id}" string="ir a Calculos"  class="btn-primary"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="re_open" type="object"  confirm="Esta Seguro de abrir los Calculos!"  context="{'default_container_id': active_id}" attrs="{'invisible': [('state', 'in', ('new','calc','done','account'))]}" string="Reabrir Calculos?"  class="btn-warning"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="calc" type="object"  attrs="{'invisible': [('state', 'in', ('new','rev','done','account'))]}" confirm="Esta Seguro de Realizar Calculos!"  context="{'default_container_id': active_id}" string="Recalcular"  class="btn-success"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="send_rev" type="object"  confirm="Esta Seguro de Enviar a Revision!"  attrs="{'invisible': [('state', 'in', ('new','rev','account','done'))]}" context="{'default_container_id': active_id}" string="Enviar a Revision"  class="btn-info"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="post" type="object"  confirm="Esta Seguro de Procesar? Tenga en Cuenta que luego de este Procedimiento no podra reabrir los Calculos..."  attrs="{'invisible': [('state', 'in', ('new','calc','account','done'))]}" context="{'default_container_id': active_id}" string="Procesar"  class="btn-success"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button name="action_account" type="object"  confirm="Esta Seguro de Contabilizar? "  attrs="{'invisible': [('state', 'in', ('new','calc','rev','account'))]}" context="{'default_container_id': active_id}" string="Contabilizar"  class="btn-success"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <field name="state" widget="statusbar" statusbar_visible="new,calc,rev,done,account"/>
+                     </header>
+
+                     <sheet>
+                     <div class="oe_button_box" name="button_box">
+                            <button string="Facturas" type="object" name="action_view_related_account_move_loads" class="oe_stat_button" icon="fa-exchange"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button string="CuentasXPagar" type="object" name="action_view_related_accout_move_suppl" class="oe_stat_button" icon="fa-exchange"  groups="ct_logistic.ct_logistic_group_manager" />
+                            <button string="Asig/Deduc" type="object" name="action_view_related_efects" class="oe_stat_button" icon="fa-exchange"  groups="ct_logistic.ct_logistic_group_manager" />
+                     </div>
+
+                     <div class="oe_title">
+                        <h1>
+                            <field name="concept" />
+                        </h1>
+                    </div>
+
+                         <group>
+                             <group>
+
+                                <field name="user_id"  attrs="{'readonly': [('state','!=','new')]}"  options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"  />
+                                <field name="date_end" />
+                             </group>
+                              <group class="oe_subtotal_footer">
+                                    <field name="amount_total"/>
+                                    <field name="amount_add"/>
+                                    <field name="amount_negative"/>
+                                    <field name="amount_police"/>
+                                    <field name="amount_adjust_total" class="oe_subtotal_footer_separator"/>
+                              </group>
+
+                         </group>
+
+                     </sheet>
+                 </form>
+             </field>
+
+
+        </record>
+        <!-- Tree Calculos de Comisiones -->
+        <record model="ir.ui.view" id="view_ct_sale_power_calculos_tree">
+                <field name="name">Calculos de Comisiones</field>
+                <field name="model">ct.sale.power.commissions</field>
+                <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                        <field name="concept"/>
+                        <field name="date_end"/>
+                        <field name="user_id"/>
+                        <field name="amount_total"/>
+                        <field name="amount_adjust_total"/>
+                        <field name="state" widget="label_selection" options="{'classes': {'new': 'info','calc': 'warning','rev': 'primary','done': 'success','account': 'primary'}}"/>
+                    </tree>
+                </field>
+         </record>
+        <!-- Tree Efectos Editables -->
+        <record model="ir.ui.view" id="view_related_efects_tree">
+                <field name="name">Asignaciones/Deducciones</field>
+                <field name="model">ct.sale.power.ad.efect</field>
+                <field name="arch" type="xml">
+                    <tree editable="bottom" decoration-danger="type=='deduc'" decoration-success="type=='asig'" >
+                        <field name="ref" readonly="1"/>
+                        <field name="type"/>
+                        <field name="name"/>
+                        <field name="amount"/>
+                    </tree>
+                </field>
+         </record>
+
+    </data>
+</odoo>

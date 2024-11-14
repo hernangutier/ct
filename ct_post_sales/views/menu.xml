@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+        <!--  Actions de Menu -->
+        <record id="action_ct_post_sales_order_service_tree" model="ir.actions.act_window">
+            <field name="name">Ordenes de Servicio</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.p.s.order.service</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Centros de Servicios -->
+        <record id="action_ct_post_sales_center_services_tree" model="ir.actions.act_window">
+            <field name="name">Centros de Servicio</field>
+            <field name="type">ir.actions.act_window</field>
+             <field name="view_id"  ref="ct_post_sales.view_ct_post_sales_center_service_tree" />
+            <field name="res_model">res.partner</field>
+            <field name="domain">[('is_centre_service','=',True)]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- Condiciones de los equipos -->
+        <record id="action_ct_post_sales_equipment_conditions_tree" model="ir.actions.act_window">
+            <field name="name">Condiciones de Equipos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.p.s.equipment.conditions</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Tabulador -->
+        <record id="action_ct_post_sales_tabulator_tree" model="ir.actions.act_window">
+            <field name="name">Tabulador de Servicios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.post.sales.tabulator</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Tabulador Clasificacion -->
+        <record id="action_ct_post_sales_tabulator_clas_tree" model="ir.actions.act_window">
+            <field name="name">Clasificacion de el Tabulador</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.post.sales.tabulator.clas</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Equipos que aplican para Garantias -->
+        <record id="action_ct_post_sales_product_template_tree" model="ir.actions.act_window">
+            <field name="name">Equipos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_id"  ref="ct_post_sales.view_ct_post_sales_product_template_tree" />
+            <field name="domain">[('apply_type','=','eq')]</field>
+            <field name="context">{'default_apply_type': 'eq' , 'default_type': 'product'}</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <!--  Actions de Commisiones sobre la Mano de Obra -->
+        <record id="action_ct_post_sales_commission_tree" model="ir.actions.act_window">
+            <field name="name">Comisiones sobre O.S.</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.post.sales.commisions</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+         <!-- Menus del Modulo -->
+         <!-- Menu Principal -->
+         <menuitem id="menu_ct_post_sales_main" name="Post-Ventas" sequence="10"  groups="ct_post_sales.ct_post_sales_group_user"/>
+         <!-- Sub-Menu Transacciones -->
+         <menuitem id="menu_ct_post_sales_sub_transacctions" name="Ordenes" parent="menu_ct_post_sales_main" sequence="20"  groups="ct_post_sales.ct_post_sales_group_user"/>
+         <menuitem id="menu_ct_post_sales_order_service" name="Ordenes de Servicio" parent="menu_ct_post_sales_sub_transacctions" sequence="10" action="action_ct_post_sales_order_service_tree" />
+         <!-- Sub-Menu Comisiones sobre Mano de Obra -->
+         <menuitem id="menu_ct_post_sales_commission" name="Comisiones Sobre O.S." parent="menu_ct_post_sales_sub_transacctions" sequence="20" action="action_ct_post_sales_commission_tree" />
+         <!-- Sub-Menu Configuracion -->
+         <menuitem id="menu_ct_post_sales_sub_config" name="Configuracion" parent="menu_ct_post_sales_main" sequence="30"  groups="ct_post_sales.ct_post_sales_group_user"/>
+         <!-- Centros de Servicio -->
+         <menuitem id="menu_ct_post_sales_center_service" name="Centros de Servicio" parent="menu_ct_post_sales_sub_config" sequence="10" action="action_ct_post_sales_center_services_tree" groups="ct_post_sales.ct_post_sales_group_user" />
+         <!-- Equipos Conceptos de Condiciones -->
+         <menuitem id="menu_ct_post_sales_equipment_conditions" name="Condicion de los Equipos" parent="menu_ct_post_sales_sub_config" sequence="20" action="action_ct_post_sales_equipment_conditions_tree" groups="ct_post_sales.ct_post_sales_group_user" />
+         <!-- Equipos Conceptos de Condiciones -->
+         <menuitem id="menu_ct_post_sales_product_template" name="Equipos" parent="menu_ct_post_sales_sub_config" sequence="30" action="action_ct_post_sales_product_template_tree" groups="ct_post_sales.ct_post_sales_group_user" />
+         <!-- Tabulador -->
+         <menuitem id="menu_ct_post_sales_tabulator" name="Tabulador de Servicios" parent="menu_ct_post_sales_sub_config" sequence="40" action="action_ct_post_sales_tabulator_tree" groups="ct_post_sales.ct_post_sales_group_user" />
+         <!-- Clasificacion de el Tabulador -->
+         <menuitem id="menu_ct_post_sales_tabulator_clas" name="Clasificacion de el Tabulador" parent="menu_ct_post_sales_sub_config" sequence="50" action="action_ct_post_sales_tabulator_clas_tree" groups="ct_post_sales.ct_post_sales_group_user" />
+
+
+
+
+    </data>
+</odoo>

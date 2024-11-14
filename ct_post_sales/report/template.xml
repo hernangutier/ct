@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <!-- Guia de Carga Consolidada -->
+        <template id="ct_post_sales_orden_service_pdf_2000">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    
+                </t>
+            </t>
+
+        </template>
+        <!-- Orden de Servicio -->
+        <template id="ct_report_3100">
+              <xpath expr="//div/[@class='page']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <t t-foreach="docs" t-as="o">
+                                <t t-call="ct_post_sales.header_order_service"/>
+                                <t t-call="ct_post_sales.body_order_service"/>
+                            </t>
+
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

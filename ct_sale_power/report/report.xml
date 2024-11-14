@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+
+
+
+        <!-- Action para Recibo de Calculo de Comisiones -->
+        <record id="action_ct_sale_power_fiscal_report" model="ir.actions.report">
+            <field name="name">Recibo (Pdf)</field>
+            <field name="model">ct.sale.power.commissions</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_sale_power.ct_pdf_report_1200</field>
+            <field name="print_report_name">'Recibo de Comisiones - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="ct_sale_power.model_ct_sale_power_commissions"></field>
+        </record>
+
+
+        <report id="action_ct_sale_power_report_1210"
+            model="ct.sale.power.commissions.for.date.form"
+            string="Consulta Comisiones entre Periodos"
+            report_type="qweb-pdf"
+            name="ct_sale_power.ct_pdf_report_1210"
+            menu="False"/>
+
+    </data>
+</odoo>

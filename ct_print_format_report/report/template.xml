@@ -1,0 +1,58 @@
+<odoo>
+    <data>
+        <!-- Template Nota de Entrega Letter -->
+        <template id="ct_report_2300">
+            <xpath expr="//div/[@class='page']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="zoom:1.25;font-size:0.8em;">
+
+                            <div style="width:98%;height:104mm; position:absolute; border-color: #FFFFFF; border-width: 2px; border-style: solid; ">
+                                <t t-call="ct_print_format_report.seccion_note_delivery_letter"/>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+
+            </xpath>
+        </template>
+
+        <!-- Template Nota de Entrega Letter -->
+        <template id="ct_report_2400">
+            <xpath expr="//div/[@class='page']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="zoom:1.25;font-size:0.8em;">
+
+                            <div style="width:98%;height:104mm; position:absolute; border-color: #FFFFFF; border-width: 2px; border-style: solid; ">
+                                <t t-call="ct_print_format_report.seccion_invoice_imagen_fiscal_letter"/>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+
+            </xpath>
+        </template>
+
+
+        <!-- Template Ajuste de Inventario Media-Letter -->
+        <template id="ct_report_2500">
+            <xpath expr="//div/[@class='page']" position="replace">
+                <t t-call="web.html_container">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="zoom:1.25;font-size:0.8em;">
+
+                            <div style="width:98%;height:104mm; position:absolute; border-color: #FFFFFF; border-width: 2px; border-style: solid; ">
+                                <t t-call="ct_print_format_report.seccion_inventory_adjustment_media_letter"/>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="view_ct_products_kardex_product_template_procurement_form" model="ir.ui.view">
+            <field name="name">view.ct.products.kardex.product.template.procurement.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='337']" position="after">
+                    <field name="product_variant_id" invisible="1" />
+                    <button name="%(action_ct_kardex_report)d" string="Kardex de Inventario" help="Generar Kardex" type="action"
+                       context="{'default_product': product_variant_id , 'default_is_readonly': True }"   class="btn-primary" icon="fa-table"/>
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

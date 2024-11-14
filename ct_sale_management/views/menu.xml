@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+         <!--   Acciones de Menu -->
+
+         <!--   Wizard Raiting de Cliente          -->
+         <record id="action_ct_sale_management_partner_raiting" model="ir.actions.act_window">
+            <field name="name">Raiting de el Cliente</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.management.partner.raiting</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+
+
+
+        <!--   Procesar Picking          -->
+         <record id="action_ct_sale_management_stock_picking_post" model="ir.actions.act_window">
+            <field name="name">Procesar Picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.management.picking.action.form.post</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+
+        <!--   Procesar Picking          -->
+         <record id="action_ct_sale_management_stock_picking_update_packing" model="ir.actions.act_window">
+            <field name="name">Actualizar Packing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.management.picking.action.form.post</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+
+
+         <!--   Facturas Afectadas con un Pago          -->
+         <record id="action_ct_sale_management_payment_detail" model="ir.actions.act_window">
+            <field name="name">Facturas/Afectadas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move</field>
+            <field name="view_id"  ref="account.view_move_tree" />
+            <field name="view_mode">tree</field>
+            <field name="target">new</field>
+            <field name="context">{'create': False}</field>
+         </record>
+
+        <!--   Wizard para Procesar Pedido          -->
+         <record id="action_ct_sale_management_wz_confirm" model="ir.actions.act_window">
+            <field name="name">Confirmar/Reservar Pedido</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.management.action.form.confirm</field>
+            <field name="view_id"  ref="view_ct_sale_management_wz_confirm" />
+            <field name="target">new</field>
+            <field name="context">{'create': False}</field>
+         </record>
+       <!--   Wizard para Asignar Descuento         -->
+         <record id="action_ct_sale_management_wz_add_discount" model="ir.actions.act_window">
+            <field name="name">Asignar/Descuentos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.management.dialog.add.discount.form</field>
+            <field name="view_id"  ref="view_ct_sale_management_wz_add_discount" />
+            <field name="target">new</field>
+            <field name="context">{'create': False}</field>
+         </record>
+
+    </data>
+</odoo>

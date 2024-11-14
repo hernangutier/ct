@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <!-- Acciones  -->
+        <record id="action_ct_invoice_fiscal_imagen_tree" model="ir.actions.act_window">
+            <field name="name">Imagenes Fiscales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.invoice.fiscal.imagen</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Imagenes Fiscales
+                </p>
+                <p>
+
+                </p>
+            </field>
+
+        </record>
+        <!-- Tasas de Cambio -->
+        <record id="action_ct_invoice_fiscal_tasa_tree" model="ir.actions.act_window">
+            <field name="name">Tasas de Cambio</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.invoice.imagen.tasa</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Tasas de Cambio
+                </p>
+                <p>
+
+                </p>
+            </field>
+
+        </record>
+
+        <record id="action_ct_invoice_fiscal_imagen_tree" model="ir.actions.act_window">
+            <field name="name">Imagenes Fiscales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.invoice.fiscal.imagen</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Imagenes Fiscales
+                </p>
+                <p>
+
+                </p>
+            </field>
+
+        </record>
+        <!-- Menu Listado de Imagenes Fiscales -->
+        <menuitem id="menu_ct_invoice_fiscal_imagen_tree" name="Imagenes/Fiscales" groups="ct_invoice_fiscal_imagen_group_user" parent="sale.sale_order_menu" action="action_ct_invoice_fiscal_imagen_tree"  sequence="30" active="True"/>
+        <menuitem id="menu_ct_invoice_fiscal_tasas_tree" name="Tasa de Cambio" groups="ct_invoice_fiscal_imagen_group_user" parent="sale.sale_order_menu" action="action_ct_invoice_fiscal_tasa_tree"  sequence="31" active="True"/>
+    </data>
+</odoo>

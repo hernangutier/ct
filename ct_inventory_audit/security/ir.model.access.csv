@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ct_audit_manager,access_ct_audit_supervisor,model_ct_inventory_audit_case_audit,ct_inventory_audit.ct_audit_manager_groups,1,1,1,1

@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+
+
+
+        <record id="ct_logistic_containers_list_report_models" model="ir.ui.view">
+            <field name="name">Historico/Containers</field>
+            <field name="model">ct.logistic.containers.list.report.models</field>
+             <field name="arch" type="xml">
+                 <form string="Container">
+
+
+                     <sheet>
+
+
+
+                         <group>
+                             <group>
+                                <field name="date_init" />
+
+                                <field name="all_route" />
+                             </group>
+                             <group>
+                                <field name="date_end"  />
+
+                             </group>
+                         </group>
+
+                     </sheet>
+                 </form>
+             </field>
+
+
+        </record>
+
+
+
+
+        
+    </data>
+</odoo>

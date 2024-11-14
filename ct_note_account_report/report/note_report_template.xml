@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <!-- Template Nota de Entrega 1/2 Pag. -->
+        <template id="ct_report_600">
+             <xpath expr="//div/[@class='page']" position="replace">
+              <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                <div class="page" style="zoom:1.25;font-size:0.8em;">
+
+                    <div style="width:98%;height:104mm; position:absolute; border-color: #FFFFFF; border-width: 2px; border-style: solid; ">
+                        <t t-call="ct_note_account_report.seccion"/>
+                    </div>
+
+                </div>
+            </t>
+            </t>
+
+            </xpath>
+        </template>
+        <!-- Picking Despacho 1/2 Pag. -->
+        <template id="ct_report_602">
+             <xpath expr="//div/[@class='page']" position="replace">
+              <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                <div class="page" style="zoom:1.25;font-size:0.8em;">
+
+                    <div style="width:98%;height:104mm; position:absolute; border-color: #FFFFFF; border-width: 2px; border-style: solid; ">
+                        <t t-call="ct_note_account_report.seccion_picking"/>
+                    </div>
+
+                </div>
+            </t>
+            </t>
+
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

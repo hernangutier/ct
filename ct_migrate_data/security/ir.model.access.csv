@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ct_migrate_data_product,ct_migrate_data_product,model_ct_migrate_data_product_template,base.group_user,1,1,1,1
+access_ct_migrate_data_partner,access_ct_migrate_data_partner,model_ct_migrate_data_partner,base.group_user,1,1,1,1
+
+
+

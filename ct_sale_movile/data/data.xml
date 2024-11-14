@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+         <record model="ir.sequence" id="sale_order_movile">
+            <field name="name">Numero de Control Pedido Movil</field>
+            <field name="code">npm</field>
+            <field name="padding">5</field>
+            <field name="prefix">SOM</field>
+            <field name="implementation">no_gap</field>
+         </record>
+    </data>
+</odoo>

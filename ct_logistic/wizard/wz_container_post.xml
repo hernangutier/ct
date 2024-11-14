@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+
+
+
+        <!-- Dialog para Trasladar Container -->
+        <record id="ct_logistic_container_tralate_dialog" model="ir.ui.view">
+            <field name="name">ct.logistic.container.traslate.dialog</field>
+            <field name="model">ct.logistic.dialog.container.traslate</field>
+            <field name="arch" type="xml">
+                 <form>
+                     <sheet>
+                         <group>
+                             <h1>Trasladalar Containers</h1>
+                             <div class="o_planner_intro">
+                                <p>
+                                    Trasladar Containers: esta operacion traslada todo los pedidos desde el origen
+                                    al destino siempre y cuando los container se encuentren en estado de Carga...
+                                </p>
+                             </div>
+                         </group>
+                         <group>
+                             <field name="container_id"  readonly="1"/>
+                             <field name="finish_container_id" domain="[('state', '=', 'draft')]" options="{'no_open':True,'no_create': True}" />
+                         </group>
+
+                     </sheet>
+
+                 <footer>
+                      <button  name="post" type="object" string="Procesar" confirm="Esta seguro de trasladar?" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+               </form>
+             </field>
+        </record>
+        <record id="ct_logistic_container_post_form_view" model="ir.ui.view">
+            <field name="name">ct.logistic.container.post.form.view</field>
+            <field name="model">ct.logistic.container.post.form</field>
+            <field name="arch" type="xml">
+                 <form>
+                     <sheet>
+                         <group>
+                             <h1>Procesar Container</h1>
+                         </group>
+                         <group>
+                             <field name="container_id"  readonly="1"/>
+                             <field name="date_finish" required="1" />
+                             <field name="sale_order_close_date" String="Cerrar Facturas No Marcadas contra Fecha de Despacho?" />
+
+
+                         </group>
+
+                     </sheet>
+
+                 <footer>
+                      <button  name="action_post_recode" type="object" string="Procesar" confirm="Esta seguro de cerrar el Container?" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+               </form>
+             </field>
+        </record>
+        <!-- Modificacion de Formulario de Procesar Pedido para Cerrar Despacho  -->
+        <record id="ct_logistic_wz_confirm" model="ir.ui.view">
+            <field name="name">ct.logistic.wz.confirm</field>
+            <field name="model">ct.sale.management.action.form.confirm</field>
+            <field name="inherit_id" ref="ct_sale_management.view_ct_sale_management_wz_confirm"></field>
+            <field name="arch" type="xml">
+                    <group name="basicos" position="inside">
+                        <field name="close_immediate_dispatch" />
+                    </group>
+            </field>
+        </record>
+        <!--   Wizard para Procesar Pedido   -->
+        <record id="ct_sale_management.action_ct_sale_management_wz_confirm" model="ir.actions.act_window">
+            <field name="name">Confirmar/Reservar Pedido</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.sale.management.action.form.confirm</field>
+            <field name="view_id"  ref="ct_logistic_wz_confirm" />
+            <field name="target">new</field>
+            <field name="context">{'create': False}</field>
+         </record>
+
+
+
+
+
+    </data>
+</odoo>

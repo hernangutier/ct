@@ -1,0 +1,68 @@
+<odoo>
+    <data>
+        <record id="view_ct_sale_management_wz_confirm" model="ir.ui.view" >
+            <field name="name">view.ct.sale.management.wz.confirm</field>
+            <field name="model">ct.sale.management.action.form.confirm</field>
+            <field name="arch" type="xml">
+              <form string="Confirmar Pedido">
+                  <sheet>
+                      <group name="principal">
+                          <field name="inmediate_invoice" invisible="1" />
+                          <group string="Datos de el Pedido" name="basicos">
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="departament_sale" />
+                            <field name="partner_name" readonly="1"/>
+                            <field name="user_name" readonly="1"/>
+                            <field name="partner_state_name" readonly="1"/>
+                            <field name="partner_state_location_name" readonly="1"/>
+                          </group>
+                          <group string="Totalizacion">
+
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="order_line_count" />
+                                    <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="amount_total"/>
+                                    </div>
+                                    <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                          </group>
+                      </group>
+
+
+                  </sheet>
+                  <footer>
+                      <button  name="action_reserved" type="object" string="Reservar" class="btn-success"  />
+                      <button  name="action_preparate" type="object" string="Enviar a Embalaje" class="btn-info" attrs="{'invisible': [('inmediate_invoice', '=', True)]}" />
+                      <button  name="action_inmediate_invoice" confirm="Esta Seguro de Facturar el Pedido?" type="object" string="Facturar/Inmediatamente" class="btn-info" attrs="{'invisible': [('inmediate_invoice', '=', False)]}" />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+              </form>
+
+
+            </field>
+        </record>
+        <record id="view_ct_sale_management_wz_add_discount" model="ir.ui.view" >
+            <field name="name">view.ct.sale.management.wz.add.discount</field>
+            <field name="model">ct.sale.management.dialog.add.discount.form</field>
+            <field name="arch" type="xml">
+              <form string="Confirmar Pedido">
+                  <sheet>
+                      <group>
+                          <field name="sale_order_id" readonly="1" />
+                          <field name="discount"  />
+                      </group>
+
+
+                  </sheet>
+                  <footer>
+                      <button  name="post" confirm="Esta Seguro de Aplicar Descuento a el Pedido?" type="object" string="Asignar/Descuento" class="btn-success" />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+              </form>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

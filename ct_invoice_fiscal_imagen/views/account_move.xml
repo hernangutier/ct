@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <!-- Account.Move action para Crear Factura Fiscal -->
+        <record id="view_ct_account_move_fiscal_create_form" model="ir.ui.view">
+            <field name="name">view.ct.account.move.fiscal.create.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_post']" position="after">
+                    <button name="%(action_ct_invoice_image_form_view)d"
+                            context="{'default_account_move_id': id}" string="Crear Imagen Fiscal" type="action"
+                            groups="ct_invoice_fiscal_imagen.ct_invoice_fiscal_imagen_group_user"
+                            class="btn-primary"/>
+                </xpath>
+                <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                    <div class="oe_button_box" name="button_box">
+                            <button string="Imagen Fiscal" type="object" name="action_view_related_invoice_fiscal" class="oe_stat_button"  groups="ct_invoice_fiscal_imagen.ct_invoice_fiscal_imagen_group_user" icon="fa-exchange" />
+                    </div>
+                </xpath>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

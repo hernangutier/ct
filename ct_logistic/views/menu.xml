@@ -1,0 +1,195 @@
+<odoo>
+    <data>
+
+        <!--      Ultima Revision 10-02-2024               -->
+
+         <!-- *********************************************** -->
+
+         <!--      Menu y Acciones de el Modulo               -->
+
+         <!-- *********************************************** -->
+
+         <!-- Acciones de Menu por Tipos de Container -->
+         <record id="action_ct_logistic_container_view" model="ir.actions.act_window">
+            <field name="name">Containers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.container</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','ddt')]</field>
+            <field name="context">{'default_type':'ddt'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Contenedores Logisticos
+                </p>
+                <p>
+                    Click para crear un nuevo contenedor logistico...
+                </p>
+            </field>
+
+        </record>
+         <record id="action_ct_logistic_container_enc_view" model="ir.actions.act_window">
+            <field name="name">Containers (Encomiendas)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.container</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','enc')]</field>
+            <field name="context">{'default_type':'enc'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Contenedores Logisticos
+                </p>
+                <p>
+                    Click para crear un nuevo contenedor logistico...
+                </p>
+            </field>
+
+        </record>
+         <!-- <record id="action_ct_logistic_container_glp_view" model="ir.actions.act_window">
+            <field name="name">Containers (Galpon de la Empresa)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.container</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','glp')]</field>
+             <field name="context">{'default_type':'glp'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Contenedores (Galpon de la Empresa)
+                </p>
+                <p>
+                    Click para crear un nuevo contenedor logistico...
+                </p>
+            </field>
+
+        </record>
+        -->
+         <record id="action_ct_logistic_container_sale_order_wait_view" model="ir.actions.act_window">
+            <field name="name">Pedidos Preparados</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_ct_logistic_sale_order_wait_tree" />
+            <field name="domain">[('invoice_status','in',('invoiced', 'to invoice')),('state','!=','cancel'),('state_delivered','=',False)]</field>
+            <field name="context">{'edit': 0,'create': 0}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Pedidos Preparados para Despacho...
+                </p>
+
+            </field>
+
+        </record>
+         <record id="action_ct_logistic_planifiquer_view" model="ir.actions.act_window">
+            <field name="name">Ejecutar Planificador Logistico</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.planifiquer</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+         </record>
+         <!-- Marcado de Facturas Cierre Despacho -->
+         <record id="action_ct_logistic_account_move_check_list" model="ir.actions.act_window">
+            <field name="name">Marcar Facturas como Despachadas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move</field>
+            <field name="view_id" ref="view_ct_logistic_account_move_check_list_tree" />
+            <field name="domain">[('type','=','out_invoice'),('state','=','posted')]</field>
+            <field name="context">{'edit': 1,'create': 0}</field>
+            <field name="view_mode">tree</field>
+
+         </record>
+
+
+
+         <!--  Accion para Mostrar Empresas de Transporte -->
+         <record id="action_ct_logistic_supplier_service_tree" model="ir.actions.act_window">
+            <field name="name">Proveedores Logisticos </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_ct_logistic_supplier_service_tree" />
+            <field name="context">{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1, 'default_supplier_service': 1}</field>
+
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear Nuevo Proveedor de Servicio
+                </p>
+            </field>
+        </record>
+         <!--  Accion para Reportes en PDF -->
+         <record id="action_ct_logistic_containers_hist_report" model="ir.actions.act_window">
+            <field name="name">Historico (Containers) </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.containers.list.report.models</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+
+        </record>
+
+
+
+         <!--   Facturar Pedido             -->
+         <record id="action_ct_logistic_sale_order_action_invoice" model="ir.actions.act_window">
+            <field name="name">Facturar Pedido </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.wz.invoice.form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+
+        </record>
+
+         <!--  Accion para Mostrar  Flota Registrada -->
+         <record id="action_ct_logistic_container_vehicle_view" model="ir.actions.act_window">
+            <field name="name">Vehiculos Disponibles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.vehicle</field>
+            <field name="view_mode">tree,form</field>
+
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                     Unidades de Transporte Registrados
+                </p>
+                <p>
+                    Click para crear un nuevo Unidad de Transporte...
+                </p>
+            </field>
+
+        </record>
+         <!--   Accion Dialog para Transferir Container a Container   -->
+         <record id="ct_logistic_dialog_container_traslate" model="ir.actions.act_window">
+            <field name="name">Transladar Carga Container</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ct.logistic.dialog.container.traslate</field>
+            <field name="view_id"  ref="ct_logistic_container_tralate_dialog" />
+            <field name="target">new</field>
+            <field name="context">{'create': False}</field>
+         </record>
+
+
+         <!-- Elementos de Menu -->
+         <menuitem id="menu_ct_logistic_route" name="Logistica" sequence="10" />
+         <menuitem id="menu_ct_logistic_report" name="Reportes/Pdf" parent="menu_ct_logistic_route" sequence="20" />
+         <menuitem id="menu_ct_logistic_base" name="Datos Basicos" parent="menu_ct_logistic_route" sequence="30" />
+
+
+        <!-- Submenu Datos Basicos -->
+         <menuitem id="menu_ct_logistic_base_supplier_service" name="Proveedores de Servicios (Transporte)" parent="menu_ct_logistic_base" sequence="1" action="action_ct_logistic_supplier_service_tree" groups="ct_logistic.ct_logistic_group_manager"/>
+         <menuitem id="menu_ct_logistic_base_supplier_flota" name="Flota (Transporte)" parent="menu_ct_logistic_base" sequence="2" action="action_ct_logistic_container_vehicle_view" groups="ct_logistic.ct_logistic_group_manager"/>
+         <!-- <menuitem id="menu_ct_logistic_base_supplier_service" name="Conductores (Transporte)" parent="menu_ct_logistic_base" sequence="4" action="action_ct_logistic_supplier_service_tree"/> -->
+
+         <!-- ********************* -->
+         <menuitem id="menu_ct_logistic_transactions" name="Containers" parent="menu_ct_logistic_route" sequence="1" />
+         <!-- Submenu de Transacciones -->
+         <menuitem id="menu_ct_logistic_transactions_ddt" name="Transporte Interno" parent="menu_ct_logistic_transactions" sequence="1" action="action_ct_logistic_container_view"/>
+         <menuitem id="menu_ct_logistic_transactions_enc" name="Encomiendas" parent="menu_ct_logistic_transactions" sequence="2" action="action_ct_logistic_container_enc_view"/>
+         <!-- <menuitem id="menu_ct_logistic_transactions_glp" name="Galpon de la Empresa" parent="menu_ct_logistic_transactions" sequence="3" action="action_ct_logistic_container_glp_view"/> -->
+         <menuitem id="menu_ct_logistic_transactions_sowait" name="Pedidos/Preparados" parent="menu_ct_logistic_transactions" sequence="4" action="action_ct_logistic_container_sale_order_wait_view" groups="ct_logistic_group_user"/>
+         <menuitem id="menu_ct_logistic_transactions_account_move_check_list" name="Marcar Despacho de Facturas" parent="menu_ct_logistic_transactions" sequence="5" action="action_ct_logistic_account_move_check_list" groups="ct_logistic.ct_logistic_group_manager"/>
+          <!-- Submenu de Reportes -->
+         <menuitem id="menu_ct_logistic_report_hist" name="Historico/Containers" parent="menu_ct_logistic_report" sequence="1" action="action_ct_logistic_containers_hist_report" groups="ct_logistic.ct_logistic_group_manager"/>
+
+         <!-- ************************* -->
+
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="action_account_move_note_report_pdf" model="ir.actions.report">
+            <field name="name">Nota/Entrega (PDF)</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_note_account_report.ct_report_600</field>
+            <field name="print_report_name">'Factura_NE - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="account.model_account_move"></field>
+        </record>
+
+
+
+        <!-- Report Picking -->
+        <record id="action_stock_picking_report_pdf" model="ir.actions.report">
+            <field name="name">Picking (Movimiento de Inventario) PDF</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_note_account_report.ct_report_602</field>
+            <field name="print_report_name">'Picking - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"></field>
+        </record>
+
+    </data>
+</odoo>

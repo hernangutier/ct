@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ct_image_fiscal,ct_image_fiscal,model_ct_invoice_fiscal_imagen,ct_invoice_fiscal_imagen_group_user,1,1,1,1
+access_ct_image_fiscal_line,ct_image_fiscal_line,model_ct_invoice_imagen_line,ct_invoice_fiscal_imagen_group_user,1,1,1,1
+access_ct_image_tasa,ct_image_tasa,model_ct_invoice_imagen_tasa,ct_invoice_fiscal_imagen_group_user,1,1,1,1
+
+

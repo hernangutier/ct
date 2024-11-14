@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+
+
+        <record id="view_ct_kardex_report_wz" model="ir.ui.view">
+            <field name="name">Inventario Kardex Reporte</field>
+            <field name="model">ct.kardex.report.wz</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="is_readonly" invisible="1"/>
+                    <group>
+                        <group>
+
+                            <field name="product" string="Producto"
+                                 attrs="{'readonly': [('is_readonly','==',True)]}"   options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
+                            <field name="date_from" string="Desde"/>
+
+                        </group>
+                        <group>
+                            <field name="location" string="Ubicacion"
+                                   options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
+                            <field name="date_to" string="Hasta"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="open_table" string="Recuperar Informe Kardex" icon="fa-table" type="object"
+                                class="btn-success"/>
+                        <button name="get_report" string="Informe Kardex (PDF)" icon="fa-file-pdf-o" type="object"
+                                class="btn-info"/>
+                        <button string="Cancelar" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+
+
+</odoo>

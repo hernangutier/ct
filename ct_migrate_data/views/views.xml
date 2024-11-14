@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+        <record id="view_ct_migrate_data_product_tree" model="ir.ui.view">
+            <field name="name">Productos (Importados)</field>
+            <field name="model">ct.migrate.data.product.template</field>
+             <field name="arch" type="xml">
+                <tree>
+                    <field name="ref" />
+                    <field name="name" />
+                    <field name="product_id" />
+                    <field name="cost" />
+                    <field name="inv" />
+                    <field name="categ_id" />
+                    <field name="departament_id" />
+                    <field name="ubicado" />
+                </tree>
+
+             </field>
+
+
+        </record>
+        <record id="view_ct_migrate_data_product_view" model="ir.ui.view">
+            <field name="name">view.ct.migrate.data.product.view</field>
+            <field name="model">ct.migrate.data.product.template</field>
+             <field name="arch" type="xml">
+                 <form string="Productos">
+
+                     <sheet>
+
+
+                     <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                         <group>
+                             <group String="Acciones">
+                                 <button name="updateCost" type="object" confirm="Esta Actualizar Costos!" string="Actualizar Costos"   class="btn-info" />
+                                 <button name="identificar" type="object" confirm="Seguro de Identificar Productos" string="Identificar Productos"   class="btn-info" />
+
+                             </group>
+                             <group>
+                                <button name="updateQty" type="object" confirm="Esta Actualizar Existencias!" string="Actualizar Existencias"   class="btn-info" />
+                                <button name="createProducts" type="object" confirm="Esta Crear Productos No Migrados!" string="Crear Productos Nuevos"   class="btn-warning" />
+                                <button name="generateSku" type="object" confirm="Esta seguro de Regenerar Sku!" string="Generar Sku"   class="btn-warning" />
+                                <button name="setAsesorPicking" type="object" confirm="Esta Asignar Asesor!" string="Asignar Asesor"   class="btn-warning" />
+                             </group>
+
+                         </group>
+
+                     </sheet>
+                 </form>
+             </field>
+
+
+        </record>
+
+    </data>
+</odoo>
