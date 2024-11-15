@@ -112,12 +112,12 @@ class CaseAuditory(models.Model):
         }
         # ----- Retornamos la Vista ----
         action = {
-            'name': _('Procesar Caso'),
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'target': 'new',
-            'res_model': 'create.inv.adjust.audit.dialog',
-            'context': context,
+            'name'      : _('Procesar Caso'),
+            'type'      : 'ir.actions.act_window',
+            'view_mode' : 'form',
+            'target'    : 'new',
+            'res_model' : 'create.inv.adjust.audit.dialog',
+            'context'   : context,
         }
         return action
 

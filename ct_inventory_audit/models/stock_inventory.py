@@ -22,3 +22,4 @@ class StockInventory(models.Model):
         string='Caso de Auditoria',
         ondelete='restrict',
         index=True)
+

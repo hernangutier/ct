@@ -49,27 +49,32 @@
                                     groups="ct_inventory_audit.ct_audit_manager_groups"/>
 
                         </div>
+                        <widget name="web_ribbon" title="Finalizado" bg_color="bg-success" attrs="{'invisible': [('state', 'in', ('cancel','new','rev'))]}"/>
+                        <widget name="web_ribbon" title="Cancelado" bg_color="bg-danger" attrs="{'invisible': [('state', 'in', ('done','new','rev'))]}"/>
                         <div class="oe_title">
                             <h1>
                                 <field name="name" readonly="1"/>
                             </h1>
                         </div>
 
-                        <field name="motivo"/>
+                        <field name="motivo" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
                         <group>
                             <group>
-                                <field name="date"/>
-                                <field name="type"/>
-                                <field name="specific"/>
+                                <field name="date" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="type" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="specific" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
                                 <field name="product_id"
+                                       attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"
                                        options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
 
 
                             </group>
                             <group>
                                 <field name="location_id"
+                                       domain="[(('usage','=','internal'))]"
+                                       attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"
                                        options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
-                                <field name="date_done"/>
+                                <field name="date_done" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
 
                             </group>
                         </group>
