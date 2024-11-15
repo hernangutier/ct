@@ -19,6 +19,8 @@
                              <group String="Ajuste de Inventario">
                                  <field name="product_name" attrs="{'invisible': [('create_adjust','=', False)]}" />
                                  <field name="value_count" attrs="{'invisible': [('create_adjust','=', False)], 'required': [('create_adjust','=', False)] }" />
+                                 <field name="product_qty_available"/>
+                                 <field name="difference_qty" readonly="1"/>
                                  <field name="date_accounting" String="Cerrar Facturas No Marcadas contra Fecha de Despacho?" attrs="{'invisible': [('create_adjust','=', False)], 'required': [('create_adjust','=', False)] }" />
                              </group>
                          </group>
@@ -26,7 +28,7 @@
                      </sheet>
 
                  <footer>
-                      <button  name="post" type="object" string="Procesar" confirm="Esta seguro de cerrar el Container?" class="btn-success"  />
+                      <button  name="post" type="object" string="Procesar" confirm="Esta seguro de Cerrar el Caso?" class="btn-success"  />
                       <button  string="Cancelar" class="btn-danger" special="cancel" />
                  </footer>
                </form>

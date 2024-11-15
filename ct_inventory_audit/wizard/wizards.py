@@ -1,4 +1,8 @@
-from odoo import fields, models, api
+from odoo.osv import expression
+from odoo.tools.float_utils import float_round as round
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.exceptions import UserError, ValidationError
+from odoo import api, fields, models, _
 
 
 class CreateInvAdjustAuditDialog(models.TransientModel):
@@ -14,6 +18,14 @@ class CreateInvAdjustAuditDialog(models.TransientModel):
     date_accounting=fields.Date('Fecha de Contabilizacion')
     value_count=fields.Integer('Conteo Final',default=0)
     product_name=fields.Char('Producto', related='case_audit_id.product_id.display_name', copy=False, readonly=True, store=True)
+    product_qty_available=fields.Float('Qty. Teorica', related='case_audit_id.product_id.qty_available', copy=False, readonly=True, store=True )
+    difference_qty=fields.Float('Diferencia a Registrar', computed="_get_diff")
+
+    #----- Calcular la Diferencia a Registrar ---
+    @api.onchange('value_count')
+    def _get_diff(self):
+        self.ensure_one()
+        self.difference_qty=self.product_qty_available-self.value_count
     #---- Post para Realizar Ajuste de Inventario Automatizado con
     #---- Referencia a la Operacion de Auditoria --
     def post(self):
@@ -35,16 +47,19 @@ class CreateInvAdjustAuditDialog(models.TransientModel):
                 #---- Creamos el Registro Principal
                 move=self.env['stock.inventory']
                 move.create({
-                    'name': self.case_audit_id.name,
-                    'state': 'confirm',
-                    'audit_id': self.case_audit_id.id,
-                    'location_ids': [(6,0,location_ids)],
-                    'product_ids': [(6,0,products_ids)],
-                    'line_ids': line_ids,
-                    'motivo': 'Ajuste de Inventario Segun Auditoria # ' + self.case_audit_id.name + ' de fecha: ' + str(self.date_accounting)
-                })
-                new_move=self.env['stock.inventory'].browse(int(self.id))
+                            'name': self.case_audit_id.name,
+                            'state': 'confirm',
+                            'audit_id': self.case_audit_id.id,
+                            'location_ids': [(6,0,location_ids)],
+                            'product_ids': [(6,0,products_ids)],
+                            'line_ids': line_ids,
+                            'motivo': 'Ajuste de Inventario Segun Auditoria # ' + self.case_audit_id.name + ' de fecha: ' + str(self.date_accounting)
+                        })
+                new_move=self.env['stock.inventory'].search([
+                    ('audit_id','=', audit_id.id)
+                ], limit=1)
                 # ---- Validamos la Operacion
+
                 new_move.action_validate()
                 #new_case=self.env['ct.inventory.audit.case.audit'].browse(int(self.audit_id.id))
                 audit_id.write({

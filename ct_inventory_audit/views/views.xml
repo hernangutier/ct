@@ -33,6 +33,12 @@
                                 context="{'default_move_id': active_id}" string="Procesar"
                                 class="btn-success" groups="ct_inventory_audit.ct_audit_manager_groups"/>
 
+                        <button name="action_cancel" type="object"
+                                attrs="{'invisible': [('state', 'in', ('done','cancel'))]}"
+                                confirm="Esta Seguro de Cancelar el Caso!"
+                                string="Cancelar"
+                                class="btn-danger" groups="ct_inventory_audit.ct_audit_manager_groups"/>
+
                         <field name="state" widget="statusbar" statusbar_visible="new,rev,done,cancel"/>
                     </header>
                     <sheet>

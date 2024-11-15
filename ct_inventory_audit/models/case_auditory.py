@@ -13,12 +13,15 @@ class CaseAuditory(models.Model):
     name = fields.Char('#Caso:', default='/')
     motivo=fields.Text('Descripcion del Caso', default='S/I')
     note=fields.Text('Notas')
+    #---- Producto que reporta la Incidencia ---
     product_id = fields.Many2one(
         'product.product',
         string='Producto',
         ondelete='restrict',
         required=True,
         index=True)
+
+    #--- Almacen donde se reporto la incidencia ---
     location_id = fields.Many2one(
         'stock.location',
         string='Almacen',
@@ -26,9 +29,6 @@ class CaseAuditory(models.Model):
         required=True,
         index=True)
 
-
-    #---- Cantidad Reportada Por el Almacen ---
-    qty_value=fields.Integer('Cantidad Reportada', help='Catidad Reportada', default=0)
     #--- Fecha de la Incidencia ----
     date=fields.Date('Fecha Incidencia')
 
@@ -72,7 +72,31 @@ class CaseAuditory(models.Model):
             self.visibility=False
     #---- Vista de Ajustes de Inventarios Relacinadas con la Auditoria
     def action_view_related_inventory_adjust_loads(self):
-        pass
+        self.ensure_one()
+        #--- Consultamos para ver si hay ahuste de Inventario aplicado --
+        adjust=self.env['stock.inventory'].search([
+            ('audit_id','=',self.id)
+        ],limit=1)
+        #raise UserError(adjust.id)
+        if len(adjust)>=1:
+            form_view_id = self.env.ref('stock.view_inventory_form').id
+            domain = [('id', '=', int(adjust.id))]
+            context = { 'default_id': adjust.id, 'create': 0,
+                       'edit': 0, 'delete': 0}
+
+            action = {
+                'name'      : _('Ajuste Aplicado'),
+                'type'      : 'ir.actions.act_window',
+                'view_mode' : 'tree,form',
+                'res_model' : 'stock.inventory',
+                'context'   : context,
+                'domain'    : domain,
+            }
+            return action
+        return UserError('No hay Ajustes Registrados...')
+
+
+
     #---- Enviar a Revision el Estado del Caso
     def action_send_rev(self):
         self.ensure_one()
@@ -96,5 +120,13 @@ class CaseAuditory(models.Model):
             'context': context,
         }
         return action
+
+    #--- Cancelar el Caso ---
+    def action_cancel(self):
+        self.ensure_one()
+        self.write({
+            'state': 'cancel'
+        })
+        return self
 
 
