@@ -11,6 +11,7 @@ class CaseAuditory(models.Model):
     _description = 'Control de Auditorias'
 
     name = fields.Char('#Caso:', default='/')
+    create_adjust = fields.Boolean('Crear Ajuste (S/N)', default=True)
     motivo=fields.Text('Descripcion del Caso', default='S/I')
     note=fields.Text('Notas')
     #---- Producto que reporta la Incidencia ---
@@ -19,6 +20,12 @@ class CaseAuditory(models.Model):
         string='Producto',
         ondelete='restrict',
         required=True,
+        index=True)
+
+    move_id = fields.Many2one(
+        'stock.inventory',
+        string='Ajuste de Inventario',
+        ondelete='restrict',
         index=True)
 
     #--- Almacen donde se reporto la incidencia ---
@@ -50,6 +57,12 @@ class CaseAuditory(models.Model):
         ('cancel', 'Cancelado'),
     ], string='Estado', copy=False, index=True, tracking=3, default='new', store=True, required=True)
 
+    value_count = fields.Integer('Conteo Final', default=0)
+
+    product_qty_available = fields.Float('Qty. Teorica', related='product_id.qty_available', copy=False,
+                                         readonly=True, store=True)
+    difference_qty = fields.Float('Diferencia a Registrar', computed="_get_diff")
+
     @api.model
     def create(self,vals):
         if "name" not in vals or vals["name"] == "/":
@@ -74,14 +87,10 @@ class CaseAuditory(models.Model):
     def action_view_related_inventory_adjust_loads(self):
         self.ensure_one()
         #--- Consultamos para ver si hay ahuste de Inventario aplicado --
-        adjust=self.env['stock.inventory'].search([
-            ('audit_id','=',self.id)
-        ],limit=1)
-        #raise UserError(adjust.id)
-        if len(adjust)>=1:
+        if len(self.move_id)>=1:
             form_view_id = self.env.ref('stock.view_inventory_form').id
-            domain = [('id', '=', int(adjust.id))]
-            context = { 'default_id': adjust.id, 'create': 0,
+            domain = [('id', '=', int(self.move_id))]
+            context = { 'default_id': self.move_id, 'create': 0,
                        'edit': 0, 'delete': 0}
 
             action = {
@@ -104,22 +113,46 @@ class CaseAuditory(models.Model):
         return self
     #---- Crear Ajuste de Inventario ----
     def create_adjust(self):
-        #--- llamada al dialogo para crear ajuste de inventario
         self.ensure_one()
-        context = {
-            'default_case_audit_id': self.id,
-            'default_date_accounting': fields.Date.today(),
-        }
-        # ----- Retornamos la Vista ----
-        action = {
-            'name'      : _('Procesar Caso'),
-            'type'      : 'ir.actions.act_window',
-            'view_mode' : 'form',
-            'target'    : 'new',
-            'res_model' : 'create.inv.adjust.audit.dialog',
-            'context'   : context,
-        }
-        return action
+        if self.create_adjust:
+                audit_id=self.id
+                line_ids=[]
+                location_ids=[]
+                #---- Creamos la Linea de Inventario
+                vals = (0, 0, {
+                    'product_id': self.product_id.id,
+                    'product_qty': self.value_count,
+                    'location_id': self.location_id.id,
+                })
+                line_ids.append(vals)
+                location_ids.append(self.location_id.id)
+                products_ids=[]
+                products_ids.append(self.product_id.id)
+
+                #---- Creamos el Registro Principal
+                move=self.env['stock.inventory']
+                move.create({
+                            'name': 'AI/' + self.name,
+                            'state': 'confirm',
+                            'location_ids': [(6,0,location_ids)],
+                            'product_ids': [(6,0,products_ids)],
+                            'line_ids': line_ids,
+                            'motivo': 'Ajuste de Inventario Segun Auditoria # ' + self.case_audit_id.name + ' de fecha: ' + str(self.date_accounting)
+                        })
+                # ---- Validamos la Operacion
+                move.action_validate()
+                #new_case=self.env['ct.inventory.audit.case.audit'].browse(int(self.audit_id.id))
+                audit_id.write({
+                    'move_id': move.id,
+                    'state': 'done',
+                    'date_done': fields.Date.today(),
+                })
+        else:
+            self.write({
+                'state': 'done',
+                'date_done': fields.Date.today()
+            })
+
 
     #--- Cancelar el Caso ---
     def action_cancel(self):

@@ -18,7 +18,7 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/menu.xml',
-        'wizard/wizards_views.xml'
+
 
     ],
     'demo': [

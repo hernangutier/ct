@@ -16,10 +16,6 @@ class StockInventory(models.Model):
     _inherit="stock.inventory"
 
     motivo=fields.Text('Motivo del Ajuste', required=True, default='S/I')
-    #---- Falta Agregar Move Id de el Modulo de Auditorias
-    audit_id = fields.Many2one(
-        'ct.inventory.audit.case.audit',
-        string='Caso de Auditoria',
-        ondelete='restrict',
-        index=True)
+
+
 

@@ -59,14 +59,11 @@
 
                         <field name="motivo" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
                         <group>
-                            <group>
-                                <field name="date" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                            <group string="Datos del Caso">
+                                <field name="date" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" required="1"/>
                                 <field name="type" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
                                 <field name="specific" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
-                                <field name="product_id"
-                                       attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"
-                                       options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
-
+                                                                <field name="date_done" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
 
                             </group>
                             <group>
@@ -74,7 +71,13 @@
                                        domain="[(('usage','=','internal'))]"
                                        attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"
                                        options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
-                                <field name="date_done" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"/>
+                                <field name="product_id"
+                                       attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"
+                                       options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
+                                <field name="value_count" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="product_qty_available" readonly="1"/>
+                                <field name="difference_qty" readonly="1"/>
+
 
                             </group>
                         </group>
