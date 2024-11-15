@@ -7,6 +7,7 @@ from odoo import api, fields, models, _
 
 class CaseAuditory(models.Model):
     _name = 'ct.inventory.audit.case.audit'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Control de Auditorias'
 
     name = fields.Char('#Caso:', default='/')
@@ -47,7 +48,7 @@ class CaseAuditory(models.Model):
         ('rev', 'en Revision'),  # ---- Habiulitar Solicitudes de Repuestros
         ('done', 'Terminado'),
         ('cancel', 'Cancelado'),
-    ], string='Estado', copy=False, index=True, default='new', store=True, required=True)
+    ], string='Estado', copy=False, index=True, tracking=3, default='new', store=True, required=True)
 
     @api.model
     def create(self,vals):
@@ -72,7 +73,28 @@ class CaseAuditory(models.Model):
     #---- Vista de Ajustes de Inventarios Relacinadas con la Auditoria
     def action_view_related_inventory_adjust_loads(self):
         pass
+    #---- Enviar a Revision el Estado del Caso
+    def action_send_rev(self):
+        self.ensure_one()
+        self.state='rev'
+        return self
     #---- Crear Ajuste de Inventario ----
     def create_adjust(self):
-        pass
+        #--- llamada al dialogo para crear ajuste de inventario
+        self.ensure_one()
+        context = {
+            'default_case_audit_id': self.id,
+            'default_date_accounting': fields.Date.today(),
+        }
+        # ----- Retornamos la Vista ----
+        action = {
+            'name': _('Procesar Caso'),
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'target': 'new',
+            'res_model': 'create.inv.adjust.audit.dialog',
+            'context': context,
+        }
+        return action
+
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista para Crear Ajuste de Inventario Automatico -->
+        <record id="ct_inventory_audit_create_adj_post" model="ir.ui.view">
+            <field name="name">ct.inventory.audit.create.adj.post</field>
+            <field name="model">create.inv.adjust.audit.dialog</field>
+            <field name="arch" type="xml">
+                 <form>
+                     <sheet>
+                         <group>
+                             <h1>Procesar Caso</h1>
+                         </group>
+                         <group>
+                             <group String="Datos del Caso">
+                                <field name="case_audit_id"  readonly="1"/>
+                                <field name="create_adjust" />
+                             </group>
+                             <group String="Ajuste de Inventario">
+                                 <field name="product_name" attrs="{'invisible': [('create_adjust','=', False)]}" />
+                                 <field name="value_count" attrs="{'invisible': [('create_adjust','=', False)], 'required': [('create_adjust','=', False)] }" />
+                                 <field name="date_accounting" String="Cerrar Facturas No Marcadas contra Fecha de Despacho?" attrs="{'invisible': [('create_adjust','=', False)], 'required': [('create_adjust','=', False)] }" />
+                             </group>
+                         </group>
+
+                     </sheet>
+
+                 <footer>
+                      <button  name="post" type="object" string="Procesar" confirm="Esta seguro de cerrar el Container?" class="btn-success"  />
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+               </form>
+             </field>
+        </record>
+
+    </data>
+</odoo>
