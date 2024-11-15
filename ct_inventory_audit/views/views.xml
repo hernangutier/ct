@@ -95,9 +95,25 @@
                     <field name="type"/>
                     <field name="note"/>
                     <field name="state" widget="label_selection"
-                           options="{'classes': {'new': 'info', 'rev': 'warning', 'done': 'success' , 'calcel': 'danger'}}"/>
+                           options="{'classes': {'new': 'info', 'rev': 'warning', 'done': 'success' , 'cancel': 'danger'}}"/>
                 </tree>
 
+            </field>
+        </record>
+        <!-- Filtros Agregados para Control de Casos -->
+        <record id="view_ct_inventory_audit_case_audit_filter" model="ir.ui.view">
+            <field name="name">view.ct.post.sales.order.service.filter</field>
+            <field name="model">ct.inventory.audit.case.audit</field>
+            <field name="arch" type="xml">
+                <search string="Filtros">
+                    <separator/>
+                    <filter string="Nuevos" name="f_new" domain="[('state','=','new')]"/>
+                    <filter string="en Revision" name="f_rev" domain="[('state','=','rev')]"/>
+                    <filter string="Terminados" name="f_done" domain="[('state','=','done')]"/>
+                    <filter string="Cancelados" name="f_cancel" domain="[('state','=','cancel')]"/>
+
+                    <separator/>
+                </search>
             </field>
         </record>
 
