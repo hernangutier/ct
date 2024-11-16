@@ -20,7 +20,7 @@
             <field name="arch" type="xml">
                 <form name="form">
                     <header>
-                        <field name="visibility" invisible="1"/>
+
                         <button name="action_send_rev" type="object"
                                 attrs="{'invisible': [('state', 'in', ('done','cancel','rev'))]}"
                                 confirm="Esta Seguro de enviar a Revision?"
@@ -42,13 +42,7 @@
                         <field name="state" widget="statusbar" statusbar_visible="new,rev,done,cancel"/>
                     </header>
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
-                            <button string="Ajustes" type="object" name="action_view_related_inventory_adjust_loads"
-                                    class="oe_stat_button" icon="fa-exchange"
-                                    attrs="{'invisible': [('visibility', '==', False)]}"
-                                    groups="ct_inventory_audit.ct_audit_manager_groups"/>
 
-                        </div>
                         <widget name="web_ribbon" title="Finalizado" bg_color="bg-success" attrs="{'invisible': [('state', 'in', ('cancel','new','rev'))]}"/>
                         <widget name="web_ribbon" title="Cancelado" bg_color="bg-danger" attrs="{'invisible': [('state', 'in', ('done','new','rev'))]}"/>
                         <div class="oe_title">

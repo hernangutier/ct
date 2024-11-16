@@ -87,40 +87,7 @@ class CaseAuditory(models.Model):
         case_auditory = super(CaseAuditory, self).create(vals)
         return case_auditory
 
-    visibility=fields.Boolean(default=False, compute="get_visibility")
-
-
-    def get_visibility(self):
-        self.ensure_one()
-        #--- Consultamos los Ajustes de Inventario
-        if self.move_id :
-           self.visibility=True
-           return
-        self.visibility=False
-    #---- Vista de Ajustes de Inventarios Relacinadas con la Auditoria
-    def action_view_related_inventory_adjust_loads(self):
-        self.ensure_one()
-        #--- Consultamos para ver si hay ahuste de Inventario aplicado --
-        if len(self.move_id)>=1:
-            form_view_id = self.env.ref('stock.view_inventory_form').id
-            domain = [('id', '=', int(self.move_id))]
-            context = { 'default_id': self.move_id, 'create': 0,
-                       'edit': 0, 'delete': 0}
-
-            action = {
-                'name'      : _('Ajuste Aplicado'),
-                'type'      : 'ir.actions.act_window',
-                'view_mode' : 'tree,form',
-                'res_model' : 'stock.inventory',
-                'context'   : context,
-                'domain'    : domain,
-            }
-            return action
-        return UserError('No hay Ajustes Registrados...')
-
-
-
-    #---- Enviar a Revision el Estado del Caso
+   #---- Enviar a Revision el Estado del Caso
     def action_send_rev(self):
         self.ensure_one()
         self.state='rev'
