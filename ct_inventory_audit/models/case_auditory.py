@@ -9,7 +9,6 @@ class CaseAuditory(models.Model):
     _name = 'ct.inventory.audit.case.audit'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Control de Auditorias'
-
     name = fields.Char('#Caso:', default='/')
     create_adjust = fields.Boolean('Crear Ajuste (S/N)', default=True)
     motivo=fields.Text('Descripcion del Caso', default='S/I')
@@ -59,10 +58,28 @@ class CaseAuditory(models.Model):
 
     value_count = fields.Integer('Conteo Final', default=0)
 
-    product_qty_available = fields.Float('Qty. Teorica', related='product_id.qty_available', copy=False,
-                                         readonly=True, store=True)
-    difference_qty = fields.Float('Diferencia a Registrar', computed="_get_diff")
+    product_qty_available = fields.Float('Qty. Teorica',  copy=False, default=0, compute="_get_cumpute_quant")
+    difference_qty = fields.Float('Diferencia a Registrar')
 
+
+    @api.depends('value_count','product_id','location_id')
+    def _get_cumpute_quant(self):
+        self.ensure_one()
+        diff=0
+        if self.location_id and self.product_id:
+            qty=self.env['stock.quant'].search([
+                ('location_id','=',self.location_id.id),
+                ('product_id', '=', self.product_id.id),
+            ],limit=1)
+            self.product_qty_available=qty.quantity
+            diff=self.product_qty_available-self.value_count
+            if self.product_qty_available<self.value_count:
+                self.difference_qty = abs(diff)
+                return
+            else:
+                self.difference_qty = abs(diff)*-1
+                return
+        self.product_qty_available=0
     @api.model
     def create(self,vals):
         if "name" not in vals or vals["name"] == "/":
@@ -76,13 +93,10 @@ class CaseAuditory(models.Model):
     def get_visibility(self):
         self.ensure_one()
         #--- Consultamos los Ajustes de Inventario
-        adjustCount=self.env['stock.inventory'].search([
-            ('audit_id','=',self.id)
-        ])
-        if len(adjustCount)>0:
-            self.visibility=True
-        else:
-            self.visibility=False
+        if self.move_id :
+           self.visibility=True
+           return
+        self.visibility=False
     #---- Vista de Ajustes de Inventarios Relacinadas con la Auditoria
     def action_view_related_inventory_adjust_loads(self):
         self.ensure_one()
@@ -112,10 +126,10 @@ class CaseAuditory(models.Model):
         self.state='rev'
         return self
     #---- Crear Ajuste de Inventario ----
-    def create_adjust(self):
+    def action_post(self):
         self.ensure_one()
         if self.create_adjust:
-                audit_id=self.id
+                audit_id=self
                 line_ids=[]
                 location_ids=[]
                 #---- Creamos la Linea de Inventario
@@ -131,19 +145,20 @@ class CaseAuditory(models.Model):
 
                 #---- Creamos el Registro Principal
                 move=self.env['stock.inventory']
-                move.create({
+                new_move=move.create({
                             'name': 'AI/' + self.name,
                             'state': 'confirm',
                             'location_ids': [(6,0,location_ids)],
                             'product_ids': [(6,0,products_ids)],
                             'line_ids': line_ids,
-                            'motivo': 'Ajuste de Inventario Segun Auditoria # ' + self.case_audit_id.name + ' de fecha: ' + str(self.date_accounting)
+                            'motivo': 'Ajuste de Inventario Segun Auditoria # ' + self.name + ' de fecha: ' + str(self.date_done)
                         })
                 # ---- Validamos la Operacion
-                move.action_validate()
+                new_move.action_validate()
                 #new_case=self.env['ct.inventory.audit.case.audit'].browse(int(self.audit_id.id))
+
                 audit_id.write({
-                    'move_id': move.id,
+                    'move_id': new_move.id,
                     'state': 'done',
                     'date_done': fields.Date.today(),
                 })
