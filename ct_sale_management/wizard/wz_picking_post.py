@@ -24,7 +24,7 @@ class WzPickingPost(models.TransientModel):
 
     def action_post(self):
          #------ Obtenemos las Ordenes ---
-         sale = self.env['sale.order'].search([('name', '=', self.picking_id.origin)], limit=1)
+
          #------ Checamos la Lineas si estan Correctas
          if self.type==1:
             if self.picking_id.state!='assigned':
@@ -38,6 +38,12 @@ class WzPickingPost(models.TransientModel):
             obj=self.picking_id.write({
                 'state_preparations' : "packing"
             })
+            #---- Facturamos el Pedido ---
+            sale = self.env['sale.order'].search([('name', '=', self.picking_id.origin)], limit=1)
+            sale._create_invoices()
+            for inv in sale.invoice_ids:
+                if inv.state == 'draft':
+                    inv.action_post()
             #---- Actualizamos el Pedido
             if sale:
                 sale.write({
