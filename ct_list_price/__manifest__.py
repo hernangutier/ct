@@ -17,7 +17,7 @@
         'wizard/dialog.xml',
         'views/container_category.xml',
         'views/menu.xml',
-        'views/new_product_card.xml',
+        'views/product_card.xml',
         'views/template.xml',
         'views/company_view.xml',
 

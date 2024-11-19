@@ -9,14 +9,7 @@
             print_report_name='Lista_Precios - %s' % (object.name)
             menu="False"/>
         -->
-        <record id="report_list_price" model="ir.actions.report">
-            <field name="name">Lista/Precios</field>
-            <field name="model">ct.list.price.dialog.list.price</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">ct_list_price.ct_list_price_card_pdf</field>
-            <field name="print_report_name">'Lista_Precios - %s' % (object.title)</field>
 
-        </record>
 
         <record id="report_list_price_container" model="ir.actions.report">
             <field name="name">Lista/Precios</field>

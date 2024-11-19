@@ -1,31 +1,6 @@
 <odoo>
     <data>
-        <!--- Dialog para Generar Listas de Precios -->
-        <record id="ct_list_price_dialog_form" model="ir.ui.view">
-            <field name="name">Generar Listas de Precios</field>
-            <field name="model">ct.list.price.dialog.list.price</field>
-             <field name="arch" type="xml">
-                 <form string="General">
-                     <sheet>
-                            <p>
-                                <field name="type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
-                            </p>
-                         <group>
-                             <!-- <field name="departament_id" attrs="{'invisible': [('type','in',('gen','categ','torigin'))] , 'required': [('type','=','dep')] }"/> -->
-                             <field name="brand_id"    options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" attrs="{'invisible': [('type','in',('categ'))] , 'required': [('type','=','brand')] }" />
-                             <field name="categ_id"  options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" attrs="{'invisible': [('type','in',('brand'))] , 'required': [('type','=','categ')] }" />
-                             <field name="list_price_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}" required="True" />
-                             <field name="with_exist" />
-                         </group>
-                     </sheet>
-                     <footer>
-                      <button  name="get_report" type="object" string="Generar (Pdf)" class="btn-success"  icon="fa-history"/>
-                      <button  string="Cancelar" class="btn-danger" special="cancel" />
-                 </footer>
-                 </form>
-             </field>
 
-        </record>
 
         <!--- Dialog para Generar Listas de Precios -->
         <record id="ct_list_price_container_category_dialog" model="ir.ui.view">
