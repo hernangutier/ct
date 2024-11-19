@@ -2,20 +2,41 @@
     <data>
 
 
-
-
         <!-- Menu para las Acciones de Reportes -->
         <act_window id="action_ct_list_price_dialog"
-            name="Generar Lista de Precios"
-            target="new"
-            res_model="ct.list.price.dialog.list.price"
-            view_mode="form"
+                    name="Generar Lista de Precios"
+                    target="new"
+                    res_model="ct.list.price.dialog.list.price"
+                    view_mode="form"
+        />
+        <!-- Menu para las Acciones de Reportes -->
+        <act_window id="action_ct_list_price_container_category_tree"
+                    name="Contenedor de Listas de Precios"
+                    res_model="ct.list.price.container.category"
+                    view_mode="tree,form"
+        />
+        <!-- Menu para las Lista de Precios Configurada -->
+        <act_window id="action_ct_list_price_container_category_report"
+                    name="Lista de Precios Configurada"
+                    res_model="ct.list.price.dialog.container.category"
+                    target="new"
+                    view_mode="form"
         />
         <!-- Menu para llamar al Dialogo de la Lista de Precios -->
         <menuitem id="ct_list_price_menu_items"
-            name="Generar Lista/Precios (PDF)"
-            action="action_ct_list_price_dialog"
-            parent="sale.menu_sale_report"
-            sequence="20"/>
+                  name="Generar Lista/Precios (PDF)"
+                  action="action_ct_list_price_dialog"
+                  parent="sale.menu_sale_report"
+                  sequence="20"/>
+        <menuitem id="ct_list_price_menu_container_category_tree"
+                  name="Contenedor de Listas de Precio"
+                  action="action_ct_list_price_container_category_tree"
+                  parent="sale.menu_sale_report"
+                  sequence="21"/>
+        <menuitem id="ct_list_price_menu_container_category_report"
+                  name="Lista de Precios Configurada"
+                  action="action_ct_list_price_container_category_report"
+                  parent="sale.menu_sale_report"
+                  sequence="22"/>
     </data>
 </odoo>

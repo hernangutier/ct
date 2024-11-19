@@ -15,6 +15,7 @@
     'data': [
         'report/report.xml',
         'wizard/dialog.xml',
+        'views/container_category.xml',
         'views/menu.xml',
         'views/new_product_card.xml',
         'views/template.xml',

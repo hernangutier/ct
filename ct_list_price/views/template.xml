@@ -26,13 +26,58 @@
 
                </div>
                </xpath>
+               <h2>Categoria: Prueba</h2>
                <div class="page">
+
                    <t t-foreach="docs" t-as="product">
+
                         <t t-call="ct_list_price.report_new_product_card">
                             <t t-set="product" t-value="product"/>
                         </t>
                     </t>
                </div>
+              </t>
+              </t>
+        </template>
+
+        <template id="ct_list_price_card_container_pdf">
+            <t t-call="web.html_container">
+               <t t-call="web.basic_layout">
+               <xpath expr="//div/[@class='header']" position="replace">
+               <div class="header">
+                  <div class="row">
+                      <div class="col-2">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;" alt="Logo" />
+                      </div>
+                      <div class="col-10">
+                          <center>
+                              <span t-esc="company.name">
+
+                              </span>
+                              <strong t-esc="company.vat">
+
+                              </strong>
+                          </center>
+                      </div>
+                  </div>
+
+               </div>
+               </xpath>
+               <t t-foreach="dataset_categ" t-as="categories">
+                   <h3 t-esc="categories['name']"></h3>
+
+                   <div class="page">
+
+                   <t t-foreach="docs" t-as="product">
+                      <t t-if="product['categ_id']==categories['id']">
+                        <t t-call="ct_list_price.report_new_product_card">
+                            <t t-set="product" t-value="product"/>
+                        </t>
+                      </t>
+                    </t>
+
+               </div>
+              </t>
               </t>
               </t>
         </template>

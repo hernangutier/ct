@@ -26,5 +26,29 @@
              </field>
 
         </record>
+
+        <!--- Dialog para Generar Listas de Precios -->
+        <record id="ct_list_price_container_category_dialog" model="ir.ui.view">
+            <field name="name">Generar Listas de Precios Configurada</field>
+            <field name="model">ct.list.price.dialog.container.category</field>
+             <field name="arch" type="xml">
+                 <form string="Lista de Precios Configurada">
+                     <sheet>
+                         <group>
+                             <!-- <field name="departament_id" attrs="{'invisible': [('type','in',('gen','categ','torigin'))] , 'required': [('type','=','dep')] }"/> -->
+                             <field name="container_category_id"    options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
+                             <field name="list_price_id"    options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
+                         </group>
+                     </sheet>
+                     <footer>
+                      <button  name="get_report" type="object" string="Generar (Pdf)" class="btn-success"  icon="fa-history"/>
+                      <button  string="Cancelar" class="btn-danger" special="cancel" />
+                 </footer>
+                 </form>
+             </field>
+
+        </record>
+
+
     </data>
 </odoo>

@@ -17,5 +17,14 @@
             <field name="print_report_name">'Lista_Precios - %s' % (object.title)</field>
 
         </record>
+
+        <record id="report_list_price_container" model="ir.actions.report">
+            <field name="name">Lista/Precios</field>
+            <field name="model">ct.list.price.dialog.container.category</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ct_list_price.ct_list_price_card_container_pdf</field>
+            <field name="print_report_name">'Lista_Precios - %s' % (object.title)</field>
+
+        </record>
     </data>
 </odoo>
