@@ -21,6 +21,7 @@
         'views/views.xml',
         'views/menu.xml',
 
+
     ],
     'demo': [
         #'demo/account_demo.xml',

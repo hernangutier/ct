@@ -62,6 +62,7 @@ class EquipmentConditions(models.Model):
 #------------------------------------------------------------------
 class OrderService(models.Model):
     _name="ct.p.s.order.service"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     name=fields.Char("# Control", default="Nuevo")
     # ---- Distribuidor -------------
     invoice_id = fields.Many2one(
@@ -146,7 +147,7 @@ class OrderService(models.Model):
         ('dev', 'en Reparacion'),
         ('wait', 'en Espera de Entrega al Cliente'),
         ('done', 'Finalizada'),
-    ], string='Estado', copy=False, index=True, default='serv', store=True, required=True)
+    ], string='Estado', copy=False, index=True, tracking=3, default='serv', store=True, required=True)
 
 
     #---- Orden de Servicio Reincidencias -----
