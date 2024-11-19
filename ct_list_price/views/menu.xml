@@ -1,16 +1,13 @@
 <odoo>
     <data>
 
-
-
-
-        <!-- Menu para las Acciones de Reportes -->
+        <!-- Accion para Vista de Contenedores de Categorias -->
         <act_window id="action_ct_list_price_container_category_tree"
                     name="Contenedor de Listas de Precios"
                     res_model="ct.list.price.container.category"
                     view_mode="tree,form"
         />
-        <!-- Menu para las Lista de Precios Configurada -->
+        <!-- Accion para las Lista de Precios Configurada -->
         <act_window id="action_ct_list_price_container_category_report"
                     name="Lista de Precios Configurada"
                     res_model="ct.list.price.dialog.container.category"
@@ -18,12 +15,13 @@
                     view_mode="form"
         />
 
-
+        <!-- Menu para Vista de Contenedores de Categorias -->
         <menuitem id="ct_list_price_menu_container_category_tree"
                   name="Contenedor de Listas de Precio"
                   action="action_ct_list_price_container_category_tree"
                   parent="sale.menu_sale_report"
                   sequence="20"/>
+        <!-- Menu para Vista de Lista de Precios Contenedores de Categorias -->
         <menuitem id="ct_list_price_menu_container_category_report"
                   name="Lista de Precios Configurada"
                   action="action_ct_list_price_container_category_report"

@@ -1,28 +1,7 @@
 <?xml version="1.0"?>
 <odoo>
     <data>
-      <template id="template_main">
-         foreach categorias_hijas as child
-           call page
-      </template>
 
-        <template id="page">
-            call header
-            call body
-            call footer
-        </template>
-
-        <template id="header">
-
-        </template>
-
-        <template id="body">
-            foreach products p p.catgeid=child.id
-                call new_card_product
-        </template>
-        <template id="footer">
-
-        </template>
        <template id="report_new_product_card">
 
             <div class="card text-bg-dark" style="width: 32%; display: inline-table; height:9rem; border:0px;">
