@@ -14,7 +14,7 @@ from odoo import api, fields, models, _
 #
 # ----------------------------------------------------------
 
-class ProductsListPriceDialog(models.Model):
+class ProductsListPriceDialog(models.TransientModel):
     _name = 'ct.list.price.dialog.container.category'
     _inherit="ct.commons.wz.commons"
     _description = 'Dialogo para Generar la Lista de Precios'
@@ -52,7 +52,7 @@ class ReportListPriceContainerCategory(models.AbstractModel):
             })
         products=self.env['product.product'].search([
             ('categ_id', 'in', container.categ_childs_ids.ids)
-        ])
+        ], order='name asc')
 
         for p in products:
             dataset.append({

@@ -11,7 +11,7 @@
         
     """,
     'category': 'HGL-ADECUACION',
-    'depends' : ['base', 'product','ct_products','sale_management','sale'],
+    'depends' : ['base', 'product','ct_products','sale_management','sale','ct_commons_report'],
     'data': [
         'report/report.xml',
         'wizard/wizards.xml',
