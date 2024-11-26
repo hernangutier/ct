@@ -14,21 +14,15 @@ from odoo import api, fields, models, _
 #
 # ----------------------------------------------------------
 
+class ProductsListPriceDialog(models.Model):
+    _name = 'ct.list.price.dialog.container.category'
+    _inherit="ct.commons.wz.commons"
+    _description = 'Dialogo para Generar la Lista de Precios'
 
-
-
-class dialogContainerCategory(models.TransientModel):
-    _name='ct.list.price.dialog.container.category'
     container_category_id = fields.Many2one(
         'ct.list.price.container.category',
         string='Lista de Precios a Seleccionar',
         ondelete='restrict',
-        index=True)
-    list_price_id = fields.Many2one(
-        'product.pricelist',
-        string='Tarifa',
-        ondelete='restrict',
-        required=True,
         index=True)
 
     def get_report(self):
@@ -41,7 +35,6 @@ class dialogContainerCategory(models.TransientModel):
             },
         }
         return self.env.ref('ct_list_price.report_list_price_container').report_action(self, data=data)
-
 
 class ReportListPriceContainerCategory(models.AbstractModel):
     _name = "report.ct_list_price.ct_list_price_card_container_pdf"
@@ -79,9 +72,4 @@ class ReportListPriceContainerCategory(models.AbstractModel):
             'dataset_categ': dataset_category,
             'docs': dataset
         }
-
-
-
-
-
 

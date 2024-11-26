@@ -14,11 +14,11 @@
     'depends' : ['base', 'product','ct_products','sale_management','sale'],
     'data': [
         'report/report.xml',
-        'wizard/dialog.xml',
+        'wizard/wizards.xml',
         'views/container_category.xml',
         'views/menu.xml',
-        'views/product_card.xml',
-        'views/template.xml',
+        'report/product_card.xml',
+        'report/template.xml',
         'views/company_view.xml',
 
     ],
