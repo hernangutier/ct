@@ -1,32 +1,36 @@
 <?xml version="1.0"?>
 <odoo>
     <data>
-
-       <template id="report_new_product_card">
-
-            <div class="card text-bg-dark" style="width: 32%; display: inline-table; height:9rem; border:0px;">
-                <img  t-att-src="image_data_uri(company.img_card_product)"
-                                          class="card-img mx-auto d-block"
-                                          style="max-height: 250px; max-width: 250px; padding: 0px;" alt="background"/>
+        <template id="report_product_card">
+            <div class="card text-bg-dark" style="width: 32%; display: inline-table; height: 9rem; border: 0px; position: relative; background-color: transparent">
+                <img t-att-src="image_data_uri(company.img_card_product)"
+                     class="card-img mx-auto d-block"
+                     style="max-height: 250px; max-width: 250px; padding: 0px;" alt="background"/>
                 <div class="card-img-overlay">
-                    <p style="text-align:right; font-size:12px; color: #fff; padding-top: 9px; padding-right: 20px; " t-esc="product['sku']"></p>
+                    <p style="text-align: right; font-size: 12px; color: #fff; padding-top: 9px; padding-right: 20px;" t-esc="product['sku']"></p>
+
                     <t t-if="product['imagen']">
-                        <img  class= "mx-auto d-block" t-attf-src="data:image/*;base64,{{product['imagen']}}" style="height: 80px; width: 70px;" alt="Logo"/>
+                        <img class="mx-auto d-block" t-attf-src="data:image/*;base64,{{product['imagen']}}" style="height: 80px; width: 70px;" alt="Logo"/>
                     </t>
                     <t t-else="">
-                        <img class= "mx-auto d-block" style="height: 80px; width: 70px; border: 0px"/>
+                        <img class="mx-auto d-block" style="height: 80px; width: 70px; border: 0px"/>
                     </t>
-                    <p style="text-align:center; font-size:12px; padding-top: 25px; padding-left: 10%; padding-right: 10%; line-height: 110%; font-weight: bolder;" t-esc="product['name']"></p>
-                    <div style="display: block; position: absolute; padding-top: 270px; padding-left: 200px;">
-                        <p style="text-align:right; color: #ffffff; font: size 30px; font-weight: bold;" t-esc="'{:,.2f}'.format(product['pu'])"></p>
+
+                    <div style="font-weight: 900; padding-top: 25px; padding-left: 10%; padding-right: 10%;">
+                        <p style="text-align: center; font-size: 12px; line-height: 110%; font-weight: bolder; color: #0000; margin: 0;" t-esc="product['name']"></p>
+                    </div>
+
+
+                    <div style="position: absolute; bottom: 20px; right: 150px; text-align: center">
+                        <p style="font-weight: 900; font-size: 12px; line-height: 110%; color: #0000; margin: 0;">Min. Venta </p>
+                        <p style="font-size: 12px; line-height: 110%; font-weight: bolder; color: #0000; margin: 0;" t-esc="product['emin']"></p>
+                    </div>
+
+                    <div style="position: absolute; bottom: 16px; right: 60px;">
+                        <p style="font-size: 20px; color: #fff; font-weight: 900; margin: 0;" t-esc="'{:,.2f}'.format(product['pu'])"></p>
                     </div>
                 </div>
             </div>
-
-
-            
-       </template>
-
+        </template>
     </data>
 </odoo>
-

@@ -5,27 +5,19 @@
                <t t-call="web.basic_layout">
                <xpath expr="//div/[@class='header']" position="replace">
                <div class="header">
-                  <div class="row">
-                      <div class="col-2">
-                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;" alt="Logo" />
-                      </div>
-                      <div class="col-10">
-                          <center>
-                              <span t-esc="company.name">
-
-                              </span>
-                              <strong t-esc="company.vat">
-
-                              </strong>
-                          </center>
-                      </div>
-                  </div>
-
+                   <img t-att-src="image_data_uri(company.img_list_price_header)"
+                     class="card-img mx-auto d-block"
+                     style="max-height: 25mm; max-width: 210mm; padding: 0px;" alt="header"/>
                </div>
                </xpath>
-               <t t-foreach="dataset_categ" t-as="categories">
-                   <h3 t-esc="categories['name']"></h3>
 
+               <!-- <img t-att-src="image_data_uri(company.img_list_background)"
+                    class="card-img mx-auto d-block center"
+                    style="display: block; position: absolute; margin-left: auto; margin-right: auto; width: 50%; opacity: 0.2; max-height: 150mm; max-width: 150mm; padding: 0px;" alt="header"/>
+                -->
+
+               <t t-foreach="dataset_categ" t-as="categories">
+                   <h3 style= "font-weight: 900; padding-top: 3px; text-align:center" class="p-3 mb-2 bg-dark text-white rounded-pill" t-esc="categories['name']"></h3>
                    <div class="page">
 
                    <t t-foreach="docs" t-as="product">
@@ -37,7 +29,13 @@
                     </t>
 
                </div>
+                   <p style="page-break-before:always;"> </p>
               </t>
+                   <div class="footer">
+                   <img t-att-src="image_data_uri(company.img_list_price_footer)"
+                     class="card-img mx-auto d-block"
+                     style="max-height: 25mm; max-width: 210mm; padding: 0px;" alt="header"/>
+               </div>
               </t>
               </t>
         </template>
