@@ -11,7 +11,7 @@
         
     """,
     'category': 'HGL-ADECUACION',
-    'depends' : ['base','sale'],
+    'depends' : ['base','sale','product'],
     'data': [
         'views/template.xml',
     ],
