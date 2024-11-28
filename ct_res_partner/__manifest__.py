@@ -16,6 +16,9 @@
         'views/res_partner_views.xml',
         'wizard/report_wz.xml',
         'views/menu.xml',
+        'report/report.xml',
+        'report/bodys.xml',
+        'report/template.xml',
         'data/data.xml',
         'security/ir.model.access.csv'
     ],
