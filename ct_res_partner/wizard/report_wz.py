@@ -43,9 +43,11 @@ class WzPartnerListPdf(models.TransientModel):
         index=True)
     # ---- Para Consultar por Estado
     country_id = fields.Many2one(
-        'res.country',
+        'res.country.state',
         string='Estado',
+        domain=[('country_id','=',238)],
         ondelete='restrict',
+
         index=True)
     # ---- Para Consultar por Plazos de Pago
     payment_term_id = fields.Many2one(
@@ -67,6 +69,7 @@ class WzPartnerListPdf(models.TransientModel):
             'form': {
                 'group_type': str(self.type_class),
                 'id': id,
+                'type_mod': self.type_mod,
             },
         }
         return self.env.ref('ct_res_partner.action_ct_res_partner_partner_list_pdf_wz_report').report_action(self, data=data)
@@ -77,8 +80,30 @@ class ReportWzPartnerListPdf(models.AbstractModel):
 
     def _get_report_values(self, docids, data=None):
         header_group = []
+
         title = 'Listado de Clientes segun Asesor '
         field_gruop = 'user_id'
+        #---- Funcion definida para Llenar Cabecera --
+        def create_header(id):
+
+            if field_gruop == 'user_id':
+                p = self.env['res.users'].browse(id)
+                header_group.append({
+                    'id': p.id,
+                    'name': p.name
+                })
+            if field_gruop == 'team_id':
+                p = self.env['crm.team'].browse(id)
+                header_group.append({
+                    'id': p.id,
+                    'name': p.name
+                })
+            if field_gruop == 'state_id':
+                p = self.env['res.country.state'].browse(id)
+                header_group.append({
+                    'id': p.id,
+                    'name': p.name
+                })
 
         if data['form']['group_type'] == 'team':
             field_gruop = 'team_id'
@@ -93,38 +118,22 @@ class ReportWzPartnerListPdf(models.AbstractModel):
             title = 'Listado de Clientes segun el Plazo de Pago'
 
 
-
-        # ----- Consulta Agrupada  --
-        grouped = self.env['res.partner'].read_group(
-            [(field_gruop,'!=', None)],
-            [field_gruop],
-            [field_gruop]
-        )
-        #raise UserError(str(grouped))
-        # ---- Creamos la Cabecera de Grupo oarreglo a trasnferir como parametro ----
-        for g in grouped:
-            if field_gruop == 'user_id':
-                p = self.env['res.users'].browse(int(g.get(field_gruop)[0]))
-                header_group.append({
-                    'id': p.id,
-                    'name': p.name
-                })
-            if field_gruop == 'team_id':
-                p = self.env['crm.team'].browse(int(g.get(field_gruop)[0]))
-                header_group.append({
-                    'id': p.id,
-                    'name': p.name
-                })
-            if field_gruop == 'state_id':
-                    p = self.env['res.country.state'].browse(int(g.get(field_gruop)[0]))
-                    header_group.append({
-                        'id': p.id,
-                        'name': p.name
-                    })
-
+        if not data['form']['type_mod']:
+            # ----- Consulta Agrupada  --
+            grouped = self.env['res.partner'].read_group(
+                ['&',(field_gruop,'!=', None),('customer_rank','=',1)],
+                [field_gruop],
+                [field_gruop]
+            )
+            #raise UserError(str(grouped))
+            # ---- Creamos la Cabecera de Grupo oarreglo a trasnferir como parametro ----
+            for g in grouped:
+               create_header(int(g.get(field_gruop)[0]))
+        else:
+                create_header(int(data['form']['id']))
         # ---- Consultamos los Registros en Bruto ---
         lines = self.env['res.partner'].search(
-            [(field_gruop,'!=', None)],
+            ['&',(field_gruop,'!=', None),('customer_rank','=',1)],
             order=field_gruop)
         # ---- Retornamos los Parametros al Reporte -----
 

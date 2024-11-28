@@ -10,10 +10,12 @@
                      <field name="type_class" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
                      <group>
                          <field name="type_mod" widget="boolean_toggle"/>
-                         <field name="user_id" attrs="{'invisible': [('type_class','!=','user')], 'required': [('type_class','==','user')]  }" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
-                         <field name="zone_id" attrs="{'invisible': [('type_class','!=','team')], 'required': [('type_class','==','team')]}" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
-                         <field name="country_id" attrs="{'invisible': [('type_class','!=','state')], 'required': [('type_class','==','state')]}" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
-                         <field name="payment_term_id" attrs="{'invisible': [('type_class','!=','pay')], 'required': [('type_class','==','pay')]}" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
+                     </group>
+                     <group attrs="{'invisible': [('type_mod','=',False)]}">
+                         <field name="user_id" attrs="{'invisible': [('type_class','!=','user')], 'required': ['&amp;',('type_class','==','user'),('type_mod','=',True)]  }" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
+                         <field name="zone_id" attrs="{'invisible': [('type_class','!=','team')], 'required': ['&amp;',('type_class','==','team'),('type_mod','=',True)]}" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
+                         <field name="country_id"    attrs="{'invisible': [('type_class','!=','state')], 'required': ['&amp;',('type_class','==','state'),('type_mod','=',True)]}" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
+                         <field name="payment_term_id" attrs="{'invisible': [('type_class','!=','pay')], 'required': ['&amp;',('type_class','==','pay'),('type_mod','=',True)]}" options="{'no_create': True, 'no_create_edit': True,  'no_open':True}"/>
                      </group>
                     </sheet>
                     <footer>
