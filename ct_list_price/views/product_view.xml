@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista Company Modificada para Agregar Header y Footer -->
+        <record id="ct_product_category_position_list_form" model="ir.ui.view">
+            <field name="name">ct.product.category.position.list.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"></field>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="list_positions" />
+                </field>
+            </field>
+        </record>
+
+        <record id="ct_product_category_position_list_tree" model="ir.ui.view">
+            <field name="name">ct.product.category.position.list.tree</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_list_view"></field>
+            <field name="arch" type="xml">
+                <field name="display_name" position="before">
+                    <field name="list_positions" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

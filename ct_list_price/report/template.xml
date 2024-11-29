@@ -3,21 +3,21 @@
         <template id="ct_list_price_card_container_pdf">
             <t t-call="web.html_container">
                <t t-call="web.basic_layout">
+
+                
                <xpath expr="//div/[@class='header']" position="replace">
                <div class="header">
-                   <img t-att-src="image_data_uri(company.img_list_price_header)"
+                   <img t-att-src="image_data_uri(company_id.img_list_price_header)"
                      class="card-img mx-auto d-block"
                      style="max-height: 25mm; max-width: 210mm; padding: 0px;" alt="header"/>
                </div>
                </xpath>
 
-               <!-- <img t-att-src="image_data_uri(company.img_list_background)"
-                    class="card-img mx-auto d-block center"
-                    style="display: block; position: absolute; margin-left: auto; margin-right: auto; width: 50%; opacity: 0.2; max-height: 150mm; max-width: 150mm; padding: 0px;" alt="header"/>
-                -->
-
                <t t-foreach="dataset_categ" t-as="categories">
-                   <h3 style= "font-weight: 900; padding-top: 3px; text-align:center" class="p-3 mb-2 bg-dark text-white rounded-pill" t-esc="categories['name']"></h3>
+                    <div style="background-color: #000000; border-radius: 25px; width: 100%">
+                        <h3 style= "color: #fff; font-weight: 900; padding-top: 0px; padding-bottom: 0px; text-align:center" t-esc="categories['name']"></h3>
+                    </div>
+                   
                    <div class="page">
 
                    <t t-foreach="docs" t-as="product">
@@ -32,7 +32,7 @@
                    <p style="page-break-before:always;"> </p>
               </t>
                    <div class="footer">
-                   <img t-att-src="image_data_uri(company.img_list_price_footer)"
+                   <img t-att-src="image_data_uri(company_id.img_list_price_footer)"
                      class="card-img mx-auto d-block"
                      style="max-height: 25mm; max-width: 210mm; padding: 0px;" alt="header"/>
                </div>

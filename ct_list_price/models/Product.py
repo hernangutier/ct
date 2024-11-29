@@ -23,3 +23,9 @@ class ProductTemplate(models.Model):
                return self.name[1:59]
             else:
                 return self.name
+
+
+class ProductCategory(models.Model):
+    _inherit="product.category"
+    #---- Campo Posicion en la Lista
+    list_positions=fields.Integer('Posicion en Lista de Precios', default=0)
