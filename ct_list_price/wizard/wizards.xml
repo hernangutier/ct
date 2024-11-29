@@ -17,7 +17,7 @@
                              <field name="container_category_id"  attrs="{'invisible': [('type_mod','=',False)], 'required': [('type_mod','=',True)]}"  options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
                              <field name="list_price_id"  required="1" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_create': True, 'no_open':True}"/>
                              <field name="with_qty"   />
-                             <field name="is_public_list"   />
+
 
                          </group>
                      </sheet>
