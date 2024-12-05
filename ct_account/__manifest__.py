@@ -13,6 +13,8 @@
     'depends' : ['base','account'],
     'data': [
         'views/views.xml',
+        'views/menu.xml',
+        'data/data.xml',
     ],
     'demo': [
 
