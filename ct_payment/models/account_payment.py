@@ -18,6 +18,29 @@ class AccountPayment(models.Model):
     is_disponible=fields.Boolean("Efectivo/Disponible", default=False)
     note=fields.Text('Observaciones')
 
+    @api.constrains('amount')
+    def check_amount(self):
+        if self.amount<=0:
+            raise UserError('Debe suministrar un Importe Valido!')
+
+
+    asesor_id = fields.Many2one(
+        'res.users',
+        string='Asesor/Ventas',
+        ondelete='restrict',
+        required=True,
+        index=True)
+
+    @api.onchange('partner_id')
+    def _onchange_partner(self):
+        if self.partner_id.user_id:
+            self.asesor_id=self.partner_id.user_id
+
+
+
+
+
+
 
 
 
