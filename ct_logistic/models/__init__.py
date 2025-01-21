@@ -5,6 +5,7 @@ from . import ddt
 from . import res_partner
 from . import account_move
 from . import dialogReport
+from . import stock_move
 
 
 

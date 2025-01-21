@@ -14,10 +14,10 @@
                                 <field name="delivery_proposal" />
                                 <field name="supplier_service" attrs="{'invisible': [('delivery_proposal','=','enc')]}"/>
                                 <field name="recovery_expenses" attrs="{'invisible': [('delivery_proposal','=','glp')]}" />
-
                             </group>
                             <group>
                                 <field name="street_delivered" />
+                                <field name="route_id" attrs="{'invisible': [('delivery_proposal','!=','ddt')]}" />
                             </group>
                         </group>
                    </page>

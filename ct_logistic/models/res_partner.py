@@ -22,6 +22,12 @@ class ResPartner(models.Model):
         ('enc', 'Encomienda')
     ], string='Sugerencia de Envio', copy=False, index=True, default='ddt', store=True, required=True)
 
+    route_id = fields.Many2one(
+        'ct.logistic.routes',
+        #domain=[('partner_locations_ids','in', lambda self: self.locations_id.id)],
+        string='Ruta Establecida',
+        ondelete='restrict',
+        index=True)
 
     recovery_expenses = fields.Float('% Gastos de Recuperacion', default=0.0)
 

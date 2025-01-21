@@ -20,14 +20,17 @@ class WzConfirm(models.TransientModel):
                 for o in c.order_ids:
                     if o.id==self.sale_order_id.id:
                        raise UserError('No se puede cerrar el pedido con la fecha de facturacion porque esta en un Container')
-
-        self.sale_order_id.restrict_prepayment()
-        self.PrevalidateOrder()
-        self.check_limit_credit()
+        if not len(self.sale_order_id.payment_term_id.line_ids.filtered(lambda x: x.days == 0)) > 0:
+            # ---- Verificamos si no es Prepagado para que Omita la Regla de Limite de Credito
+            self.sale_order_id.restrict_prepayment()
+            self.PrevalidateOrder()
+            self.check_limit_credit()
 
         # --- En este Verificamos las Dos Restricciones ---
-        self.sale_order_id.check_rules_due('sale')
-        self.sale_order_id.check_rules_due('invoice')
+        if not len(self.sale_order_id.payment_term_id.line_ids.filtered(lambda x: x.days == 0)) > 0:
+            # ---- Verificamos si no es Prepagado para que Omita la Regla de Limite de Credito
+            self.sale_order_id.check_rules_due('sale')
+            self.sale_order_id.check_rules_due('invoice')
         
         self.sale_order_id.state_preparations = 'no'
         obj = self.sale_order_id.action_confirm()

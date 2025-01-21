@@ -58,3 +58,22 @@ class SaleOrder(models.Model):
         if to_invoce==0 :
             raise UserError('No hay lineas a Facturar...')
         raise UserError('Facturar')
+
+
+#------ Modelo para Establecer Ruta de Despacho Planificado -----
+class Routes(models.Model):
+        _name="ct.logistic.routes"
+        name=fields.Char('Denominacion', required=True)
+        ref=fields.Char("Ref.", required=True)
+        #---- Estado ----
+        res_country_state_id = fields.Many2one(
+            'res.country.state',
+            string='Estado',
+            ondelete='restrict',
+            index=True)
+        #---- Ciudades --
+        partnert_locations_ids = fields.Many2many(
+            'ct.partner.locations',
+            #domain=[('state_id', '=',  lambda self: self.res_country_state_id.id)],
+            string='Ciudad/Localidad')
+

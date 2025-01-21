@@ -7,5 +7,6 @@ access_ct_container_usr,ct_container_usr,model_ct_logistic_container,ct_logistic
 
 
 access_ct_container,ct_container,model_ct_logistic_container,ct_logistic_group_manager,1,1,1,1
+access_ct_routes,ct_routes,model_ct_logistic_routes,ct_logistic_group_manager,1,1,1,1
 
 
