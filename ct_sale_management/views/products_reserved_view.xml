@@ -57,7 +57,7 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"></field>
             <field name="arch" type="xml">
-                <xpath expr="//header/button[@name='337']" position="after">
+                <xpath expr="//header/button[@name='action_update_quantity_on_hand']" position="after">
                     <button name="%(action_ct_sale_management_product_reserve)d" string="Consultar Reservas" help="Ver Reservas" type="action"
                             context="{'default_product_tmpl_id': active_id }" class="btn-info" icon="fa-handshake-o"/>
 

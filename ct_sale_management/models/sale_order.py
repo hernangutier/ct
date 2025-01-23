@@ -15,6 +15,7 @@ from odoo import api, fields, models, _
 class SaleOrder(models.Model):
     _inherit="sale.order"
 
+
     # --------------------------------------------------------------------
     #
     #   Funciones de Computo sobre Sale.Order
@@ -65,7 +66,9 @@ class SaleOrder(models.Model):
             else:
                     raise UserError('El pedido no esta reservado para ser enviado a Embalaje...')
 
-
+    #--- Action Aumentar Credito para Pedido ---
+    def action_load_limit_credit(self):
+        pass
 
     #------ Facturar despues de Embalado ---
     def action_create_invoice(self):
@@ -122,6 +125,7 @@ class SaleOrder(models.Model):
     city = fields.Char('Ciudad/Sector', default="N/A")
     #--------------------------------------------------------------
 
+    #---- Campo Nuevo para ver Notas sobre el Pedido ---
 
     # ----------------------------------------------------------------------
     # ------------------------   Actualizar Precios         ----------------

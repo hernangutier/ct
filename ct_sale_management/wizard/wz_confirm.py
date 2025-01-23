@@ -44,9 +44,11 @@ class WzConfirm(models.TransientModel):
     #----- Reservar Pedido ---
     def action_reserved(self):
         #------ Validamos la Orden
-        self.PrevalidateOrder()
-        self.check_limit_credit()
-        self.sale_order_id.check_rules_due('sale')
+        if not len(self.sale_order_id.payment_term_id.line_ids.filtered(lambda x: x.days == 0)) > 0:
+            # ---- Verificamos si no es Prepagado para que Omita la Regla de Limite de Credito
+            self.PrevalidateOrder()
+            self.check_limit_credit()
+            self.sale_order_id.check_rules_due('sale')
         #------------------------
         obj=self.sale_order_id.action_confirm()
         if self.sale_order_id.state=='sale':
@@ -116,6 +118,7 @@ class WzConfirm(models.TransientModel):
     def action_inmediate_invoice(self):
         #---- Prevalidamos la Order
         #---- Checking Not Invoice Order si es Prepago ---
+
         self.PrevalidateOrder()
         self.restrict_prepayment()
         self.check_limit_credit()
