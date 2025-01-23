@@ -15,6 +15,13 @@
                     view_mode="form"
         />
 
+        <!-- Accion para las Lista de Precios Pre-Venta -->
+        <act_window id="action_ct_list_price_product_pre_sale_tree"
+                    name="Productos en Pre-Venta"
+                    res_model="ct.list.price.product.pre.sale"
+                    view_mode="tree"
+        />
+
         <!-- Menu para Vista de Contenedores de Categorias -->
         <menuitem id="ct_list_price_menu_container_category_tree"
                   name="Contenedor de Listas de Precio"
@@ -27,5 +34,11 @@
                   action="action_ct_list_price_container_category_report"
                   parent="sale.menu_sale_report"
                   sequence="21"/>
+        <!-- Menu para Vista de Lista de Precios Contenedores de Categorias -->
+        <menuitem id="ct_list_price_product_pre_sale_tree"
+                  name="Productos en Pre-Venta"
+                  action="action_ct_list_price_product_pre_sale_tree"
+                  parent="sale.menu_sale_report"
+                  sequence="25"/>
     </data>
 </odoo>

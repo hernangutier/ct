@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <field name="parent_id" position="after">
                     <field name="list_positions" />
+                    <field name="active_list_price" />
                 </field>
             </field>
         </record>
@@ -21,6 +22,18 @@
                 <field name="display_name" position="before">
                     <field name="list_positions" />
                 </field>
+            </field>
+        </record>
+
+        <!-- Vista Tree para Productos en Pre-Venta -->
+        <record id="view_ct_list_price_product_pre_sale_tree" model="ir.ui.view">
+            <field name="name">Productos en Pre-Venta</field>
+            <field name="model">ct.list.price.product.pre.sale</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="list_positions"/>
+                    <field name="product_id"/>
+                </tree>
             </field>
         </record>
 

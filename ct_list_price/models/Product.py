@@ -29,3 +29,24 @@ class ProductCategory(models.Model):
     _inherit="product.category"
     #---- Campo Posicion en la Lista
     list_positions=fields.Integer('Posicion en Lista de Precios', default=0)
+    active_list_price=fields.Boolean('Activar P/Lista de Precios', default=True)
+
+
+#---- Clase para Configurar Productos en Pre-Venta ---
+class ProductPreSale(models.Model):
+    _name="ct.list.price.product.pre.sale"
+
+    list_positions = fields.Integer('Posicion en Lista de Precios', default=0)
+    # ---- Producto que reporta la Incidencia ---
+    product_id = fields.Many2one(
+        'product.template',
+        string='Producto',
+        ondelete='restrict',
+        required=True,
+        index=True)
+
+
+
+
+
+
